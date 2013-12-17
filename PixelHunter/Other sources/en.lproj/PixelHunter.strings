@@ -1,0 +1,9 @@
+"ENTER_UI_DEBUG_MODE" = "Enter UI debug mode";
+"ENTER" = "Enter";
+"CANCEL" = "Cancel";
+"MAIL_SUBJECT" = "I find a bug in design here";
+"MAIL_BODY" = "Bug in this place on picture in attachment";
+"ERROR_ALERT_VIEW_TITLE" = "Sorry";
+"ERROR_ALERT_VIEW_MESSAGE" = "You can't send a message right now, make sure your device has an internet connection and you have at least one account setup";
+"OK" = "OK";
+"TYPE_YOUR_TEXT_HERE" = "Type your text here...";
