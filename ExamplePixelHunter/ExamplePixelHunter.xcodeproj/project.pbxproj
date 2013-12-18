@@ -868,11 +868,13 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ExamplePixelHunter/Other sources/ExamplePixelHunter-Prefix.pch";
 				INFOPLIST_FILE = "ExamplePixelHunter/Other sources/ExamplePixelHunter-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = ExamplePixelHunter;
+				PROVISIONING_PROFILE = "8C8ED58B-ED13-4948-88D5-5E89C0D50D89";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -883,11 +885,13 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ExamplePixelHunter/Other sources/ExamplePixelHunter-Prefix.pch";
 				INFOPLIST_FILE = "ExamplePixelHunter/Other sources/ExamplePixelHunter-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = ExamplePixelHunter;
+				PROVISIONING_PROFILE = "8C8ED58B-ED13-4948-88D5-5E89C0D50D89";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
