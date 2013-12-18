@@ -614,6 +614,11 @@
 				CLASSPREFIX = SU;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Sigma Ukraine";
+				TargetAttributes = {
+					CEFD7DB018241F1C005EC11C = {
+						DevelopmentTeam = 6L5JC6ZK67;
+					};
+				};
 			};
 			buildConfigurationList = CEFD7DAC18241F1C005EC11C /* Build configuration list for PBXProject "ExamplePixelHunter" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -872,7 +877,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ExamplePixelHunter/Other sources/ExamplePixelHunter-Prefix.pch";
 				INFOPLIST_FILE = "ExamplePixelHunter/Other sources/ExamplePixelHunter-Info.plist";
@@ -889,7 +894,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ExamplePixelHunter/Other sources/ExamplePixelHunter-Prefix.pch";
 				INFOPLIST_FILE = "ExamplePixelHunter/Other sources/ExamplePixelHunter-Info.plist";
