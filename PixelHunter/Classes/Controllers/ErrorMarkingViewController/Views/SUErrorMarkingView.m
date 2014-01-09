@@ -78,7 +78,7 @@
 
 - (void)showMarkingViewToolbar
 {
-    CGSize sz = [super bounds].size;
+    CGSize sz = self.frame.size;
     
     if (self.markViewToolbar.isHidden) {
         self.markViewToolbar.hidden = NO;
@@ -206,7 +206,7 @@
 
 - (void)viewTapped
 {
-    CGSize sz = [[UIScreen mainScreen] bounds].size;
+    CGSize sz = self.frame.size;
     
     CGSize toolbarSize = CGSizeMake(kSUToolBarWidth, kSUToolBarHeight / 2.0f);
     

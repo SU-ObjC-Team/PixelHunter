@@ -76,19 +76,19 @@
 - (void)layoutViewsDependingOnOrientation
 {
     [self.gridUnderLayerView.scrollView setZoomScale:self.gridUnderLayerView.scrollView.minimumZoomScale];
-    CGSize sz = [[UIScreen mainScreen] bounds].size;
-    
+    CGSize sz = self.frame.size;
+    CGSize rulerLayoutSize = [[UIScreen mainScreen] bounds].size;
     CGSize toolbarSize = CGSizeMake(kSUToolBarWidth, kSUToolBarHeight);
     
     if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-        self.topRuler.frame = CGRectMake(0.0f, 0.0f, sz.height, kSURulerSize);
-        self.sideRuler.frame = CGRectMake(0.0f, 0.0f, kSURulerSize, sz.width);
+        self.topRuler.frame = CGRectMake(0.0f, 0.0f, rulerLayoutSize.height, kSURulerSize);
+        self.sideRuler.frame = CGRectMake(0.0f, 0.0f, kSURulerSize, rulerLayoutSize.width);
         self.toolbar.frame = CGRectMake(sz.height / 2.0f - toolbarSize.width / 2.0f,
                                         sz.width - toolbarSize.height + kSUToolBarHeight,
                                         toolbarSize.width, toolbarSize.height);
     } else {
-        self.topRuler.frame = CGRectMake(0.0f, 0.0f, sz.width, kSURulerSize);
-        self.sideRuler.frame = CGRectMake(0.0f, 0.0f, kSURulerSize, sz.height);
+        self.topRuler.frame = CGRectMake(0.0f, 0.0f, rulerLayoutSize.width, kSURulerSize);
+        self.sideRuler.frame = CGRectMake(0.0f, 0.0f, kSURulerSize, rulerLayoutSize.height);
         self.toolbar.frame = CGRectMake(sz.width / 2.0f - toolbarSize.width / 2.0f,
                                         sz.height - toolbarSize.height + kSUToolBarHeight,
                                         toolbarSize.width, toolbarSize.height);
@@ -98,7 +98,7 @@
 
 - (void)viewTapped
 {
-    CGSize sz = [[UIScreen mainScreen] bounds].size;
+    CGSize sz = self.frame.size;
     
     CGSize toolbarSize = CGSizeMake(kSUToolBarWidth, kSUToolBarHeight);
     
