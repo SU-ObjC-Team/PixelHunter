@@ -59,14 +59,11 @@ static const CGFloat kSUFontSize = 11.0f;
     CGContextStrokeRect(context, rect);
     CGContextSetFillColorWithColor(context, [[UIColor blackColor] CGColor]);
     UIFont *font = [UIFont boldSystemFontOfSize:kSUFontSize];
-    
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
-    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-    paragraphStyle.alignment = NSTextAlignmentLeft;
-    
-    NSDictionary *dictionary = @{NSFontAttributeName:font,
-                                 NSParagraphStyleAttributeName:paragraphStyle};
-    [numberString drawInRect:rect withAttributes:dictionary];
+        
+    [numberString drawInRect:rect
+                    withFont:font
+               lineBreakMode:NSLineBreakByWordWrapping
+                   alignment:NSTextAlignmentLeft];
 }
 
 - (CGFloat)cellWidthWithRect:(CGRect)rect withScale:(CGFloat)scale
