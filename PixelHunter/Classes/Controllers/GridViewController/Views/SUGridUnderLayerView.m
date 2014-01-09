@@ -7,7 +7,7 @@
 //
 
 #import "SUGridUnderLayerView.h"
-#import "SUConstants.h"
+#import "SUPixelHunterConstants.h"
 
 
 @interface SUGridUnderLayerView ()

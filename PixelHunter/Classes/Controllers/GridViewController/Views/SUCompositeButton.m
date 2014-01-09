@@ -7,8 +7,8 @@
 //
 
 #import "SUCompositeButton.h"
-#import "SUConstants.h"
-#import "SUTheme.h"
+#import "SUPixelHunterConstants.h"
+#import "SUPixelHunterTheme.h"
 
 
 @interface SUCompositeButton ()
@@ -31,7 +31,7 @@
 {
     self = [super init];
     if (self) {
-        self.backgroundColor = [[SUTheme colors] darkGrayBackgroundColor];
+        self.backgroundColor = [[SUPixelHunterTheme colors] darkGrayBackgroundColor];
         
         if (imageNameNormal.length != 0) {
             self.imageNormal = [UIImage imageNamed:imageNameNormal];

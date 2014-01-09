@@ -7,8 +7,8 @@
 //
 
 #import "SUErrorMarkingToolbar.h"
-#import "SUConstants.h"
-#import "SUTheme.h"
+#import "SUPixelHunterConstants.h"
+#import "SUPixelHunterTheme.h"
 
 static CGFloat const kSUButtonIndent = 5.0f;
 
@@ -18,7 +18,7 @@ static CGFloat const kSUButtonIndent = 5.0f;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [[SUTheme colors] lightGrayBackgroundColor];
+        self.backgroundColor = [[SUPixelHunterTheme colors] lightGrayBackgroundColor];
         self.userInteractionEnabled = YES;
         
         // Init add markingview button

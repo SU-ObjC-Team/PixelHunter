@@ -7,8 +7,8 @@
 //
 
 #import "SUGridRulerView.h"
-#import "SUConstants.h"
-#import "SUDrawUtil.h"
+#import "SUPixelHunterConstants.h"
+#import "SUPixelHunterDrawUtil.h"
 
 static const CGFloat kSUFontSize = 11.0f;
 

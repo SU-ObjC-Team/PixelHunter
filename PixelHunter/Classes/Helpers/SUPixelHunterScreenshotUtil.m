@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Sigma Ukraine. All rights reserved.
 //
 
-#import "SUScreenshotUtil.h"
+#import "SUPixelHunterScreenshotUtil.h"
 
 
-@implementation SUScreenshotUtil
+@implementation SUPixelHunterScreenshotUtil
 
 + (UIImage *)convertViewToImage:(UIView *)view
 {

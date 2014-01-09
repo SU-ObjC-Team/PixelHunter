@@ -70,8 +70,8 @@
 		CE6C293B18574CEF00B8CC10 /* SUMarkViewToolbarCompositeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CE6C293A18574CEF00B8CC10 /* SUMarkViewToolbarCompositeButton.m */; };
 		CE6C294A1857762800B8CC10 /* sidebar_horizontal_separator.png in Resources */ = {isa = PBXBuildFile; fileRef = CE6C29481857762800B8CC10 /* sidebar_horizontal_separator.png */; };
 		CE6C294B1857762800B8CC10 /* sidebar_horizontal_separator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE6C29491857762800B8CC10 /* sidebar_horizontal_separator@2x.png */; };
-		CE6C294E185782C300B8CC10 /* SUColorProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = CE6C294C185782C300B8CC10 /* SUColorProvider.m */; };
-		CE6C29511857842E00B8CC10 /* SUTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = CE6C29501857842E00B8CC10 /* SUTheme.m */; };
+		CE6C294E185782C300B8CC10 /* SUPixelHunterColorProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = CE6C294C185782C300B8CC10 /* SUPixelHunterColorProvider.m */; };
+		CE6C29511857842E00B8CC10 /* SUPixelHunterTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = CE6C29501857842E00B8CC10 /* SUPixelHunterTheme.m */; };
 		CE7B7F791847ACAB00B77A69 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE7B7F6C1847ACAB00B77A69 /* InfoPlist.strings */; };
 		CE7B7F7B1847ACAB00B77A69 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7B7F701847ACAB00B77A69 /* Images.xcassets */; };
 		CE7B7F7C1847ACAB00B77A69 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7B7F711847ACAB00B77A69 /* main.m */; };
@@ -93,8 +93,8 @@
 		CE7B7FDD1847B0A400B77A69 /* SUGridToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7B7FA11847B0A400B77A69 /* SUGridToolbar.m */; };
 		CE7B7FDE1847B0A400B77A69 /* SUGridUnderLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7B7FA31847B0A400B77A69 /* SUGridUnderLayerView.m */; };
 		CE7B7FDF1847B0A400B77A69 /* SUGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7B7FA51847B0A400B77A69 /* SUGridView.m */; };
-		CE7B7FE11847B0A400B77A69 /* SUDrawUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7B7FAB1847B0A400B77A69 /* SUDrawUtil.m */; };
-		CE7B7FE21847B0A400B77A69 /* SUScreenshotUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7B7FAD1847B0A400B77A69 /* SUScreenshotUtil.m */; };
+		CE7B7FE11847B0A400B77A69 /* SUPixelHunterDrawUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7B7FAB1847B0A400B77A69 /* SUPixelHunterDrawUtil.m */; };
+		CE7B7FE21847B0A400B77A69 /* SUPixelHunterScreenshotUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7B7FAD1847B0A400B77A69 /* SUPixelHunterScreenshotUtil.m */; };
 		CE7B7FE31847B0A400B77A69 /* SUZGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7B7FB01847B0A400B77A69 /* SUZGestureRecognizer.m */; };
 		CE7B7FE41847B0A400B77A69 /* SUZGestureView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7B7FB21847B0A400B77A69 /* SUZGestureView.m */; };
 		CE7B7FE51847B0A400B77A69 /* SUPixelHunter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7B7FB41847B0A400B77A69 /* SUPixelHunter.m */; };
@@ -174,10 +174,10 @@
 		CE6C293A18574CEF00B8CC10 /* SUMarkViewToolbarCompositeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUMarkViewToolbarCompositeButton.m; sourceTree = "<group>"; };
 		CE6C29481857762800B8CC10 /* sidebar_horizontal_separator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sidebar_horizontal_separator.png; sourceTree = "<group>"; };
 		CE6C29491857762800B8CC10 /* sidebar_horizontal_separator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sidebar_horizontal_separator@2x.png"; sourceTree = "<group>"; };
-		CE6C294C185782C300B8CC10 /* SUColorProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUColorProvider.m; sourceTree = "<group>"; };
-		CE6C294D185782C300B8CC10 /* SUColorProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUColorProvider.h; sourceTree = "<group>"; };
-		CE6C294F1857842E00B8CC10 /* SUTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUTheme.h; sourceTree = "<group>"; };
-		CE6C29501857842E00B8CC10 /* SUTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUTheme.m; sourceTree = "<group>"; };
+		CE6C294C185782C300B8CC10 /* SUPixelHunterColorProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUPixelHunterColorProvider.m; sourceTree = "<group>"; };
+		CE6C294D185782C300B8CC10 /* SUPixelHunterColorProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUPixelHunterColorProvider.h; sourceTree = "<group>"; };
+		CE6C294F1857842E00B8CC10 /* SUPixelHunterTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUPixelHunterTheme.h; sourceTree = "<group>"; };
+		CE6C29501857842E00B8CC10 /* SUPixelHunterTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUPixelHunterTheme.m; sourceTree = "<group>"; };
 		CE7B7F6D1847ACAB00B77A69 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CE7B7F6E1847ACAB00B77A69 /* ExamplePixelHunter-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ExamplePixelHunter-Info.plist"; sourceTree = "<group>"; };
 		CE7B7F6F1847ACAB00B77A69 /* ExamplePixelHunter-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ExamplePixelHunter-Prefix.pch"; sourceTree = "<group>"; };
@@ -217,11 +217,11 @@
 		CE7B7FA31847B0A400B77A69 /* SUGridUnderLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUGridUnderLayerView.m; sourceTree = "<group>"; };
 		CE7B7FA41847B0A400B77A69 /* SUGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUGridView.h; sourceTree = "<group>"; };
 		CE7B7FA51847B0A400B77A69 /* SUGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUGridView.m; sourceTree = "<group>"; };
-		CE7B7FA91847B0A400B77A69 /* SUConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUConstants.h; sourceTree = "<group>"; };
-		CE7B7FAA1847B0A400B77A69 /* SUDrawUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUDrawUtil.h; sourceTree = "<group>"; };
-		CE7B7FAB1847B0A400B77A69 /* SUDrawUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUDrawUtil.m; sourceTree = "<group>"; };
-		CE7B7FAC1847B0A400B77A69 /* SUScreenshotUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUScreenshotUtil.h; sourceTree = "<group>"; };
-		CE7B7FAD1847B0A400B77A69 /* SUScreenshotUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUScreenshotUtil.m; sourceTree = "<group>"; };
+		CE7B7FA91847B0A400B77A69 /* SUPixelHunterConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUPixelHunterConstants.h; sourceTree = "<group>"; };
+		CE7B7FAA1847B0A400B77A69 /* SUPixelHunterDrawUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUPixelHunterDrawUtil.h; sourceTree = "<group>"; };
+		CE7B7FAB1847B0A400B77A69 /* SUPixelHunterDrawUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUPixelHunterDrawUtil.m; sourceTree = "<group>"; };
+		CE7B7FAC1847B0A400B77A69 /* SUPixelHunterScreenshotUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUPixelHunterScreenshotUtil.h; sourceTree = "<group>"; };
+		CE7B7FAD1847B0A400B77A69 /* SUPixelHunterScreenshotUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUPixelHunterScreenshotUtil.m; sourceTree = "<group>"; };
 		CE7B7FAF1847B0A400B77A69 /* SUZGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUZGestureRecognizer.h; sourceTree = "<group>"; };
 		CE7B7FB01847B0A400B77A69 /* SUZGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUZGestureRecognizer.m; sourceTree = "<group>"; };
 		CE7B7FB11847B0A400B77A69 /* SUZGestureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUZGestureView.h; sourceTree = "<group>"; };
@@ -389,15 +389,15 @@
 		CE7B7FA81847B0A400B77A69 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				CE6C294F1857842E00B8CC10 /* SUTheme.h */,
-				CE6C29501857842E00B8CC10 /* SUTheme.m */,
-				CE6C294C185782C300B8CC10 /* SUColorProvider.m */,
-				CE6C294D185782C300B8CC10 /* SUColorProvider.h */,
-				CE7B7FA91847B0A400B77A69 /* SUConstants.h */,
-				CE7B7FAA1847B0A400B77A69 /* SUDrawUtil.h */,
-				CE7B7FAB1847B0A400B77A69 /* SUDrawUtil.m */,
-				CE7B7FAC1847B0A400B77A69 /* SUScreenshotUtil.h */,
-				CE7B7FAD1847B0A400B77A69 /* SUScreenshotUtil.m */,
+				CE6C294F1857842E00B8CC10 /* SUPixelHunterTheme.h */,
+				CE6C29501857842E00B8CC10 /* SUPixelHunterTheme.m */,
+				CE6C294C185782C300B8CC10 /* SUPixelHunterColorProvider.m */,
+				CE6C294D185782C300B8CC10 /* SUPixelHunterColorProvider.h */,
+				CE7B7FA91847B0A400B77A69 /* SUPixelHunterConstants.h */,
+				CE7B7FAA1847B0A400B77A69 /* SUPixelHunterDrawUtil.h */,
+				CE7B7FAB1847B0A400B77A69 /* SUPixelHunterDrawUtil.m */,
+				CE7B7FAC1847B0A400B77A69 /* SUPixelHunterScreenshotUtil.h */,
+				CE7B7FAD1847B0A400B77A69 /* SUPixelHunterScreenshotUtil.m */,
 				CE7B7FAE1847B0A400B77A69 /* ZGesture */,
 			);
 			path = Helpers;
@@ -733,7 +733,7 @@
 				CE7B7FD61847B0A400B77A69 /* SUMarkView.m in Sources */,
 				CE7B7FE41847B0A400B77A69 /* SUZGestureView.m in Sources */,
 				CE7B7FD11847B0A400B77A69 /* SUShareController.m in Sources */,
-				CE6C294E185782C300B8CC10 /* SUColorProvider.m in Sources */,
+				CE6C294E185782C300B8CC10 /* SUPixelHunterColorProvider.m in Sources */,
 				CE7B7FDB1847B0A400B77A69 /* SUGridRootView.m in Sources */,
 				CE7B7FDA1847B0A400B77A69 /* SUCompositeButton.m in Sources */,
 				CE7B7F7C1847ACAB00B77A69 /* main.m in Sources */,
@@ -741,13 +741,13 @@
 				CE6C293B18574CEF00B8CC10 /* SUMarkViewToolbarCompositeButton.m in Sources */,
 				CEAA503B18588D0B00187CB9 /* SUAppDelegate.m in Sources */,
 				CEAA503C18588D0B00187CB9 /* SUViewController.m in Sources */,
-				CE7B7FE11847B0A400B77A69 /* SUDrawUtil.m in Sources */,
+				CE7B7FE11847B0A400B77A69 /* SUPixelHunterDrawUtil.m in Sources */,
 				CE7B7FD91847B0A400B77A69 /* SUGridViewController.m in Sources */,
 				CE7B7FD51847B0A400B77A69 /* SUMarkColorView.m in Sources */,
 				CE7B7FE51847B0A400B77A69 /* SUPixelHunter.m in Sources */,
-				CE7B7FE21847B0A400B77A69 /* SUScreenshotUtil.m in Sources */,
+				CE7B7FE21847B0A400B77A69 /* SUPixelHunterScreenshotUtil.m in Sources */,
 				CE7B7FD41847B0A400B77A69 /* SUErrorMarkingView.m in Sources */,
-				CE6C29511857842E00B8CC10 /* SUTheme.m in Sources */,
+				CE6C29511857842E00B8CC10 /* SUPixelHunterTheme.m in Sources */,
 				CE7B7FD21847B0A400B77A69 /* SUColorView.m in Sources */,
 				CE7B7FD01847B0A400B77A69 /* SUErrorMarkingViewController.m in Sources */,
 				CE7B7FE31847B0A400B77A69 /* SUZGestureRecognizer.m in Sources */,

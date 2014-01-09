@@ -10,7 +10,7 @@
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import <AVFoundation/AVAudioPlayer.h>
-#import "SUScreenshotUtil.h"
+#import "SUPixelHunterScreenshotUtil.h"
 
 
 @interface SUShareController () <MFMailComposeViewControllerDelegate>
@@ -56,7 +56,7 @@
         }
         [self.screenshotSound play];
         [self showBlinkingViewWithCompletionBlock:^(void) {
-            UIImage *imageToSend = [SUScreenshotUtil convertViewToImage:self.viewController.view];
+            UIImage *imageToSend = [SUPixelHunterScreenshotUtil convertViewToImage:self.viewController.view];
             NSData *imageData = UIImageJPEGRepresentation(imageToSend, 1.0f);
             [mailComposeViewController addAttachmentData:imageData mimeType:@"image/png" fileName:@"Bug-image.png"];
             NSString *emailBody = NSLocalizedStringFromTable(@"MAIL_BODY", @"PixelHunter", nil);

@@ -8,7 +8,7 @@
 
 #import "SUPixelHunter.h"
 #import "SUGridViewController.h"
-#import "SUScreenshotUtil.h"
+#import "SUPixelHunterScreenshotUtil.h"
 #import "SUZGestureView.h"
 #import <CoreMotion/CoreMotion.h>
 
@@ -121,7 +121,7 @@ static id __sharedInstance;
     switch (buttonIndex) {
         case 1: {
             // Create grid
-            [self createWindowForDebugWithImage:[SUScreenshotUtil convertViewToImage:
+            [self createWindowForDebugWithImage:[SUPixelHunterScreenshotUtil convertViewToImage:
                                                  [[[[[UIApplication sharedApplication] windows] objectAtIndex:0] rootViewController] view]]];
         }
             break;
@@ -143,7 +143,7 @@ static id __sharedInstance;
 {
     self.parentWindow = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
     self.debugWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    UIImage *debugWindowImage = [SUScreenshotUtil convertViewToImage:
+    UIImage *debugWindowImage = [SUPixelHunterScreenshotUtil convertViewToImage:
                       [[[[[UIApplication sharedApplication] windows] objectAtIndex:0] rootViewController] view]];
     SUGridViewController *viewController = [[SUGridViewController alloc] initWithScreenshotImage:debugWindowImage];
     viewController.delegate = self;

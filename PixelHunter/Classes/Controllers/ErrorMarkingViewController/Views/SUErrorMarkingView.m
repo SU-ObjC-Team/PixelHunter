@@ -7,7 +7,7 @@
 //
 
 #import "SUErrorMarkingView.h"
-#import "SUConstants.h"
+#import "SUPixelHunterConstants.h"
 
 @interface SUErrorMarkingView ()
 

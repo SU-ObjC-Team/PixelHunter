@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SUColorProvider.h"
+#import "SUPixelHunterColorProvider.h"
 
-@interface SUTheme : NSObject
+@interface SUPixelHunterTheme : NSObject
 
-+ (SUColorProvider *)colors;
++ (SUPixelHunterColorProvider *)colors;
 
 @end

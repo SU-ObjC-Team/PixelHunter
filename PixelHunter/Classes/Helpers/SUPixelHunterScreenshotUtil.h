@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface SUScreenshotUtil : NSObject
+@interface SUPixelHunterScreenshotUtil : NSObject
 
 + (UIImage *)convertViewToImage:(UIView *)view;
 

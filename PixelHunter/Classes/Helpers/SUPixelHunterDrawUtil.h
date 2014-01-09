@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface SUDrawUtil : NSObject
+@interface SUPixelHunterDrawUtil : NSObject
 
 + (void)draw1PxStrokeWithContext:(CGContextRef)context
                   withStartPoint:(CGPoint)startPoint

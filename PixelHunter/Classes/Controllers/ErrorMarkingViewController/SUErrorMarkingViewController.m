@@ -10,10 +10,10 @@
 #import "SUErrorMarkingView.h"
 #import "SUMarkView.h"
 #import "SUShareController.h"
-#import "SUConstants.h"
+#import "SUPixelHunterConstants.h"
 #import "SUMarkColorView.h"
 #import "SUTextMarkView.h"
-#import "SUTheme.h"
+#import "SUPixelHunterTheme.h"
 
 static CGRect const kSUMarkViewFrame = {{50.0f, 50.0f}, {150.0f, 150.0f}};
 static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0f}};
@@ -215,7 +215,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
             // Init remove mark view button
             UIButton *removeButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [removeButton setBackgroundImage:[UIImage imageNamed:@"close_button.png"] forState:UIControlStateNormal];
-            removeButton.backgroundColor = [[SUTheme colors] darkGrayBackgroundColor];
+            removeButton.backgroundColor = [[SUPixelHunterTheme colors] darkGrayBackgroundColor];
             removeButton.frame = kSUMarkViewRemoveButtonFrame;
             [removeButton addTarget:self action:@selector(removeMarkView:) forControlEvents:UIControlEventTouchUpInside];
             [subview addSubview:removeButton];

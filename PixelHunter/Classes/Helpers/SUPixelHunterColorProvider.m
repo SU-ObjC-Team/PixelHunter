@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Sigma Ukraine. All rights reserved.
 //
 
-#import "SUColorProvider.h"
+#import "SUPixelHunterColorProvider.h"
 
 
-@implementation SUColorProvider;
+@implementation SUPixelHunterColorProvider;
 
 #pragma mark - Background colors 
 

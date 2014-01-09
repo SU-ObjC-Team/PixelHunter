@@ -7,7 +7,7 @@
 //
 
 #import "SUTextMarkView.h"
-#import "SUConstants.h"
+#import "SUPixelHunterConstants.h"
 
 
 @interface SUTextMarkView () <UITextViewDelegate>

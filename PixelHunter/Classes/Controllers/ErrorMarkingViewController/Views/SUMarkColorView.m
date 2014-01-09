@@ -8,8 +8,8 @@
 
 #import "SUMarkColorView.h"
 #import "SUColorView.h"
-#import "SUConstants.h"
-#import "SUColorProvider.h"
+#import "SUPixelHunterConstants.h"
+#import "SUPixelHunterColorProvider.h"
 
 
 @interface SUMarkColorView ()

@@ -7,8 +7,8 @@
 //
 
 #import "SUMarkViewToolbar.h"
-#import "SUConstants.h"
-#import "SUTheme.h"
+#import "SUPixelHunterConstants.h"
+#import "SUPixelHunterTheme.h"
 
 static CGFloat const kSUSliderWidth = 42.0f;
 static CGFloat const kSUSliderHeight = 285.0f;
@@ -22,7 +22,7 @@ static CGFloat const kSUMarkColorViewIndent = 3.0f;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [[SUTheme colors] lightGrayBackgroundColor];
+        self.backgroundColor = [[SUPixelHunterTheme colors] lightGrayBackgroundColor];
         self.userInteractionEnabled = YES;
         
         // Init add markingview button

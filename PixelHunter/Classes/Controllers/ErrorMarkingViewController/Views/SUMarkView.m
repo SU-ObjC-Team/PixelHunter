@@ -7,7 +7,7 @@
 //
 
 #import "SUMarkView.h"
-#import "SUConstants.h"
+#import "SUPixelHunterConstants.h"
 
 
 @interface SUMarkView ()

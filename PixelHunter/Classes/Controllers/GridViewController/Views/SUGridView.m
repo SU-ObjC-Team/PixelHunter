@@ -7,8 +7,8 @@
 //
 
 #import "SUGridView.h"
-#import "SUConstants.h"
-#import "SUDrawUtil.h"
+#import "SUPixelHunterConstants.h"
+#import "SUPixelHunterDrawUtil.h"
 #import "SUGridViewController.h"
 
 
@@ -57,14 +57,14 @@
         for (NSInteger i = 0; i < numberOfVeticalLines; i++) {
             CGPoint startPoint = CGPointMake(startLinePoint + self.startVerticalPoint, 0);
             CGPoint endPoint = CGPointMake(startLinePoint + self.startVerticalPoint, self.frame.size.height);
-            [SUDrawUtil draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
+            [SUPixelHunterDrawUtil draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
             startLinePoint = startLinePoint + cellSize;
         }
     } else {
         for (NSInteger i = 0; i < numberOfVeticalLines; i++) {
             CGPoint startPoint = CGPointMake(startLinePoint, 0);
             CGPoint endPoint = CGPointMake(startLinePoint, self.frame.size.height);
-            [SUDrawUtil draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
+            [SUPixelHunterDrawUtil draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
             startLinePoint = startLinePoint + cellSize;
         }
     }
@@ -77,14 +77,14 @@
         for (NSInteger i = 0; i < numberOfHorizontalLines; i++) {
             CGPoint startPoint = CGPointMake(0, startLinePoint + self.startHorizontalPoint);
             CGPoint endPoint = CGPointMake(self.frame.size.width, startLinePoint + self.startHorizontalPoint);
-            [SUDrawUtil draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
+            [SUPixelHunterDrawUtil draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
             startLinePoint = startLinePoint + cellSize;
         }
     } else {
         for (NSInteger i = 0; i < numberOfHorizontalLines; i++) {
             CGPoint startPoint = CGPointMake(0, startLinePoint);
             CGPoint endPoint = CGPointMake(self.frame.size.width, startLinePoint);
-            [SUDrawUtil draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
+            [SUPixelHunterDrawUtil draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
             startLinePoint = startLinePoint + cellSize;
         }
 

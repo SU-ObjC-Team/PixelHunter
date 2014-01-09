@@ -7,8 +7,8 @@
 //
 
 #import "SUGridToolbar.h"
-#import "SUConstants.h"
-#import "SUTheme.h"
+#import "SUPixelHunterConstants.h"
+#import "SUPixelHunterTheme.h"
 
 static CGFloat const kSUSliderMinimumValue = 0.1f;
 static CGFloat const kSUSliderMaximumValue = 1.0f;
@@ -26,7 +26,7 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [[SUTheme colors] lightGrayBackgroundColor];
+        self.backgroundColor = [[SUPixelHunterTheme colors] lightGrayBackgroundColor];
         self.userInteractionEnabled = YES;
         
         // Init grid display button

@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Sigma Ukraine. All rights reserved.
 //
 
-#import "SUDrawUtil.h"
+#import "SUPixelHunterDrawUtil.h"
 
 
-@implementation SUDrawUtil
+@implementation SUPixelHunterDrawUtil
 
 + (void)draw1PxStrokeWithContext:(CGContextRef)context
                   withStartPoint:(CGPoint)startPoint

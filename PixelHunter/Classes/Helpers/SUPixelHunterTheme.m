@@ -6,29 +6,29 @@
 //  Copyright (c) 2013 Sigma Ukraine. All rights reserved.
 //
 
-#import "SUTheme.h"
-#import "SUColorProvider.h"
+#import "SUPixelHunterTheme.h"
+#import "SUPixelHunterColorProvider.h"
 
 
-@interface SUTheme ()
+@interface SUPixelHunterTheme ()
 
-@property (nonatomic, strong, readonly) SUColorProvider *colors;
+@property (nonatomic, strong, readonly) SUPixelHunterColorProvider *colors;
 
 @end
 
 
-@implementation SUTheme;
+@implementation SUPixelHunterTheme;
 
 #pragma mark - Singleton stuff
 
-static SUTheme *_sharedTheme = nil;
+static SUPixelHunterTheme *_sharedTheme = nil;
 
-+ (SUTheme *)sharedTheme
++ (SUPixelHunterTheme *)sharedTheme
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-	    _sharedTheme = [[SUTheme alloc] init];
-        [_sharedTheme performSelector:@selector(setColors:) withObject:[[SUColorProvider alloc] init]];
+	    _sharedTheme = [[SUPixelHunterTheme alloc] init];
+        [_sharedTheme performSelector:@selector(setColors:) withObject:[[SUPixelHunterColorProvider alloc] init]];
 	});
     
 	return _sharedTheme;
@@ -52,14 +52,14 @@ static SUTheme *_sharedTheme = nil;
 
 #pragma mark - Public
 
-+ (SUColorProvider *)colors
++ (SUPixelHunterColorProvider *)colors
 {
-    return [SUTheme sharedTheme].colors;
+    return [SUPixelHunterTheme sharedTheme].colors;
 }
 
 #pragma mark - Private
 
-- (void)setColors:(SUColorProvider *)colors
+- (void)setColors:(SUPixelHunterColorProvider *)colors
 {
     _colors = colors;
 }

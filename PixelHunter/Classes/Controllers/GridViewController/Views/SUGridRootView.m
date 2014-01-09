@@ -7,7 +7,7 @@
 //
 
 #import "SUGridRootView.h"
-#import "SUConstants.h"
+#import "SUPixelHunterConstants.h"
 
 
 @implementation SUGridRootView

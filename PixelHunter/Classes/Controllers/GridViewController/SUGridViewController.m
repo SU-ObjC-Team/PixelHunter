@@ -8,8 +8,8 @@
 
 #import "SUGridViewController.h"
 #import "SUPixelHunter.h"
-#import "SUConstants.h"
-#import "SUScreenshotUtil.h"
+#import "SUPixelHunterConstants.h"
+#import "SUPixelHunterScreenshotUtil.h"
 #import "SUErrorMarkingViewController.h"
 
 
@@ -156,7 +156,7 @@
 - (void)showMarkingViewController
 {
     [self.gridRootView.toolbar setHidden:YES];
-    SUErrorMarkingViewController *errorMarkingViewController = [[SUErrorMarkingViewController alloc] initWithScreenshotImage:[SUScreenshotUtil convertViewToImage:self.view]];
+    SUErrorMarkingViewController *errorMarkingViewController = [[SUErrorMarkingViewController alloc] initWithScreenshotImage:[SUPixelHunterScreenshotUtil convertViewToImage:self.view]];
     [self presentViewController:errorMarkingViewController animated:YES completion:^{
         [self.gridRootView.toolbar setHidden:NO];
     }];

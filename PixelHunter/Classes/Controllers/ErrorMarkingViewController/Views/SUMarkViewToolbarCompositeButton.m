@@ -7,8 +7,8 @@
 //
 
 #import "SUMarkViewToolbarCompositeButton.h"
-#import "SUConstants.h"
-#import "SUTheme.h"
+#import "SUPixelHunterConstants.h"
+#import "SUPixelHunterTheme.h"
 
 @interface SUMarkViewToolbarCompositeButton ()
 
@@ -24,7 +24,7 @@
 {
     self = [super initWithImageNameNormal:imageNameNormal imageNamePressed:imageNamePressed imageNameActivated:imageNameActivated];
     if (self) {
-        self.backgroundColor = [[SUTheme colors] lightGrayBackgroundColor];
+        self.backgroundColor = [[SUPixelHunterTheme colors] lightGrayBackgroundColor];
         
         // Init separator image view
         self.separatorImageView.image = [UIImage imageNamed:@"sidebar_vertical_separator.png"];
