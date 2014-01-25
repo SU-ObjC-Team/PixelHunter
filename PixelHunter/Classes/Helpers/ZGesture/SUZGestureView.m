@@ -20,16 +20,11 @@
         [self addGestureRecognizer:self.zGestureRecognizer];
         [NSTimer scheduledTimerWithTimeInterval:2.0f
                                          target:self
-                                       selector:@selector(removeItself)
+                                       selector:@selector(removeFromSuperview)
                                        userInfo:nil
                                         repeats:NO];
     }
     return self;
-}
-
-- (void)removeItself
-{
-    [self removeFromSuperview];
 }
 
 @end

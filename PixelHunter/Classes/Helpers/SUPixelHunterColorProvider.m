@@ -15,12 +15,12 @@
 
 - (UIColor *)darkGrayBackgroundColor
 {
-    return [UIColor colorWithRed:28.0f/255.0f green:27.0f/255.0f blue:32.0f/255.0f alpha:1.0f];
+    return RGB(28, 27, 32);
 }
 
 - (UIColor *)lightGrayBackgroundColor
 {
-    return [UIColor colorWithRed:36.0f/255.0f green:35.0f/255.0f blue:40.0f/255.0f alpha:1.0f];
+    return RGB(36, 35, 40);
 }
 
 @end

@@ -8,7 +8,6 @@
 
 #import "SUGridRulerView.h"
 #import "SUPixelHunterConstants.h"
-#import "SUPixelHunterDrawUtil.h"
 
 static const CGFloat kSUFontSize = 11.0f;
 
@@ -72,18 +71,18 @@ static const CGFloat kSUFontSize = 11.0f;
     if (self.isHorizontal) {
         CGFloat width = rect.size.width / scale;
         for (NSInteger i = 0; i < kSUSizesLength; i++) {
-            CGFloat difference =  rect.size.width / (width / arrSizes[i]);
+            CGFloat difference =  rect.size.width / (width / kSUArrSizes[i]);
             if (difference > kSUMinCellLength && difference < kSUMaxCellLength) {
-                result = arrSizes[i];
+                result = kSUArrSizes[i];
                 break;
             }
         }
     } else {
         CGFloat height = rect.size.height / scale;
         for (NSInteger i = 0; i < kSUSizesLength; i++) {
-            CGFloat difference =  rect.size.height / (height / arrSizes[i]);
+            CGFloat difference =  rect.size.height / (height / kSUArrSizes[i]);
             if (difference > kSUMinCellLength && difference < kSUMaxCellLength) {
-                result = arrSizes[i];
+                result = kSUArrSizes[i];
                 break;
             }
         }
