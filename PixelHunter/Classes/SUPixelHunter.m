@@ -12,8 +12,10 @@
 #import "SUZGestureView.h"
 #import <CoreMotion/CoreMotion.h>
 
+
 static CGFloat const kSUAccelerationThreshold = 1.7f;
 static CGFloat const kSUAccelerometerUpdateInterval = 0.1f;
+static const NSInteger kSUAlertButtonIndexCancel = 0;
 
 @interface SUPixelHunter () <UIAccelerometerDelegate, SUGridViewControllerDelegate>
 
@@ -24,9 +26,10 @@ static CGFloat const kSUAccelerometerUpdateInterval = 0.1f;
 
 @end
 
+
 @implementation SUPixelHunter 
 
-#pragma mark - Singleton stuff
+#pragma mark - Singleton methods
 
 static id __sharedInstance;
 
@@ -34,16 +37,21 @@ static id __sharedInstance;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+
         __sharedInstance = [[SUPixelHunter alloc] init];
-        [[NSNotificationCenter defaultCenter] addObserver:__sharedInstance
-                                                 selector:@selector(orientationChanged:)
-                                                     name:UIApplicationDidChangeStatusBarOrientationNotification
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:__sharedInstance
-                                                 selector:@selector(removeWindowForDebug)
-                                                     name:UIApplicationDidEnterBackgroundNotification
-                                                   object:nil];
+
+        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+        [notificationCenter addObserver:__sharedInstance
+                               selector:@selector(orientationChanged:)
+                                   name:UIApplicationDidChangeStatusBarOrientationNotification
+                                 object:nil];
+
+        [notificationCenter addObserver:__sharedInstance
+                               selector:@selector(removeWindowForDebug)
+                                   name:UIApplicationDidEnterBackgroundNotification
+                                 object:nil];
     });
+
     return __sharedInstance;
 }
 
@@ -82,7 +90,7 @@ static id __sharedInstance;
     return self;
 }
 
-#pragma mark - Public init
+#pragma mark - Public methods
 
 + (void)setup
 {
@@ -118,16 +126,9 @@ static id __sharedInstance;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    switch (buttonIndex) {
-        case 1: {
-            // Create grid
-            [self createWindowForDebugWithImage:[SUPixelHunterScreenshotUtil convertViewToImage:
-                                                 [[[[[UIApplication sharedApplication] windows] objectAtIndex:0] rootViewController] view]]];
-        }
-            break;
+    if (buttonIndex != kSUAlertButtonIndexCancel) {
 
-        default:
-            break;
+        [self showWindowForDebug];
     }
 }
 
@@ -139,7 +140,7 @@ static id __sharedInstance;
     [window.rootViewController.view addSubview:zGestureView];
 }
 
-- (void)createWindowForDebugWithImage:(UIImage *)image
+- (void)showWindowForDebug
 {
     self.parentWindow = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
     self.debugWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

@@ -24,7 +24,7 @@
     // Uncomment this code for instant enter to UI debug mode while using simulator
     
     SUPixelHunter *coolTool = [[SUPixelHunter alloc] init];
-    [coolTool performSelector:@selector(createWindowForDebugWithImage:) withObject:self.imageView.image];
+    [coolTool performSelector:@selector(showWindowForDebug)];
 }
 
 @end
