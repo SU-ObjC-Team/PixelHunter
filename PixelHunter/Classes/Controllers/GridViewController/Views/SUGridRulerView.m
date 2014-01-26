@@ -57,7 +57,9 @@ static const CGFloat kSUFontSize = 11.0f;
 
     CGFloat maxLenght = [self maxLengthForRect:rect];
     CGFloat lenght = maxLenght / scale;
+
     for (NSInteger i = 0; i < kSUSizesLength; i++) {
+
         CGFloat difference =  maxLenght / (lenght / kSUArrSizes[i]);
         if (difference > kSUMinCellLength && difference < kSUMaxCellLength) {
             result = kSUArrSizes[i];
@@ -66,16 +68,6 @@ static const CGFloat kSUFontSize = 11.0f;
     }
     
     return result;
-}
-
-- (CGRect)rectForLenght:(CGFloat)lenght position:(NSInteger)position
-{
-    return CGRectZero;
-}
-
-- (CGFloat)maxLengthForRect:(CGRect)rect
-{
-    return 0.0f;
 }
 
 @end
