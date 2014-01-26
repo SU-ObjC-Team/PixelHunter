@@ -1,5 +1,5 @@
 //
-//  SUConstants.h
+//  SUPixelHunterConstants.h
 //  PixelHunter
 //
 //  Created by Alex Saenko on 9/27/13.

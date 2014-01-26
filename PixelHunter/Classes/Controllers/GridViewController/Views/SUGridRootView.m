@@ -8,7 +8,8 @@
 
 #import "SUGridRootView.h"
 #import "SUPixelHunterConstants.h"
-
+#import "SUGridRulerViewHorizontal.h"
+#import "SUGridRulerViewVertical.h"
 
 @implementation SUGridRootView
 
@@ -33,8 +34,8 @@
         [self addSubview:self.smallGridView];
         
         // Init rulers
-        self.topRuler = [[SUGridRulerView alloc] initWithFrame:CGRectZero horizontal:YES];
-        self.sideRuler = [[SUGridRulerView alloc] initWithFrame:CGRectZero horizontal:NO];
+        self.topRuler = [SUGridRulerViewHorizontal new];
+        self.sideRuler = [SUGridRulerViewVertical new];
         [self addSubview:self.topRuler];
         [self addSubview:self.sideRuler];
         

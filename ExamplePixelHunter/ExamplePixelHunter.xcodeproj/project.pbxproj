@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		113B3ED41895913500129FF7 /* SUGridRulerViewHorizontal.m in Sources */ = {isa = PBXBuildFile; fileRef = 113B3ED31895913500129FF7 /* SUGridRulerViewHorizontal.m */; };
+		113B3ED71895932D00129FF7 /* SUGridRulerViewVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = 113B3ED61895932D00129FF7 /* SUGridRulerViewVertical.m */; };
 		11CEAC791886E6EB00C8BA29 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 11CEAC731886E6EB00C8BA29 /* InfoPlist.strings */; };
 		11CEAC7A1886E6EB00C8BA29 /* ExamplePixelHunter-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11CEAC751886E6EB00C8BA29 /* ExamplePixelHunter-Info.plist */; };
 		11CEAC7B1886E6EB00C8BA29 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11CEAC771886E6EB00C8BA29 /* Images.xcassets */; };
@@ -112,6 +114,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		113B3ED21895913500129FF7 /* SUGridRulerViewHorizontal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUGridRulerViewHorizontal.h; sourceTree = "<group>"; };
+		113B3ED31895913500129FF7 /* SUGridRulerViewHorizontal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUGridRulerViewHorizontal.m; sourceTree = "<group>"; };
+		113B3ED51895932D00129FF7 /* SUGridRulerViewVertical.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUGridRulerViewVertical.h; sourceTree = "<group>"; };
+		113B3ED61895932D00129FF7 /* SUGridRulerViewVertical.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUGridRulerViewVertical.m; sourceTree = "<group>"; };
 		11CEAC741886E6EB00C8BA29 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		11CEAC751886E6EB00C8BA29 /* ExamplePixelHunter-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ExamplePixelHunter-Info.plist"; sourceTree = "<group>"; };
 		11CEAC761886E6EB00C8BA29 /* ExamplePixelHunter-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ExamplePixelHunter-Prefix.pch"; sourceTree = "<group>"; };
@@ -370,6 +376,10 @@
 				11CEACA41886E73A00C8BA29 /* SUGridUnderLayerView.m */,
 				11CEACA51886E73A00C8BA29 /* SUGridView.h */,
 				11CEACA61886E73A00C8BA29 /* SUGridView.m */,
+				113B3ED21895913500129FF7 /* SUGridRulerViewHorizontal.h */,
+				113B3ED31895913500129FF7 /* SUGridRulerViewHorizontal.m */,
+				113B3ED51895932D00129FF7 /* SUGridRulerViewVertical.h */,
+				113B3ED61895932D00129FF7 /* SUGridRulerViewVertical.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -731,6 +741,7 @@
 				11CEAD0C1886E73A00C8BA29 /* SUGridRulerView.m in Sources */,
 				11CEAD051886E73A00C8BA29 /* SUMarkView.m in Sources */,
 				11CEAD001886E73A00C8BA29 /* SUShareController.m in Sources */,
+				113B3ED71895932D00129FF7 /* SUGridRulerViewVertical.m in Sources */,
 				CEAA503B18588D0B00187CB9 /* SUAppDelegate.m in Sources */,
 				11CEAD0D1886E73A00C8BA29 /* SUGridToolbar.m in Sources */,
 				11CEAD121886E73A00C8BA29 /* SUPixelHunterScreenshotUtil.m in Sources */,
@@ -748,6 +759,7 @@
 				11CEAD031886E73A00C8BA29 /* SUErrorMarkingView.m in Sources */,
 				11CEAD011886E73A00C8BA29 /* SUColorView.m in Sources */,
 				11CEACFF1886E73A00C8BA29 /* SUErrorMarkingViewController.m in Sources */,
+				113B3ED41895913500129FF7 /* SUGridRulerViewHorizontal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

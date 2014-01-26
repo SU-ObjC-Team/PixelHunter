@@ -7,25 +7,17 @@
 //
 
 #import "SUGridRulerView.h"
-#import "SUPixelHunterConstants.h"
 
 static const CGFloat kSUFontSize = 11.0f;
-
-@interface SUGridRulerView ()
-
-@property (nonatomic, assign) BOOL isHorizontal;
-
-@end
 
 
 @implementation SUGridRulerView
 
-- (id)initWithFrame:(CGRect)frame horizontal:(BOOL)isHorizontal
+- (id)init
 {
-    self = [super initWithFrame:frame];
+    self = [super init];
     if (self) {
         self.backgroundColor = [UIColor colorWithWhite:0.5f alpha:0.5f];
-        self.isHorizontal = isHorizontal;
     }
     return self;
 }
@@ -34,20 +26,14 @@ static const CGFloat kSUFontSize = 11.0f;
 {
     CGFloat cellSize = [self cellWidthWithRect:rect withScale:self.scale];
     CGFloat cellDrawnSize = cellSize * self.scale;
+    CGFloat maxLength = [self maxLengthForRect:rect];
+
     if (cellDrawnSize > 0.0f) {
-        if (self.isHorizontal) {
-            for (NSInteger i = 0; i <= rect.size.width / cellDrawnSize; i++) {
-                CGRect rect = CGRectMake(i * cellDrawnSize, 0.0f, cellDrawnSize, kSURulerSize);
-                NSString *numberString = [NSString stringWithFormat:@" %.0f", i * cellSize];
-                [self drawNumbersInRect:rect withNumberString:numberString];
-            }
-        }
-        if (!self.isHorizontal) {
-            for (NSInteger i = 0; i <= rect.size.height / cellDrawnSize; i++) {
-                CGRect rect = CGRectMake(0.0f, i * cellDrawnSize, kSURulerSize, cellDrawnSize);
-                NSString *numberString = [NSString stringWithFormat:@" %.0f", i * cellSize];
-                [self drawNumbersInRect:rect withNumberString:numberString];
-            }
+
+        for (NSInteger i = 0; i <= maxLength / cellDrawnSize; i++) {
+            CGRect rect = [self rectForLenght:cellDrawnSize position:i];
+            NSString *numberString = [NSString stringWithFormat:@" %.0f", i * cellSize];
+            [self drawNumbersInRect:rect withNumberString:numberString];
         }
     }
 }
@@ -68,27 +54,28 @@ static const CGFloat kSUFontSize = 11.0f;
 - (CGFloat)cellWidthWithRect:(CGRect)rect withScale:(CGFloat)scale
 {
     CGFloat result = 0.0f;
-    if (self.isHorizontal) {
-        CGFloat width = rect.size.width / scale;
-        for (NSInteger i = 0; i < kSUSizesLength; i++) {
-            CGFloat difference =  rect.size.width / (width / kSUArrSizes[i]);
-            if (difference > kSUMinCellLength && difference < kSUMaxCellLength) {
-                result = kSUArrSizes[i];
-                break;
-            }
-        }
-    } else {
-        CGFloat height = rect.size.height / scale;
-        for (NSInteger i = 0; i < kSUSizesLength; i++) {
-            CGFloat difference =  rect.size.height / (height / kSUArrSizes[i]);
-            if (difference > kSUMinCellLength && difference < kSUMaxCellLength) {
-                result = kSUArrSizes[i];
-                break;
-            }
+
+    CGFloat maxLenght = [self maxLengthForRect:rect];
+    CGFloat lenght = maxLenght / scale;
+    for (NSInteger i = 0; i < kSUSizesLength; i++) {
+        CGFloat difference =  maxLenght / (lenght / kSUArrSizes[i]);
+        if (difference > kSUMinCellLength && difference < kSUMaxCellLength) {
+            result = kSUArrSizes[i];
+            break;
         }
     }
     
     return result;
+}
+
+- (CGRect)rectForLenght:(CGFloat)lenght position:(NSInteger)position
+{
+    return CGRectZero;
+}
+
+- (CGFloat)maxLengthForRect:(CGRect)rect
+{
+    return 0.0f;
 }
 
 @end

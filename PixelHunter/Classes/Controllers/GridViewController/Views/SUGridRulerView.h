@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SUPixelHunterConstants.h"
 
 @interface SUGridRulerView : UIView
 
-@property (nonatomic, assign) CGFloat scale;
+- (CGRect)rectForLenght:(CGFloat)lenght position:(NSInteger)position;
+- (CGFloat)maxLengthForRect:(CGRect)rect;
 
-- (id)initWithFrame:(CGRect)frame horizontal:(BOOL)isHorizontal;
+@property (nonatomic, assign) CGFloat scale;
 
 @end
