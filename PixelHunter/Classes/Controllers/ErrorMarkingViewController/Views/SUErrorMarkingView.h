@@ -13,7 +13,7 @@
 
 @interface SUErrorMarkingView : UIView
 
-- (id)initWithScreenshotImage:(UIImage *)screenshotImage;
+- (id)initWithImage:(UIImage *)screenshotImage;
 
 @property (nonatomic, strong) SUErrorMarkingToolbar *errorMarkingToolbar;
 @property (nonatomic, strong) SUMarkViewToolbar *markViewToolbar;

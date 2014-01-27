@@ -11,6 +11,6 @@
 
 @interface SUErrorMarkingViewController : UIViewController
 
-- (id)initWithScreenshotImage:(UIImage *)screenshotImage;
+- (id)initWithImage:(UIImage *)screenshotImage;
 
 @end

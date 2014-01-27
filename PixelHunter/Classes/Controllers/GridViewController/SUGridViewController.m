@@ -13,7 +13,10 @@
 #import "SUErrorMarkingViewController.h"
 
 
-@interface SUGridViewController () <SUGridViewControllerDelegate, UIScrollViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface SUGridViewController () <SUGridViewControllerDelegate,
+                                    UIScrollViewDelegate,
+                                    UIImagePickerControllerDelegate,
+                                    UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UIImage *screenshotImage;
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
@@ -23,7 +26,7 @@
 
 @implementation SUGridViewController
 
-- (id)initWithScreenshotImage:(UIImage *)screenshotImage
+- (id)initWithImage:(UIImage *)screenshotImage
 {
 	self = [super init];
 	if (self) {
@@ -156,7 +159,8 @@
 - (void)showMarkingViewController
 {
     [self.gridRootView.toolbar setHidden:YES];
-    SUErrorMarkingViewController *errorMarkingViewController = [[SUErrorMarkingViewController alloc] initWithScreenshotImage:[SUPixelHunterScreenshotUtil convertViewToImage:self.view]];
+    UIImage *imgage = [SUPixelHunterScreenshotUtil convertViewToImage:self.view];
+    SUErrorMarkingViewController *errorMarkingViewController = [[SUErrorMarkingViewController alloc] initWithImage:imgage];
     [self presentViewController:errorMarkingViewController animated:YES completion:^{
         [self.gridRootView.toolbar setHidden:NO];
     }];
@@ -164,7 +168,9 @@
 
 #pragma mark - UIImagePickerControllerDelegate
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
+- (void)imagePickerController:(UIImagePickerController *)picker
+        didFinishPickingImage:(UIImage *)image
+                  editingInfo:(NSDictionary *)editingInfo
 {
     [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
     self.gridRootView.gridUnderLayerView.mockupImageView.image = image;

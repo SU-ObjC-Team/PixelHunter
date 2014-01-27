@@ -18,7 +18,7 @@
 
 @implementation SUErrorMarkingView
 
-- (id)initWithScreenshotImage:(UIImage *)screenshotImage
+- (id)initWithImage:(UIImage *)screenshotImage
 {
     self = [super init];
     if (self) {

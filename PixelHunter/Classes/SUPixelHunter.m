@@ -185,7 +185,7 @@ static id __sharedInstance;
     UIImage *debugWindowImage = [SUPixelHunterScreenshotUtil convertViewToImage:view];
 
     SUGridViewController *viewController =
-        [[SUGridViewController alloc] initWithScreenshotImage:debugWindowImage];
+        [[SUGridViewController alloc] initWithImage:debugWindowImage];
     viewController.delegate = self;
 
     CGRect rc = [self.parentWindow bounds];

@@ -40,11 +40,10 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 
 @implementation SUErrorMarkingViewController
 
-- (id)initWithScreenshotImage:(UIImage *)screenshotImage
+- (id)initWithImage:(UIImage *)screenshotImage
 {
     self = [super init];
 	if (self) {
-        // Init screenshot image
 		self.screenshotImage = screenshotImage;
 	}
     
@@ -53,7 +52,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 
 - (void)loadView
 {
-    SUErrorMarkingView *view = [[SUErrorMarkingView alloc] initWithScreenshotImage:self.screenshotImage];
+    SUErrorMarkingView *view = [[SUErrorMarkingView alloc] initWithImage:self.screenshotImage];
     view.contentMode = UIViewContentModeScaleAspectFit;
     self.view = view;
     self.rootView = view;
@@ -63,8 +62,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 {
     [super viewDidLoad];
     
-    // Subscribe for keyboard appearance
-    [self subscribeForNotifications];
+    [self subscribeForKeyboardAppearance];
     
     // Init menu views array
     NSArray *menuViewsArray = @[self.rootView.errorMarkingToolbar,
@@ -102,7 +100,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 
 #pragma mark - Notifications
 
-- (void)subscribeForNotifications
+- (void)subscribeForKeyboardAppearance
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
