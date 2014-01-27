@@ -43,7 +43,8 @@
     [super loadView];
     
     CGSize sz = [[UIScreen mainScreen] applicationFrame].size;
-    SUGridRootView *view = [[SUGridRootView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, sz.width, sz.height) withScreenshotImage:self.screenshotImage];
+    CGRect rc = CGRectMake(0.0f, 0.0f, sz.width, sz.height);
+    SUGridRootView *view = [[SUGridRootView alloc] initWithFrame:rc withImage:self.screenshotImage];
     view.contentMode = UIViewContentModeScaleAspectFit;
     self.view = view;
     self.gridRootView = view;
@@ -52,21 +53,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // Toolbar actions
-    [self.gridRootView.toolbar.closeButton addTarget:self
-                                              action:@selector(tapOnCloseButton)];
-    [self.gridRootView.toolbar.showPickerButton addTarget:self
-                                                   action:@selector(showImagePicker)];
-    [self.gridRootView.toolbar.showMarkingViewControllerButton addTarget:self
-                                                 action:@selector(showMarkingViewController)];
-    [self.gridRootView.toolbar.slider addTarget:self
-                                        action:@selector(changeMockupImageAlpha:)
-                              forControlEvents:UIControlEventValueChanged];
-    
-    // Scroll view stuff
-    self.gridRootView.gridUnderLayerView.scrollView.delegate = self;
-    self.gridRootView.gridUnderLayerView.scrollView.contentSize = self.gridRootView.gridUnderLayerView.containerView.frame.size;
+
+    [self setToolbarActions];
+    [self setupScrollView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -80,6 +69,28 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [self.gridRootView.gridUnderLayerView.scrollView setZoomScale:self.gridRootView.gridUnderLayerView.scrollView.minimumZoomScale];
+}
+
+#pragma mark - Private
+
+- (void)setToolbarActions
+{
+    [self.gridRootView.toolbar.closeButton addTarget:self
+                                              action:@selector(tapOnCloseButton)];
+    [self.gridRootView.toolbar.showPickerButton addTarget:self
+                                                   action:@selector(showImagePicker)];
+    [self.gridRootView.toolbar.showMarkingViewControllerButton addTarget:self
+                                                                  action:@selector(showMarkingViewController)];
+    [self.gridRootView.toolbar.slider addTarget:self
+                                         action:@selector(changeMockupImageAlpha:)
+                               forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)setupScrollView
+{
+    self.gridRootView.gridUnderLayerView.scrollView.delegate = self;
+    self.gridRootView.gridUnderLayerView.scrollView.contentSize =
+    self.gridRootView.gridUnderLayerView.containerView.frame.size;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -96,8 +107,12 @@
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView
 {
-    self.gridRootView.gridUnderLayerView.containerView.frame = [self centeredFrameForScrollView:scrollView andView:self.gridRootView.gridUnderLayerView.containerView];
+    CGSize sz = scrollView.bounds.size;
+    CGRect rc = self.gridRootView.gridUnderLayerView.containerView.frame;
+    self.gridRootView.gridUnderLayerView.containerView.frame = [self centeredFrameWithSize:sz inRect:rc];
+    
     [self changeRulerPositions];
+
     if (self.gridRootView.gridUnderLayerView.scrollView.zoomScale == kSUMaximumZoomScale) {
         self.gridRootView.smallGridView.hidden = NO;
     } else {
@@ -105,26 +120,23 @@
     }
 }
 
-- (CGRect)centeredFrameForScrollView:(UIScrollView *)scroll andView:(UIView *)view
+- (CGRect)centeredFrameWithSize:(CGSize)size inRect:(CGRect)rect
 {
-	CGSize boundsSize = scroll.bounds.size;
-    CGRect frameToCenter = view.frame;
-    
     // center horizontally
-    if (frameToCenter.size.width < boundsSize.width) {
-        frameToCenter.origin.x = (boundsSize.width - frameToCenter.size.width) / 2;
+    if (rect.size.width < size.width) {
+        rect.origin.x = (size.width - rect.size.width) / 2;
     } else {
-        frameToCenter.origin.x = 0;
+        rect.origin.x = 0.0f;
     }
     
     // center vertically
-    if (frameToCenter.size.height < boundsSize.height) {
-        frameToCenter.origin.y = (boundsSize.height - frameToCenter.size.height) / 2;
+    if (rect.size.height < size.height) {
+        rect.origin.y = (size.height - rect.size.height) / 2;
     } else {
-        frameToCenter.origin.y = 0;
+        rect.origin.y = 0.0f;
     }
 	
-	return frameToCenter;
+	return rect;
 }
 
 - (void)changeRulerPositions

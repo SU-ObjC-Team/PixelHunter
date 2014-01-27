@@ -14,7 +14,7 @@
 
 @interface SUGridRootView : UIView
 
-- (id)initWithFrame:(CGRect)rect withScreenshotImage:(UIImage *)screenshotImage;
+- (id)initWithFrame:(CGRect)rect withImage:(UIImage *)screenshotImage;
 - (void)layoutViewsDependingOnOrientation;
 
 @property (nonatomic, strong) SUGridUnderLayerView *gridUnderLayerView;

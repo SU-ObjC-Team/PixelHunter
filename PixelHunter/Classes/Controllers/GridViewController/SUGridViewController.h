@@ -19,9 +19,9 @@
 
 @interface SUGridViewController : UIViewController 
 
+- (id)initWithImage:(UIImage *)screenshotImage;
+
 @property (nonatomic, weak) SUGridRootView *gridRootView;
 @property (nonatomic, assign) id <SUGridViewControllerDelegate> delegate;
-
-- (id)initWithImage:(UIImage *)screenshotImage;
 
 @end

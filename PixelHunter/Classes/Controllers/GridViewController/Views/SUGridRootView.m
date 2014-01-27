@@ -13,7 +13,7 @@
 
 @implementation SUGridRootView
 
-- (id)initWithFrame:(CGRect)rect withScreenshotImage:(UIImage *)screenshotImage
+- (id)initWithFrame:(CGRect)rect withImage:(UIImage *)screenshotImage
 {
 	self = [super initWithFrame:rect];
 	if (self) {
