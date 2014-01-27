@@ -19,33 +19,27 @@
 	if (self) {
         self.backgroundColor = [UIColor clearColor];
         
-		// Init underlayer view
         self.gridUnderLayerView = [[SUGridUnderLayerView alloc] initWithFrame:rect withScreenshotImage:screenshotImage];
         self.gridUnderLayerView.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:self.gridUnderLayerView];
         
-        // Init tapGesture
         self.tapGesture = [[UITapGestureRecognizer alloc] init];
         [self addGestureRecognizer:self.tapGesture];
         [self.tapGesture addTarget:self action:@selector(viewTapped)];
         
-        // Init small grid view
         self.smallGridView = [[SUGridView alloc] initWithSmallGrid:YES];
         [self addSubview:self.smallGridView];
         
-        // Init rulers
         self.topRuler = [SUGridRulerViewHorizontal new];
         self.sideRuler = [SUGridRulerViewVertical new];
         [self addSubview:self.topRuler];
         [self addSubview:self.sideRuler];
         
-        // Init toolbar
         self.toolbar = [[SUGridToolbar alloc] init];
         self.toolbar.hidden = YES;
         [self.toolbar.gridDisplayButton addTarget:self action:@selector(tapOnGridDisplayButton)];
         [self addSubview:self.toolbar];
         
-        // Layout
         [self layoutViewsDependingOnOrientation];
 	}
     

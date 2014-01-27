@@ -40,7 +40,6 @@ static id __sharedInstance;
     dispatch_once(&onceToken, ^{
 
         __sharedInstance = [[SUPixelHunter alloc] init];
-        [__sharedInstance subscribeForSystemNotifications];
     });
 
     return __sharedInstance;
@@ -63,24 +62,14 @@ static id __sharedInstance;
     return self;
 }
 
+#pragma mark - Initialization
+
 - (id)init
 {
     if (self = [super init]) {
 
-        self.motionManager = [[CMMotionManager alloc] init];
-        self.motionManager.accelerometerUpdateInterval = kSUAccelerometerUpdateInterval;
-        
-        NSOperationQueue *currentQueue = [NSOperationQueue currentQueue];
-        [self.motionManager startAccelerometerUpdatesToQueue:currentQueue
-         withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
-             
-             if (error) {
-                 [self.motionManager stopAccelerometerUpdates];
-             } else {
-                 [self performSelectorOnMainThread:@selector(handleShake:)
-                                        withObject:accelerometerData waitUntilDone:YES];
-             }
-         }];
+        [self subscribeForSystemNotifications];
+        [self initMotionManager];
     }
     
     return self;
@@ -99,6 +88,25 @@ static id __sharedInstance;
                            selector:@selector(removeWindowForDebug)
                                name:UIApplicationDidEnterBackgroundNotification
                              object:nil];
+}
+
+- (void)initMotionManager
+{
+    self.motionManager = [[CMMotionManager alloc] init];
+    self.motionManager.accelerometerUpdateInterval = kSUAccelerometerUpdateInterval;
+    
+    NSOperationQueue *currentQueue = [NSOperationQueue currentQueue];
+    [self.motionManager startAccelerometerUpdatesToQueue:currentQueue
+         withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
+             
+             if (error) {
+                 [self.motionManager stopAccelerometerUpdates];
+             } else {
+                 [self performSelectorOnMainThread:@selector(handleShake:)
+                                        withObject:accelerometerData
+                                     waitUntilDone:YES];
+             }
+         }];
 }
 
 #pragma mark - Public methods
@@ -203,8 +211,9 @@ static id __sharedInstance;
 
 - (void)orientationChanged:(NSNotification *)notification
 {
-    [self.debugWindow.rootViewController.view setNeedsLayout];
-    [((SUGridViewController *)self.debugWindow.rootViewController).gridRootView layoutViewsDependingOnOrientation];
+    SUGridRootView *rootView = (SUGridRootView *)self.debugWindow.rootViewController.view;
+    [rootView setNeedsLayout];
+    [rootView layoutViewsDependingOnOrientation];
 }
 
 #pragma mark - SUGridViewControllerDelegate
