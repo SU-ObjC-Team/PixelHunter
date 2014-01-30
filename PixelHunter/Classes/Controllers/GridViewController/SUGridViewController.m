@@ -7,11 +7,8 @@
 //
 
 #import "SUGridViewController.h"
-#import "SUPixelHunter.h"
-#import "SUPixelHunterConstants.h"
 #import "SUPixelHunterScreenshotUtil.h"
 #import "SUErrorMarkingViewController.h"
-
 
 @interface SUGridViewController () <SUGridViewControllerDelegate,
                                     UIScrollViewDelegate,
@@ -20,6 +17,7 @@
 
 @property (nonatomic, strong) UIImage *screenshotImage;
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
+@property (nonatomic, weak) SUGridRootView *gridRootView;
 
 @end
 
@@ -44,7 +42,8 @@
     
     CGSize sz = [[UIScreen mainScreen] applicationFrame].size;
     CGRect rc = CGRectMake(0.0f, 0.0f, sz.width, sz.height);
-    SUGridRootView *view = [[SUGridRootView alloc] initWithFrame:rc withImage:self.screenshotImage];
+    SUGridRootView *view = [[SUGridRootView alloc]
+                            initWithFrame:rc withImage:self.screenshotImage];
     view.contentMode = UIViewContentModeScaleAspectFit;
     self.view = view;
     self.gridRootView = view;
@@ -60,37 +59,42 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.gridRootView.gridUnderLayerView.scrollView.minimumZoomScale =
-        self.gridRootView.gridUnderLayerView.scrollView.frame.size.width / self.gridRootView.gridUnderLayerView.containerView.frame.size.width;
-    self.gridRootView.gridUnderLayerView.scrollView.maximumZoomScale = kSUMaximumZoomScale;
-    [self.gridRootView.gridUnderLayerView.scrollView setZoomScale:self.gridRootView.gridUnderLayerView.scrollView.minimumZoomScale];
+    UIScrollView *scrollView = self.gridRootView.gridUnderLayerView.scrollView;
+
+    scrollView.minimumZoomScale =
+        scrollView.frame.size.width / self.gridRootView.gridUnderLayerView.containerView.frame.size.width;
+    scrollView.maximumZoomScale = kSUMaximumZoomScale;
+    [scrollView setZoomScale:scrollView.minimumZoomScale];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [self.gridRootView.gridUnderLayerView.scrollView setZoomScale:self.gridRootView.gridUnderLayerView.scrollView.minimumZoomScale];
+    UIScrollView *scrollView = self.gridRootView.gridUnderLayerView.scrollView;
+    [scrollView setZoomScale:scrollView.minimumZoomScale];
 }
 
 #pragma mark - Private
 
 - (void)setToolbarActions
 {
-    [self.gridRootView.toolbar.closeButton addTarget:self
-                                              action:@selector(tapOnCloseButton)];
-    [self.gridRootView.toolbar.showPickerButton addTarget:self
-                                                   action:@selector(showImagePicker)];
-    [self.gridRootView.toolbar.showMarkingViewControllerButton addTarget:self
-                                                                  action:@selector(showMarkingViewController)];
-    [self.gridRootView.toolbar.slider addTarget:self
-                                         action:@selector(changeMockupImageAlpha:)
-                               forControlEvents:UIControlEventValueChanged];
+    SUGridToolbar *toolbar = self.gridRootView.toolbar;
+
+    [toolbar.closeButton addTarget:self
+                            action:@selector(tapOnCloseButton)];
+    [toolbar.showPickerButton addTarget:self
+                                 action:@selector(showImagePicker)];
+    [toolbar.showMarkingViewControllerButton addTarget:self
+                                                action:@selector(showMarkingViewController)];
+    [toolbar.slider addTarget:self
+                       action:@selector(changeMockupImageAlpha:)
+             forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)setupScrollView
 {
     self.gridRootView.gridUnderLayerView.scrollView.delegate = self;
     self.gridRootView.gridUnderLayerView.scrollView.contentSize =
-    self.gridRootView.gridUnderLayerView.containerView.frame.size;
+        self.gridRootView.gridUnderLayerView.containerView.frame.size;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -102,53 +106,62 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [self changeRulerPositions];
+    [self changeRulersPositions];
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView
 {
-    CGSize sz = scrollView.bounds.size;
-    CGRect rc = self.gridRootView.gridUnderLayerView.containerView.frame;
-    self.gridRootView.gridUnderLayerView.containerView.frame = [self centeredFrameWithSize:sz inRect:rc];
-    
-    [self changeRulerPositions];
+    [self centerContainerViewWithSize:scrollView.bounds.size];
+    [self changeRulersPositions];
+    [self activateSmallGridIfNecessary];
+}
 
-    if (self.gridRootView.gridUnderLayerView.scrollView.zoomScale == kSUMaximumZoomScale) {
-        self.gridRootView.smallGridView.hidden = NO;
-    } else {
-        self.gridRootView.smallGridView.hidden = YES;
-    }
+- (void)centerContainerViewWithSize:(CGSize)size
+{
+    UIView *containerView = self.gridRootView.gridUnderLayerView.containerView;
+    CGRect rc = containerView.frame;
+    containerView.frame = [self centeredFrameWithSize:size inRect:rc];
 }
 
 - (CGRect)centeredFrameWithSize:(CGSize)size inRect:(CGRect)rect
 {
-    // center horizontally
-    if (rect.size.width < size.width) {
-        rect.origin.x = (size.width - rect.size.width) / 2;
-    } else {
-        rect.origin.x = 0.0f;
-    }
-    
-    // center vertically
-    if (rect.size.height < size.height) {
-        rect.origin.y = (size.height - rect.size.height) / 2;
-    } else {
-        rect.origin.y = 0.0f;
-    }
+    rect.origin.x = rect.size.width < size.width ? (size.width - rect.size.width) / 2.0f : 0.0f;
+    rect.origin.y = rect.size.height < size.height ? (size.height - rect.size.height) / 2.0f : 0.0f;
 	
 	return rect;
 }
 
-- (void)changeRulerPositions
-{    
-    self.gridRootView.topRuler.frame = CGRectMake(-self.gridRootView.gridUnderLayerView.scrollView.contentOffset.x, 0.0f,
-                                                  self.gridRootView.gridUnderLayerView.scrollView.contentSize.width , kSURulerSize);
-    self.gridRootView.sideRuler.frame = CGRectMake(0.0f, -self.gridRootView.gridUnderLayerView.scrollView.contentOffset.y,
-                                                   kSURulerSize, self.gridRootView.gridUnderLayerView.scrollView.contentSize.height);
+- (void)changeRulersPositions
+{
+    [self setRulersFrames];
+    [self setRulersStartPoint];
+}
 
-    self.gridRootView.smallGridView.startVerticalPoint = (NSInteger) self.gridRootView.topRuler.frame.origin.x % 40;
-    self.gridRootView.smallGridView.startHorizontalPoint = (NSInteger) self.gridRootView.sideRuler.frame.origin.y % 40;
-    [self.gridRootView.smallGridView setNeedsDisplay];
+- (void)setRulersFrames
+{
+    UIScrollView *scrollView = self.gridRootView.gridUnderLayerView.scrollView;
+    SUGridRulerView *topRuler = self.gridRootView.topRuler;
+    SUGridRulerView *sideRuler = self.gridRootView.sideRuler;
+    topRuler.frame = CGRectMake(-scrollView.contentOffset.x, 0.0f,
+                                scrollView.contentSize.width , kSURulerSize);
+    sideRuler.frame = CGRectMake(0.0f, -scrollView.contentOffset.y,
+                                 kSURulerSize, scrollView.contentSize.height);
+}
+
+- (void)setRulersStartPoint
+{
+    SUGridView *gridView = self.gridRootView.smallGridView;
+    SUGridRulerView *topRuler = self.gridRootView.topRuler;
+    SUGridRulerView *sideRuler = self.gridRootView.sideRuler;
+    gridView.startPoint = CGPointMake((NSInteger)topRuler.frame.origin.x % (NSInteger)kSUSmallStepSize,
+                                      (NSInteger)sideRuler.frame.origin.y % (NSInteger)kSUSmallStepSize);
+    [gridView setNeedsDisplay];
+}
+
+- (void)activateSmallGridIfNecessary
+{
+    UIScrollView *scrollView = self.gridRootView.gridUnderLayerView.scrollView;
+    self.gridRootView.smallGridView.hidden = scrollView.zoomScale == kSUMaximumZoomScale ? NO : YES;
 }
 
 - (void)changeMockupImageAlpha:(UISlider *)sender
@@ -162,7 +175,8 @@
     self.imagePicker.delegate = self;
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     [self presentViewController:self.imagePicker animated:YES completion:^{
-        [self.gridRootView.gridUnderLayerView.scrollView setZoomScale:self.gridRootView.gridUnderLayerView.scrollView.minimumZoomScale];
+        UIScrollView *scrollView = self.gridRootView.gridUnderLayerView.scrollView;
+        [scrollView setZoomScale:scrollView.minimumZoomScale];
     }];
 }
 
@@ -172,7 +186,9 @@
 {
     [self.gridRootView.toolbar setHidden:YES];
     UIImage *imgage = [SUPixelHunterScreenshotUtil convertViewToImage:self.view];
-    SUErrorMarkingViewController *errorMarkingViewController = [[SUErrorMarkingViewController alloc] initWithImage:imgage];
+    SUErrorMarkingViewController *errorMarkingViewController =
+        [[SUErrorMarkingViewController alloc] initWithImage:imgage];
+
     [self presentViewController:errorMarkingViewController animated:YES completion:^{
         [self.gridRootView.toolbar setHidden:NO];
     }];

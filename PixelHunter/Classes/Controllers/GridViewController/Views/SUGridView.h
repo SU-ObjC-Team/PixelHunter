@@ -13,7 +13,6 @@
 
 - (id)initWithSmallGrid:(BOOL)isSmallGrid;
 
-@property (nonatomic, assign) NSInteger startVerticalPoint;
-@property (nonatomic, assign) NSInteger startHorizontalPoint;
+@property (nonatomic, assign) CGPoint startPoint;
 
 @end

@@ -54,8 +54,8 @@
         numberOfVeticalLines += 1;
         
         for (NSInteger i = 0; i < numberOfVeticalLines; i++) {
-            CGPoint startPoint = CGPointMake(startLinePoint + self.startVerticalPoint, 0);
-            CGPoint endPoint = CGPointMake(startLinePoint + self.startVerticalPoint, self.frame.size.height);
+            CGPoint startPoint = CGPointMake(startLinePoint + self.startPoint.x, 0);
+            CGPoint endPoint = CGPointMake(startLinePoint + self.startPoint.x, self.frame.size.height);
             [self draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
             startLinePoint = startLinePoint + cellSize;
         }
@@ -74,8 +74,8 @@
         numberOfHorizontalLines += 1;
         
         for (NSInteger i = 0; i < numberOfHorizontalLines; i++) {
-            CGPoint startPoint = CGPointMake(0, startLinePoint + self.startHorizontalPoint);
-            CGPoint endPoint = CGPointMake(self.frame.size.width, startLinePoint + self.startHorizontalPoint);
+            CGPoint startPoint = CGPointMake(0, startLinePoint + self.startPoint.y);
+            CGPoint endPoint = CGPointMake(self.frame.size.width, startLinePoint + self.startPoint.y);
             [self draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
             startLinePoint = startLinePoint + cellSize;
         }
