@@ -26,15 +26,21 @@ static CGFloat const kSUMarkColorViewIndent = 3.0f;
         self.userInteractionEnabled = YES;
         
         // Init add markingview button
-        self.cornerTypeButton = [[SUMarkViewToolbarCompositeButton alloc] initWithImageNameNormal:@"corner2_button.png"
-                                                                      imageNamePressed:@"corner_button.png"
-                                                                    imageNameActivated:@"corner_button.png"];
+        SUCompositeButtonModel *model = [SUCompositeButtonModel new];
+        model.imageNormalName = @"corner2_button.png";
+        model.imagePressedName = @"corner_button.png";
+        model.imageActivatedName = @"corner_button.png";
+        
+        self.cornerTypeButton = [[SUMarkViewToolbarCompositeButton alloc] initWithModel:model];
         [self addSubview:self.cornerTypeButton];
         
         // Init border width slider button
-        self.borderWidthSliderButton = [[SUMarkViewToolbarCompositeButton alloc] initWithImageNameNormal:@"stroke_button.png"
-                                                                  imageNamePressed:@"stroke_button_active.png"
-                                                                imageNameActivated:@"stroke_button_active.png"];
+        model = [SUCompositeButtonModel new];
+        model.imageNormalName = @"stroke_button.png";
+        model.imagePressedName = @"stroke_button_active.png";
+        model.imageActivatedName = @"stroke_button_active.png";
+        
+        self.borderWidthSliderButton = [[SUMarkViewToolbarCompositeButton alloc] initWithModel:model];
         [self addSubview:self.borderWidthSliderButton];
         
         // Init width slider
@@ -48,9 +54,12 @@ static CGFloat const kSUMarkColorViewIndent = 3.0f;
         [self addSubview:self.widthSlider];
         
         // Init border color picker button
-        self.borderColorPickerButton = [[SUMarkViewToolbarCompositeButton alloc] initWithImageNameNormal:@"color_button.png"
-                                                                         imageNamePressed:@"color_button_active.png"
-                                                                       imageNameActivated:@"color_button_active.png"];
+        model = [SUCompositeButtonModel new];
+        model.imageNormalName = @"color_button.png";
+        model.imagePressedName = @"color_button_active.png";
+        model.imageActivatedName = @"color_button_active.png";
+        
+        self.borderColorPickerButton = [[SUMarkViewToolbarCompositeButton alloc] initWithModel:model];
         [self addSubview:self.borderColorPickerButton];
         
         // Init mark color view

@@ -11,6 +11,10 @@
 #import "SUPixelHunterTheme.h"
 
 
+@implementation SUCompositeButtonModel
+
+@end
+
 @interface SUCompositeButton ()
 
 @property (nonatomic, strong) UIImageView *imageView;
@@ -25,25 +29,23 @@
 
 @implementation SUCompositeButton
 
-- (id)initWithImageNameNormal:(NSString *)imageNameNormal
-             imageNamePressed:(NSString *)imageNamePressed
-           imageNameActivated:(NSString *)imageNameActivated
+- (id)initWithModel:(SUCompositeButtonModel *)model
 {
     self = [super init];
     if (self) {
         self.backgroundColor = [[SUPixelHunterTheme colors] darkGrayBackgroundColor];
         
-        if (imageNameNormal.length != 0) {
-            self.imageNormal = [UIImage imageNamed:imageNameNormal];
+        if (model.imageNormalName.length != 0) {
+            self.imageNormal = [UIImage imageNamed:model.imageNormalName];
         }
-        if (imageNamePressed.length != 0) {
-            self.imagePressed = [UIImage imageNamed:imageNamePressed];
+        if (model.imagePressedName.length != 0) {
+            self.imagePressed = [UIImage imageNamed:model.imagePressedName];
         }
-        if (imageNameActivated.length != 0) {
-            self.imageActivated = [UIImage imageNamed:imageNameActivated];
+        if (model.imageActivatedName.length != 0) {
+            self.imageActivated = [UIImage imageNamed:model.imageActivatedName];
         }
         
-        if (imageNameActivated == nil) {
+        if (model.imageActivatedName == nil) {
             self.imageActivated = self.imageNormal;
         }
 

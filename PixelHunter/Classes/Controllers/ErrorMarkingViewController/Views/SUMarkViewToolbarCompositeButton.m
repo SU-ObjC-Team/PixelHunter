@@ -18,11 +18,10 @@
 
 @implementation SUMarkViewToolbarCompositeButton
 
-- (id)initWithImageNameNormal:(NSString *)imageNameNormal
-             imageNamePressed:(NSString *)imageNamePressed
-           imageNameActivated:(NSString *)imageNameActivated
+- (id)initWithModel:(SUCompositeButtonModel *)model
 {
-    self = [super initWithImageNameNormal:imageNameNormal imageNamePressed:imageNamePressed imageNameActivated:imageNameActivated];
+    self = [super initWithModel:model];
+
     if (self) {
         self.backgroundColor = [[SUPixelHunterTheme colors] lightGrayBackgroundColor];
         

@@ -10,21 +10,28 @@
 
 
 typedef enum {
-    SUCompositeButtonStateNormal,
+    SUCompositeButtonStateNormal = 0,
     SUCompositeButtonStateActivated,
-}SUCompositeButtonState;
+} SUCompositeButtonState;
 
 typedef enum {
-    SUSeparatorShown,
+    SUSeparatorShown = 0,
     SUSeparatorHidden
-}SUSeparatorState;
+} SUSeparatorState;
+
+
+@interface SUCompositeButtonModel : NSObject
+
+@property (nonatomic, strong) NSString *imageNormalName;
+@property (nonatomic, strong) NSString *imagePressedName;
+@property (nonatomic, strong) NSString *imageActivatedName;
+
+@end
 
 
 @interface SUCompositeButton : UIView
 
-- (id)initWithImageNameNormal:(NSString *)imageNameNormal
-             imageNamePressed:(NSString *)imageNamePressed
-           imageNameActivated:(NSString *)imageNameActivated;
+- (id)initWithModel:(SUCompositeButtonModel *)model;
 
 - (void)addTarget:(id)target action:(SEL)action;
 

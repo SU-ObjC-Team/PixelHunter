@@ -30,21 +30,30 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
         self.userInteractionEnabled = YES;
         
         // Init grid display button
-        self.gridDisplayButton = [[SUCompositeButton alloc] initWithImageNameNormal:@"grid_button.png"
-                                                                   imageNamePressed:@"grid_button_active.png"
-                                                                 imageNameActivated:@"grid_button_active.png"];
+        SUCompositeButtonModel *model = [SUCompositeButtonModel new];
+        model.imageNormalName = @"grid_button.png";
+        model.imagePressedName = @"grid_button_active.png";
+        model.imageActivatedName = @"grid_button_active.png";
+
+        self.gridDisplayButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.gridDisplayButton];
         
         // Init show picker button
-        self.showPickerButton = [[SUCompositeButton alloc] initWithImageNameNormal:@"image_button.png"
-                                                                   imageNamePressed:@"image_button_active.png"
-                                                                 imageNameActivated:@"image_button_active.png"];
+        model = [SUCompositeButtonModel new];
+        model.imageNormalName = @"image_button.png";
+        model.imagePressedName = @"image_button_active.png";
+        model.imageActivatedName = @"image_button_active.png";
+
+        self.showPickerButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.showPickerButton];
         
         // Init show marking view controller button
-        self.showMarkingViewControllerButton = [[SUCompositeButton alloc] initWithImageNameNormal:@"next_button.png"
-                                                                  imageNamePressed:@"next_button_active.png"
-                                                                imageNameActivated:@"next_button_active.png"];
+        model = [SUCompositeButtonModel new];
+        model.imageNormalName = @"next_button.png";
+        model.imagePressedName = @"next_button_active.png";
+        model.imageActivatedName = @"next_button_active.png";
+
+        self.showMarkingViewControllerButton = [[SUCompositeButton alloc] initWithModel:model];
         self.showMarkingViewControllerButton.isSeparatorShown = NO;
         [self addSubview:self.showMarkingViewControllerButton];
         
@@ -60,9 +69,12 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
         [self addSubview:self.slider];
         
         // Init close button
-        self.closeButton = [[SUCompositeButton alloc] initWithImageNameNormal:@"close_button.png"
-                                                             imageNamePressed:@"close_button_active.png"
-                                                           imageNameActivated:@"close_button_active.png"];
+        model = [SUCompositeButtonModel new];
+        model.imageNormalName = @"close_button.png";
+        model.imagePressedName = @"close_button_active.png";
+        model.imageActivatedName = @"close_button_active.png";
+
+        self.closeButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.closeButton];
         
         // Init horizontal separator
