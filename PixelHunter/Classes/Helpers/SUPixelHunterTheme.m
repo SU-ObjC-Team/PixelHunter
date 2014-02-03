@@ -19,7 +19,7 @@
 
 @implementation SUPixelHunterTheme;
 
-#pragma mark - Singleton stuff
+#pragma mark - Singleton methods
 
 static SUPixelHunterTheme *_sharedTheme = nil;
 

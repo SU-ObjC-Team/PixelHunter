@@ -108,8 +108,6 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
     
     // Layout show marking view controller button
     self.showMarkingViewControllerButton.frame = CGRectMake(CGRectGetMaxX(self.showPickerButton.frame), CGRectGetMinY(self.closeButton.frame), kSUCloseButtonWidth, kSUCloseButtonHeight);
-    
-    
 }
 
 @end

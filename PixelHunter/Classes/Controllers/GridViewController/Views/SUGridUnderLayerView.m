@@ -77,5 +77,4 @@
     self.gridView.frame = CGRectMake(0.0f, 0.0f, sz.width, sz.height);    
 }
 
-
 @end
