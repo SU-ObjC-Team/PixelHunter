@@ -56,7 +56,7 @@ static CGFloat const kSUButtonIndent = 5.0f;
 
         self.showMarkingViewToolbarButton = [[SUCompositeButton alloc] initWithModel:model];
         self.showMarkingViewToolbarButton.hidden = YES;
-        self.showMarkingViewToolbarButton.isSeparatorShown = NO;
+        self.showMarkingViewToolbarButton.separatorState = SUSeparatorHidden;
         [self addSubview:self.showMarkingViewToolbarButton];
         
         // Init back button

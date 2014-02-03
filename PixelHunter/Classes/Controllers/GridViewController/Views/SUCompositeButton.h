@@ -32,14 +32,11 @@ typedef enum {
 @interface SUCompositeButton : UIView
 
 - (id)initWithModel:(SUCompositeButtonModel *)model;
-
 - (void)addTarget:(id)target action:(SEL)action;
 
-@property (nonatomic, strong) UIImageView *separatorImageView;
+- (UIImage *)separatorImage;
 
 @property (nonatomic, assign) SUCompositeButtonState state;
 @property (nonatomic, assign) SUSeparatorState separatorState;
-
-@property (nonatomic, assign) BOOL isSeparatorShown;
 
 @end

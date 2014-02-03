@@ -54,7 +54,7 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
         model.imageActivatedName = @"next_button_active.png";
 
         self.showMarkingViewControllerButton = [[SUCompositeButton alloc] initWithModel:model];
-        self.showMarkingViewControllerButton.isSeparatorShown = NO;
+        self.showMarkingViewControllerButton.separatorState = SUSeparatorHidden;
         [self addSubview:self.showMarkingViewControllerButton];
         
         // Init slider

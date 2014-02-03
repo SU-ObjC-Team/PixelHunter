@@ -10,6 +10,11 @@
 #import "SUPixelHunterConstants.h"
 #import "SUPixelHunterTheme.h"
 
+
+static NSString * const kSUHorizontalSeparatorImageName = @"sidebar_horizontal_separator.png";
+static NSString * const kSUVerticalSeparatorImageName = @"sidebar_vertical_separator.png";
+
+
 @interface SUMarkViewToolbarCompositeButton ()
 
 @property (nonatomic, strong) UIImageView *horizontalSeparatorImageView;
@@ -25,11 +30,9 @@
     if (self) {
         self.backgroundColor = [[SUPixelHunterTheme colors] lightGrayBackgroundColor];
         
-        // Init separator image view
-        self.separatorImageView.image = [UIImage imageNamed:@"sidebar_vertical_separator.png"];
-        
         // Init horizontal separator
-        self.horizontalSeparatorImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sidebar_horizontal_separator.png"]];
+        UIImage *image = [UIImage imageNamed:kSUHorizontalSeparatorImageName];
+        self.horizontalSeparatorImageView = [[UIImageView alloc] initWithImage:image];
         [self addSubview:self.horizontalSeparatorImageView];
     }
     
@@ -41,9 +44,18 @@
     [super layoutSubviews];
     
     CGSize sz = self.frame.size;
-    
-    // Layout horizontal separator
-    self.horizontalSeparatorImageView.frame = CGRectMake(0.0f, sz.height - kSUHorizontalSeparatorHeight, kSUHorizontalSeparatorWidth, kSUHorizontalSeparatorHeight);
+
+    self.horizontalSeparatorImageView.frame = CGRectMake(0.0f,
+                                                         sz.height - kSUHorizontalSeparatorHeight,
+                                                         kSUHorizontalSeparatorWidth,
+                                                         kSUHorizontalSeparatorHeight);
+}
+
+#pragma mark - From base class
+
+- (UIImage *)separatorImage
+{
+    return [UIImage imageNamed:kSUVerticalSeparatorImageName];
 }
 
 @end

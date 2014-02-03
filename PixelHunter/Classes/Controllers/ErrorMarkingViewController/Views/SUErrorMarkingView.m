@@ -194,14 +194,12 @@
 {
     for (SUMarkViewToolbarCompositeButton *button in [self.markViewToolbar subviews]) {
         if ([button isKindOfClass:[SUMarkViewToolbarCompositeButton class]]) {
-            button.isSeparatorShown = YES;
+            button.separatorState = SUSeparatorShown;
         }
     }
-    if (button.isSeparatorShown) {
-        button.isSeparatorShown = NO;
-    } else {
-        button.isSeparatorShown = YES;
-    }
+
+    button.separatorState = button.separatorState == SUSeparatorShown ?
+                            SUSeparatorHidden : SUSeparatorShown;
 }
 
 - (void)viewTapped

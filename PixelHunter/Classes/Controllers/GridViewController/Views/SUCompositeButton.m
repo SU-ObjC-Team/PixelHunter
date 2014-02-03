@@ -19,6 +19,7 @@ static NSString * const kSUSeparatorImageName = @"vertical_separator.png";
 @interface SUCompositeButton ()
 
 @property (nonatomic, strong) UIButton *button;
+@property (nonatomic, strong) UIImageView *separatorImageView;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImage *imageNormal;
 @property (nonatomic, strong) UIImage *imagePressed;
@@ -50,12 +51,11 @@ static NSString * const kSUSeparatorImageName = @"vertical_separator.png";
               forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
         [self addSubview:self.button];
         
-        UIImage *image = [UIImage imageNamed:kSUSeparatorImageName];
-        self.separatorImageView = [[UIImageView alloc] initWithImage:image];
+        self.separatorImageView = [[UIImageView alloc] initWithImage:[self separatorImage]];
         [self addSubview:self.separatorImageView];
         
         self.state = SUCompositeButtonStateNormal;
-        self.isSeparatorShown = YES;
+        self.separatorState = SUSeparatorShown;
     }
     
     return self;
@@ -94,6 +94,11 @@ static NSString * const kSUSeparatorImageName = @"vertical_separator.png";
     if (model.imageActivatedName == nil) {
         self.imageActivated = self.imageNormal;
     }
+}
+
+- (UIImage *)separatorImage
+{
+    return [UIImage imageNamed:kSUSeparatorImageName];
 }
 
 #pragma mark - Actions
@@ -138,17 +143,6 @@ static NSString * const kSUSeparatorImageName = @"vertical_separator.png";
     }
     else if (state == SUCompositeButtonStateActivated) {
         self.imageView.image = self.imageActivated;
-    }
-}
-
-- (void)setIsSeparatorShown:(BOOL)isSeparatorShown
-{
-    _isSeparatorShown = isSeparatorShown;
-    
-    if (self.isSeparatorShown) {
-        self.separatorState = SUSeparatorShown;
-    } else {
-        self.separatorState = SUSeparatorHidden;
     }
 }
 
