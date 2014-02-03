@@ -118,7 +118,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 - (void)addMarkViewWithText:(BOOL)withText
 {
     [self stopShakingAnimation];
-    [self makeMarkViewToolbarButtonsActive:YES];
+    self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = NO;
     
     // Set start position for new mark view
     SUMarkView *markView;
@@ -193,12 +193,6 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
     }
 }
 
-- (void)makeMarkViewToolbarButtonsActive:(BOOL)isActive
-{
-    self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = !isActive;
-    self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.enabled = isActive;
-}
-
 #pragma mark - Handle long tap gesture
 
 - (void)handleLongPress:(UILongPressGestureRecognizer *)recognizer
@@ -221,13 +215,17 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
     }
 }
 
-- (void)removeMarkView:(id)sender
+- (void)removeMarkView:(UIButton *)sender
 {
-    [((UIButton *)sender).superview removeFromSuperview];
-    [self makeMarkViewToolbarButtonsActive:NO];
+    [sender.superview removeFromSuperview];
+    self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = YES;
+    
     for (SUMarkView *subview in [self.rootView subviews]) {
+        
         if ([subview isKindOfClass:[SUMarkView class]]) {
-            [self makeMarkViewToolbarButtonsActive:YES];
+            
+            self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = NO;
+            break;
         }
     }
 }

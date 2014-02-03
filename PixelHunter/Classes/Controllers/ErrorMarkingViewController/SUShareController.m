@@ -34,15 +34,14 @@
         self.toolbar = toolbar;
         self.unnecessaryViewsArray = menuViewsArray;
         self.viewController = viewController;
-        [self.toolbar.sendMailButton.button addTarget:self action:@selector(sendScreenshotViaMail)
-                                           forControlEvents:UIControlEventTouchUpInside];
+        [self.toolbar.sendMailButton addTarget:self action:@selector(sendScreenshotViaMail:)];
         [self createScreenshotSound];
     }
     
     return self;
 }
 
-- (void)sendScreenshotViaMail
+- (void)sendScreenshotViaMail:(id)sender
 {
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];

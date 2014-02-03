@@ -10,6 +10,7 @@
 #import "SUPixelHunterConstants.h"
 #import "SUPixelHunterTheme.h"
 
+static NSString * const kSUSeparatorImageName = @"vertical_separator.png";
 
 @implementation SUCompositeButtonModel
 
@@ -17,6 +18,7 @@
 
 @interface SUCompositeButton ()
 
+@property (nonatomic, strong) UIButton *button;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImage *imageNormal;
 @property (nonatomic, strong) UIImage *imagePressed;
@@ -33,37 +35,26 @@
 {
     self = [super init];
     if (self) {
-        self.backgroundColor = [[SUPixelHunterTheme colors] darkGrayBackgroundColor];
-        
-        if (model.imageNormalName.length != 0) {
-            self.imageNormal = [UIImage imageNamed:model.imageNormalName];
-        }
-        if (model.imagePressedName.length != 0) {
-            self.imagePressed = [UIImage imageNamed:model.imagePressedName];
-        }
-        if (model.imageActivatedName.length != 0) {
-            self.imageActivated = [UIImage imageNamed:model.imageActivatedName];
-        }
-        
-        if (model.imageActivatedName == nil) {
-            self.imageActivated = self.imageNormal;
-        }
 
-        // Init image view
+        self.backgroundColor = [[SUPixelHunterTheme colors] darkGrayBackgroundColor];
+
+        [self initImagesFromModel:model];
+
         self.imageView = [[UIImageView alloc] initWithImage:self.imageNormal];
         [self addSubview:self.imageView];
 
-        // Init button
         self.button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.button addTarget:self action:@selector(onDown) forControlEvents:UIControlEventTouchDown];
-        [self.button addTarget:self action:@selector(onUp) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
+        [self.button addTarget:self action:@selector(onDown)
+              forControlEvents:UIControlEventTouchDown];
+        [self.button addTarget:self action:@selector(onUp)
+              forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
         [self addSubview:self.button];
         
-        // Init separator
-        self.separatorImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"vertical_separator.png"]];
+        UIImage *image = [UIImage imageNamed:kSUSeparatorImageName];
+        self.separatorImageView = [[UIImageView alloc] initWithImage:image];
         [self addSubview:self.separatorImageView];
         
-        self.enabled = YES;
+        self.state = SUCompositeButtonStateNormal;
         self.isSeparatorShown = YES;
     }
     
@@ -84,6 +75,25 @@
     
     // Layout separator
     self.separatorImageView.frame = CGRectMake(sz.width - kSUSeparatorWidth, 0.0f, kSUSeparatorWidth, sz.height);
+}
+
+#pragma mark - Private
+
+- (void)initImagesFromModel:(SUCompositeButtonModel *)model
+{
+    if (model.imageNormalName.length != 0) {
+        self.imageNormal = [UIImage imageNamed:model.imageNormalName];
+    }
+    if (model.imagePressedName.length != 0) {
+        self.imagePressed = [UIImage imageNamed:model.imagePressedName];
+    }
+    if (model.imageActivatedName.length != 0) {
+        self.imageActivated = [UIImage imageNamed:model.imageActivatedName];
+    }
+    
+    if (model.imageActivatedName == nil) {
+        self.imageActivated = self.imageNormal;
+    }
 }
 
 #pragma mark - Actions
@@ -113,22 +123,11 @@
     self.target = target;
     self.action = action;
     
-    [self.button addTarget:self action:@selector(onTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+    [self.button addTarget:self action:@selector(onTouchUpInside)
+          forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - Propreties
-
-- (void)setEnabled:(BOOL)newEnabled
-{
-    _enabled = newEnabled;
-    if (self.enabled){
-        self.state = SUCompositeButtonStateNormal;
-    } else {
-        self.state = SUCompositeButtonStateActivated;
-    }
-    
-    self.userInteractionEnabled = self.enabled;
-}
 
 - (void)setState:(SUCompositeButtonState)state
 {

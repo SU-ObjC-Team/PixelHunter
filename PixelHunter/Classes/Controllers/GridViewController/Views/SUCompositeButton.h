@@ -35,13 +35,11 @@ typedef enum {
 
 - (void)addTarget:(id)target action:(SEL)action;
 
-@property (nonatomic, strong) UIButton *button;
 @property (nonatomic, strong) UIImageView *separatorImageView;
 
 @property (nonatomic, assign) SUCompositeButtonState state;
 @property (nonatomic, assign) SUSeparatorState separatorState;
 
-@property (nonatomic, assign) BOOL enabled;
 @property (nonatomic, assign) BOOL isSeparatorShown;
 
 @end
