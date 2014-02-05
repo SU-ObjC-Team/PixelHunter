@@ -11,6 +11,7 @@
 #import "SUGridRulerViewHorizontal.h"
 #import "SUGridRulerViewVertical.h"
 
+
 @implementation SUGridRootView
 
 - (id)initWithFrame:(CGRect)rect withImage:(UIImage *)image
@@ -26,7 +27,8 @@
         [self addGestureRecognizer:self.tapGesture];
         [self.tapGesture addTarget:self action:@selector(viewTapped)];
         
-        self.smallGridView = [[SUGridView alloc] initWithSmallGrid:YES];
+        self.smallGridView = [[SUGridView alloc] init];
+        self.smallGridView.gridStepSize = kSUSmallStepSize;
         [self addSubview:self.smallGridView];
         
         self.topRuler = [SUGridRulerViewHorizontal new];

@@ -11,8 +11,6 @@
 
 @interface SUGridView : UIView
 
-- (id)initWithSmallGrid:(BOOL)isSmallGrid;
-
 @property (nonatomic, assign) CGPoint startPoint;
 @property (nonatomic, assign) CGFloat gridStepSize;
 

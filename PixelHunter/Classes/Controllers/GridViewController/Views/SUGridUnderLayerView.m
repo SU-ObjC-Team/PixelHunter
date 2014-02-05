@@ -47,7 +47,8 @@
         [self.containerView addSubview:self.mockupImageView];
         
         // Init grid view
-        self.gridView = [[SUGridView alloc] initWithSmallGrid:NO];
+        self.gridView = [[SUGridView alloc] init];
+        self.gridView.gridStepSize = kSUStepSize;
         self.gridView.contentMode = UIViewContentModeScaleAspectFit;
         [self.containerView addSubview:self.gridView];
     }
