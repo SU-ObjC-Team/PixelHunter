@@ -28,6 +28,7 @@
         [self.tapGesture addTarget:self action:@selector(viewTapped)];
         
         self.smallGridView = [[SUGridView alloc] init];
+        self.smallGridView.hidden = YES;
         self.smallGridView.gridStepSize = kSUSmallStepSize;
         [self addSubview:self.smallGridView];
         

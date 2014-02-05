@@ -17,9 +17,8 @@
 {
     self = [super init];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
+        self.opaque = NO;
         self.userInteractionEnabled = NO;
-        self.hidden = YES;
     }
     
     return self;
@@ -67,7 +66,7 @@
     CGContextSaveGState(context);
     CGContextSetLineCap(context, kCGLineCapSquare);
     CGContextSetStrokeColorWithColor(context, color);
-    CGContextSetLineWidth(context, 1.0);
+    CGContextSetLineWidth(context, 1.0f);
     CGContextMoveToPoint(context, startPoint.x, startPoint.y);
     CGContextAddLineToPoint(context, endPoint.x, endPoint.y);
     CGContextStrokePath(context);
