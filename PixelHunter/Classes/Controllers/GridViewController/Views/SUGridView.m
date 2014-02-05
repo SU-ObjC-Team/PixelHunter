@@ -41,52 +41,39 @@
     if (self.isSmallGrid) {
         stepSize = kSUSmallStepSize;
     }
-    [self drawGridLinesWithCellSize:stepSize andLineColor:[UIColor colorWithWhite:0.5f alpha:0.5f]];
+    [self drawGridLinesWithCellSize:stepSize];
 }
 
-- (void)drawGridLinesWithCellSize:(CGFloat)cellSize andLineColor:(UIColor *)lineColor
+- (void)drawGridLinesWithCellSize:(CGFloat)cellSize
 {
+    CGColorRef lineColor = [UIColor colorWithWhite:0.5f alpha:0.5f].CGColor;
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    NSInteger startLinePoint = 0;
-    NSInteger numberOfVeticalLines = ceil(self.frame.size.width / cellSize);
-    if (self.isSmallGrid) {
-        numberOfVeticalLines += 1;
-        
-        for (NSInteger i = 0; i < numberOfVeticalLines; i++) {
-            CGPoint startPoint = CGPointMake(startLinePoint + self.startPoint.x, 0);
-            CGPoint endPoint = CGPointMake(startLinePoint + self.startPoint.x, self.frame.size.height);
-            [self draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
-            startLinePoint = startLinePoint + cellSize;
-        }
-    } else {
-        for (NSInteger i = 0; i < numberOfVeticalLines; i++) {
-            CGPoint startPoint = CGPointMake(startLinePoint, 0);
-            CGPoint endPoint = CGPointMake(startLinePoint, self.frame.size.height);
-            [self draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
-            startLinePoint = startLinePoint + cellSize;
-        }
-    }
-    
-    startLinePoint = 0;
-    NSInteger numberOfHorizontalLines = ceil(self.frame.size.height / cellSize);
-    if (self.isSmallGrid) {
-        numberOfHorizontalLines += 1;
-        
-        for (NSInteger i = 0; i < numberOfHorizontalLines; i++) {
-            CGPoint startPoint = CGPointMake(0, startLinePoint + self.startPoint.y);
-            CGPoint endPoint = CGPointMake(self.frame.size.width, startLinePoint + self.startPoint.y);
-            [self draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
-            startLinePoint = startLinePoint + cellSize;
-        }
-    } else {
-        for (NSInteger i = 0; i < numberOfHorizontalLines; i++) {
-            CGPoint startPoint = CGPointMake(0, startLinePoint);
-            CGPoint endPoint = CGPointMake(self.frame.size.width, startLinePoint);
-            [self draw1PxStrokeWithContext:context withStartPoint:startPoint withEndPoint:endPoint withColor:lineColor.CGColor];
-            startLinePoint = startLinePoint + cellSize;
-        }
 
+    // Draw vertical lines
+    CGFloat coord = 0.0f;
+    CGFloat startCoord = self.startPoint.x;
+    NSInteger numberOfLines = self.frame.size.width / cellSize + 1;
+
+    for (NSInteger i = 0; i < numberOfLines; i++) {
+        CGPoint startPoint = CGPointMake(coord + startCoord, 0);
+        CGPoint endPoint = CGPointMake(coord + startCoord, self.frame.size.height);
+        
+        [self draw1PxStrokeWithContext:context withStartPoint:startPoint
+                          withEndPoint:endPoint withColor:lineColor];
+        coord = coord + cellSize;
+    }
+
+    // Draw horizontal lines
+    coord = 0.0f;
+    startCoord = startCoord = self.startPoint.y;
+    numberOfLines = self.frame.size.height / cellSize + 1;
+
+    for (NSInteger i = 0; i < numberOfLines; i++) {
+        CGPoint startPoint = CGPointMake(0, coord + startCoord);
+        CGPoint endPoint = CGPointMake(self.frame.size.width, coord + startCoord);
+        [self draw1PxStrokeWithContext:context withStartPoint:startPoint
+                          withEndPoint:endPoint withColor:lineColor];
+        coord = coord + cellSize;
     }
 }
 

@@ -67,14 +67,12 @@ static NSString * const kSUSeparatorImageName = @"vertical_separator.png";
     
     CGSize sz = self.frame.size;
 
-    // Layout button
     self.button.frame = CGRectMake(0.0f, 0.0f, sz.width, sz.height);
     
-    // Layout image
     self.imageView.center = self.button.center;
     
-    // Layout separator
-    self.separatorImageView.frame = CGRectMake(sz.width - kSUSeparatorWidth, 0.0f, kSUSeparatorWidth, sz.height);
+    self.separatorImageView.frame = CGRectMake(sz.width - kSUSeparatorWidth, 0.0f,
+                                               kSUSeparatorWidth, sz.height);
 }
 
 #pragma mark - Private
@@ -150,11 +148,7 @@ static NSString * const kSUSeparatorImageName = @"vertical_separator.png";
 {
     _separatorState = separatorState;
     
-    if (separatorState == SUSeparatorShown) {
-        self.separatorImageView.hidden = NO;
-    } else if (separatorState == SUSeparatorHidden) {
-        self.separatorImageView.hidden = YES;
-    }
+    self.separatorImageView.hidden = separatorState == SUSeparatorShown ? NO : YES;
 }
 
 @end

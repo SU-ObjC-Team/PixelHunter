@@ -12,7 +12,7 @@
 
 @interface SUGridUnderLayerView : UIView
 
-- (id)initWithFrame:(CGRect)rect withScreenshotImage:(UIImage *)image;
+- (id)initWithFrame:(CGRect)rect withImage:(UIImage *)image;
 
 @property (nonatomic, strong) SUGridView *gridView;
 @property (nonatomic, strong) UIScrollView *scrollView;

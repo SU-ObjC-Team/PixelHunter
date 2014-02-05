@@ -19,7 +19,7 @@
 
 @implementation SUGridUnderLayerView
 
-- (id)initWithFrame:(CGRect)rect withScreenshotImage:(UIImage *)image
+- (id)initWithFrame:(CGRect)rect withImage:(UIImage *)image
 {
     self = [super initWithFrame:rect];
     if (self) {

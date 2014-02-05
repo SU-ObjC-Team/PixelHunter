@@ -13,16 +13,15 @@
 
 @implementation SUGridRootView
 
-- (id)initWithFrame:(CGRect)rect withImage:(UIImage *)screenshotImage
+- (id)initWithFrame:(CGRect)rect withImage:(UIImage *)image
 {
 	self = [super initWithFrame:rect];
 	if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        
-        self.gridUnderLayerView = [[SUGridUnderLayerView alloc] initWithFrame:rect withScreenshotImage:screenshotImage];
+
+        self.gridUnderLayerView = [[SUGridUnderLayerView alloc] initWithFrame:rect withImage:image];
         self.gridUnderLayerView.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:self.gridUnderLayerView];
-        
+
         self.tapGesture = [[UITapGestureRecognizer alloc] init];
         [self addGestureRecognizer:self.tapGesture];
         [self.tapGesture addTarget:self action:@selector(viewTapped)];
