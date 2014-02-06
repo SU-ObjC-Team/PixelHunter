@@ -35,8 +35,8 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
         model.imagePressedName = @"grid_button_active.png";
         model.imageActivatedName = @"grid_button_active.png";
 
-        self.gridDisplayButton = [[SUCompositeButton alloc] initWithModel:model];
-        [self addSubview:self.gridDisplayButton];
+        self.displayGridButton = [[SUCompositeButton alloc] initWithModel:model];
+        [self addSubview:self.displayGridButton];
         
         // Init show picker button
         model = [SUCompositeButtonModel new];
@@ -101,10 +101,10 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
     self.closeButton.frame = CGRectMake(0.0f, CGRectGetMaxY(self.horizontalSeparatorImageView.frame), kSUCloseButtonWidth, kSUCloseButtonHeight);
     
     // Layout grid display button
-    self.gridDisplayButton.frame = CGRectMake(CGRectGetMaxX(self.closeButton.frame), CGRectGetMinY(self.closeButton.frame), kSUCloseButtonWidth, kSUCloseButtonHeight);
+    self.displayGridButton.frame = CGRectMake(CGRectGetMaxX(self.closeButton.frame), CGRectGetMinY(self.closeButton.frame), kSUCloseButtonWidth, kSUCloseButtonHeight);
     
     // Layout show picker button
-    self.showPickerButton.frame = CGRectMake(CGRectGetMaxX(self.gridDisplayButton.frame), CGRectGetMinY(self.closeButton.frame), kSUCloseButtonWidth, kSUCloseButtonHeight);
+    self.showPickerButton.frame = CGRectMake(CGRectGetMaxX(self.displayGridButton.frame), CGRectGetMinY(self.closeButton.frame), kSUCloseButtonWidth, kSUCloseButtonHeight);
     
     // Layout show marking view controller button
     self.showMarkingViewControllerButton.frame = CGRectMake(CGRectGetMaxX(self.showPickerButton.frame), CGRectGetMinY(self.closeButton.frame), kSUCloseButtonWidth, kSUCloseButtonHeight);

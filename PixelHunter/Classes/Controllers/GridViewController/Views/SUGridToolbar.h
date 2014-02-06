@@ -11,7 +11,7 @@
 
 @interface SUGridToolbar : UIView
 
-@property (nonatomic, strong) SUCompositeButton *gridDisplayButton;
+@property (nonatomic, strong) SUCompositeButton *displayGridButton;
 @property (nonatomic, strong) SUCompositeButton *showPickerButton;
 @property (nonatomic, strong) SUCompositeButton *showMarkingViewControllerButton;
 @property (nonatomic, strong) SUCompositeButton *closeButton;

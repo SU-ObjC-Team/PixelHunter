@@ -39,7 +39,7 @@ static NSString * const kSUSeparatorImageName = @"vertical_separator.png";
 
         self.backgroundColor = [[SUPixelHunterTheme colors] darkGrayBackgroundColor];
 
-        [self initImagesFromModel:model];
+        [self initStateImagesFromModel:model];
 
         self.imageView = [[UIImageView alloc] initWithImage:self.imageNormal];
         [self addSubview:self.imageView];
@@ -51,7 +51,8 @@ static NSString * const kSUSeparatorImageName = @"vertical_separator.png";
               forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
         [self addSubview:self.button];
         
-        self.separatorImageView = [[UIImageView alloc] initWithImage:[self separatorImage]];
+        UIImage *image = [self separatorImage];
+        self.separatorImageView = [[UIImageView alloc] initWithImage:image];
         [self addSubview:self.separatorImageView];
         
         self.state = SUCompositeButtonStateNormal;
@@ -77,7 +78,7 @@ static NSString * const kSUSeparatorImageName = @"vertical_separator.png";
 
 #pragma mark - Private
 
-- (void)initImagesFromModel:(SUCompositeButtonModel *)model
+- (void)initStateImagesFromModel:(SUCompositeButtonModel *)model
 {
     if (model.imageNormalName.length != 0) {
         self.imageNormal = [UIImage imageNamed:model.imageNormalName];

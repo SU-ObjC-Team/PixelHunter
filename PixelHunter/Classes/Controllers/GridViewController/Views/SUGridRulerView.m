@@ -8,7 +8,7 @@
 
 #import "SUGridRulerView.h"
 
-static const CGFloat kSUFontSize = 11.0f;
+static const CGFloat kSURulerLabelsFontSize = 11.0f;
 
 
 @implementation SUGridRulerView
@@ -24,15 +24,15 @@ static const CGFloat kSUFontSize = 11.0f;
 
 - (void)drawRect:(CGRect)rect
 {
-    CGFloat cellSize = [self cellWidthWithRect:rect withScale:self.scale];
-    CGFloat cellDrawnSize = cellSize * self.scale;
+    CGFloat cellWidth = [self cellWidthWithRect:rect];
+    CGFloat cellDrawnSize = cellWidth * self.scale;
     CGFloat maxLength = [self maxLengthForRect:rect];
 
     if (cellDrawnSize > 0.0f) {
 
         for (NSInteger i = 0; i <= maxLength / cellDrawnSize; i++) {
             CGRect rect = [self rectForLenght:cellDrawnSize position:i];
-            NSString *numberString = [NSString stringWithFormat:@" %.0f", i * cellSize];
+            NSString *numberString = [NSString stringWithFormat:@" %.0f", i * cellWidth];
             [self drawNumbersInRect:rect withNumberString:numberString];
         }
     }
@@ -43,7 +43,7 @@ static const CGFloat kSUFontSize = 11.0f;
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextStrokeRect(context, rect);
     CGContextSetFillColorWithColor(context, [[UIColor blackColor] CGColor]);
-    UIFont *font = [UIFont boldSystemFontOfSize:kSUFontSize];
+    UIFont *font = [UIFont boldSystemFontOfSize:kSURulerLabelsFontSize];
         
     [numberString drawInRect:rect
                     withFont:font
@@ -51,12 +51,12 @@ static const CGFloat kSUFontSize = 11.0f;
                    alignment:NSTextAlignmentLeft];
 }
 
-- (CGFloat)cellWidthWithRect:(CGRect)rect withScale:(CGFloat)scale
+- (CGFloat)cellWidthWithRect:(CGRect)rect
 {
     CGFloat result = 0.0f;
 
     CGFloat maxLenght = [self maxLengthForRect:rect];
-    CGFloat lenght = maxLenght / scale;
+    CGFloat lenght = maxLenght / self.scale;
 
     for (NSInteger i = 0; i < kSUSizesLength; i++) {
 
