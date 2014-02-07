@@ -145,14 +145,14 @@ static id __sharedInstance;
 
 - (void)showAlert
 {
-    NSString *aletTitle = NSLocalizedStringFromTable(@"ENTER_UI_DEBUG_MODE",
+    NSString *alertTitle = NSLocalizedStringFromTable(@"ENTER_UI_DEBUG_MODE",
                                                      @"PixelHunter", @"Enter UI debug mode");
     NSString *cancelTitle = NSLocalizedStringFromTable(@"CANCEL", @"PixelHunter", @"Cancel");
     NSString *enterTitle = NSLocalizedStringFromTable(@"ENTER", @"PixelHunter", @"Enter");
 
     // Create a local variable because alertView property is weak
     UIAlertView *alertView = [[UIAlertView alloc]
-                              initWithTitle:aletTitle
+                              initWithTitle:alertTitle
                               message:nil
                               delegate:self
                               cancelButtonTitle:cancelTitle
@@ -172,8 +172,8 @@ static id __sharedInstance;
 - (void)activateZGestureView
 {
     UIWindow *topWindow = [self getTopWindow];
-    CGRect rc = topWindow.rootViewController.view.frame;
-    SUZGestureView *zGestureView = [[SUZGestureView alloc] initWithFrame:rc];
+    CGRect windowFrame = topWindow.rootViewController.view.frame;
+    SUZGestureView *zGestureView = [[SUZGestureView alloc] initWithFrame:windowFrame];
     [zGestureView.zGestureRecognizer addTarget:self action:@selector(showAlert)];
     [topWindow.rootViewController.view addSubview:zGestureView];
 }
@@ -188,8 +188,8 @@ static id __sharedInstance;
         [[SUGridViewController alloc] initWithImage:debugWindowImage];
     viewController.delegate = self;
 
-    CGRect rc = [self.parentWindow bounds];
-    self.debugWindow = [[UIWindow alloc] initWithFrame:rc];
+    CGRect windowBounds = [self.parentWindow bounds];
+    self.debugWindow = [[UIWindow alloc] initWithFrame:windowBounds];
     self.debugWindow.rootViewController = viewController;
     self.parentWindow.hidden = YES;
     [self.debugWindow makeKeyAndVisible];
@@ -204,7 +204,7 @@ static id __sharedInstance;
 
 - (UIWindow *)getTopWindow
 {
-    return [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+    return [[UIApplication sharedApplication] keyWindow];
 }
 
 #pragma mark - Orientation handling
