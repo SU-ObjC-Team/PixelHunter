@@ -10,7 +10,7 @@
 
 @implementation SUGridRulerViewHorizontal
 
-- (CGRect)rectForLenght:(CGFloat)lenght position:(NSInteger)position
+- (CGRect)rectForLength:(CGFloat)lenght position:(NSInteger)position
 {
     return CGRectMake(position * lenght, 0.0f, lenght, kSURulerSize);
 }

@@ -12,7 +12,7 @@
 @protocol SUGridRulerViewProtocol <NSObject>
 
 @optional
-- (CGRect)rectForLenght:(CGFloat)lenght position:(NSInteger)position;
+- (CGRect)rectForLength:(CGFloat)lenght position:(NSInteger)position;
 - (CGFloat)maxLengthForRect:(CGRect)rect;
 
 @end

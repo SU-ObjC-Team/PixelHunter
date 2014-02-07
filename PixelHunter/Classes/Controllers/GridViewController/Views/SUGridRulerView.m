@@ -31,7 +31,7 @@ static const CGFloat kSURulerLabelsFontSize = 11.0f;
     if (cellDrawnSize > 0.0f) {
 
         for (NSInteger i = 0; i <= maxLength / cellDrawnSize; i++) {
-            CGRect rect = [self rectForLenght:cellDrawnSize position:i];
+            CGRect rect = [self rectForLength:cellDrawnSize position:i];
             NSString *numberString = [NSString stringWithFormat:@" %.0f", i * cellWidth];
             [self drawNumbersInRect:rect withNumberString:numberString];
         }
@@ -55,12 +55,12 @@ static const CGFloat kSURulerLabelsFontSize = 11.0f;
 {
     CGFloat result = 0.0f;
 
-    CGFloat maxLenght = [self maxLengthForRect:rect];
-    CGFloat lenght = maxLenght / self.scale;
+    CGFloat maxLength = [self maxLengthForRect:rect];
+    CGFloat length = maxLength / self.scale;
 
     for (NSInteger i = 0; i < kSUSizesLength; i++) {
 
-        CGFloat difference =  maxLenght / (lenght / kSUArrSizes[i]);
+        CGFloat difference =  (kSUArrSizes[i] * maxLength) / length;
         if (difference > kSUMinCellLength && difference < kSUMaxCellLength) {
             result = kSUArrSizes[i];
             break;
