@@ -10,7 +10,6 @@
 		113B3ED41895913500129FF7 /* SUGridRulerViewHorizontal.m in Sources */ = {isa = PBXBuildFile; fileRef = 113B3ED31895913500129FF7 /* SUGridRulerViewHorizontal.m */; };
 		113B3ED71895932D00129FF7 /* SUGridRulerViewVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = 113B3ED61895932D00129FF7 /* SUGridRulerViewVertical.m */; };
 		11CEAC791886E6EB00C8BA29 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 11CEAC731886E6EB00C8BA29 /* InfoPlist.strings */; };
-		11CEAC7A1886E6EB00C8BA29 /* ExamplePixelHunter-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11CEAC751886E6EB00C8BA29 /* ExamplePixelHunter-Info.plist */; };
 		11CEAC7B1886E6EB00C8BA29 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11CEAC771886E6EB00C8BA29 /* Images.xcassets */; };
 		11CEAC7C1886E6EB00C8BA29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC781886E6EB00C8BA29 /* main.m */; };
 		11CEACFF1886E73A00C8BA29 /* SUErrorMarkingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC831886E73A00C8BA29 /* SUErrorMarkingViewController.m */; };
@@ -709,7 +708,6 @@
 				11CEAD571886E73A00C8BA29 /* vertical_separator@2x.png in Resources */,
 				11CEAD3C1886E73A00C8BA29 /* grid_button_active.png in Resources */,
 				11CEAD321886E73A00C8BA29 /* corner_button_active.png in Resources */,
-				11CEAC7A1886E6EB00C8BA29 /* ExamplePixelHunter-Info.plist in Resources */,
 				11CEAD341886E73A00C8BA29 /* email_buton.png in Resources */,
 				11CEAD2C1886E73A00C8BA29 /* corner2_button.png in Resources */,
 				11CEAD2D1886E73A00C8BA29 /* corner2_button@2x.png in Resources */,
@@ -837,7 +835,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "8A015F76-E55E-4C34-A91E-98E88283B41B";
+				PROVISIONING_PROFILE = "81D72946-79C2-40E3-907D-C44F251DFF83";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -872,7 +870,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				PROVISIONING_PROFILE = "8A015F76-E55E-4C34-A91E-98E88283B41B";
+				PROVISIONING_PROFILE = "81D72946-79C2-40E3-907D-C44F251DFF83";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -891,7 +889,7 @@
 				INFOPLIST_FILE = "ExamplePixelHunter/Other sources/ExamplePixelHunter-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = ExamplePixelHunter;
-				PROVISIONING_PROFILE = "8A015F76-E55E-4C34-A91E-98E88283B41B";
+				PROVISIONING_PROFILE = "81D72946-79C2-40E3-907D-C44F251DFF83";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -908,7 +906,7 @@
 				INFOPLIST_FILE = "ExamplePixelHunter/Other sources/ExamplePixelHunter-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = ExamplePixelHunter;
-				PROVISIONING_PROFILE = "8A015F76-E55E-4C34-A91E-98E88283B41B";
+				PROVISIONING_PROFILE = "81D72946-79C2-40E3-907D-C44F251DFF83";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
