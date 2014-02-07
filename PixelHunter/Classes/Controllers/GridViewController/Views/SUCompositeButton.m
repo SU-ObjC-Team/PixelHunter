@@ -66,14 +66,14 @@ static NSString * const kSUSeparatorImageName = @"vertical_separator.png";
 {
     [super layoutSubviews];
     
-    CGSize sz = self.frame.size;
+    CGSize frameSize = self.frame.size;
 
-    self.button.frame = CGRectMake(0.0f, 0.0f, sz.width, sz.height);
+    self.button.frame = CGRectMake(0.0f, 0.0f, frameSize.width, frameSize.height);
     
     self.imageView.center = self.button.center;
     
-    self.separatorImageView.frame = CGRectMake(sz.width - kSUSeparatorWidth, 0.0f,
-                                               kSUSeparatorWidth, sz.height);
+    self.separatorImageView.frame = CGRectMake(frameSize.width - kSUSeparatorWidth, 0.0f,
+                                               kSUSeparatorWidth, frameSize.height);
 }
 
 #pragma mark - Private
@@ -114,7 +114,7 @@ static NSString * const kSUSeparatorImageName = @"vertical_separator.png";
 
 - (void)onTouchUpInside
 {
-    if (self.target && self.action){
+    if (self.target && self.action) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         [self.target performSelector:self.action withObject:self];
