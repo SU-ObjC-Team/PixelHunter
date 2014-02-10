@@ -21,14 +21,14 @@
 
 @implementation SUTextMarkView
 
-- (id)initWithFrame:(CGRect)frame withView:(UIView *)view
+- (id)initWithView:(UIView *)view
 {
-    self = [super initWithFrame:frame withView:view];
+    self = [super initWithView:view];
     if (self) {
         self.autoresizesSubviews = YES;
         
         // Init comment text view
-        self.commentTextView = [[UITextView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
+        self.commentTextView = [[UITextView alloc] init];
         self.placeholderText = NSLocalizedStringFromTable(@"TYPE_YOUR_TEXT_HERE", @"PixelHunter", nil);
         self.commentTextView.text = self.placeholderText;
         self.commentTextView.textColor = [UIColor colorWithWhite:0.7f alpha:1.0f];
@@ -41,6 +41,15 @@
     }
     
     return self;
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    CGSize bounds = self.bounds.size;
+    
+    self.commentTextView.frame = CGRectMake(0.0f, 0.0f, bounds.width, bounds.height);
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text

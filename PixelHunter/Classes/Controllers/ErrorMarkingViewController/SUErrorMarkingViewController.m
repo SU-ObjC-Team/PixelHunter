@@ -131,32 +131,26 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 
 - (void)addMarkView
 {
-    [self addMarkViewWithText:NO];
+    SUMarkView *markView = [[SUMarkView alloc] initWithView:self.rootView];
+    [self addMarkView:markView];
 }
 
 - (void)addTextMarkView
 {
-    [self addMarkViewWithText:YES];
+    SUMarkView *markView = [[SUTextMarkView alloc] initWithView:self.rootView];
+    [self addMarkView:markView];
 }
 
-- (void)addMarkViewWithText:(BOOL)withText
+- (void)addMarkView:(SUMarkView *)markView
 {
     [self stopShakingAnimation];
-    self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = NO;
-    
     [self deactivateAllMarkViews];
 
-    SUMarkView *markView = nil;
-    CGRect markViewFrame = [self nextMarkViewFrame];
-    if (withText) {
-        markView = [[SUTextMarkView alloc] initWithFrame:markViewFrame withView:self.rootView];
-    } else {
-        markView = [[SUMarkView alloc] initWithFrame:markViewFrame withView:self.rootView];
-    }
-    
-    // Setup new marking view
     [self setupMarkView:markView];
+    
     [self.markViewsArray addObject:markView];
+    
+    self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = NO;
 }
 
 - (void)removeMarkView:(UIButton *)sender
@@ -207,6 +201,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 - (void)setupMarkView:(SUMarkView *)markView
 {
     markView.delegate = self;
+    markView.frame = [self nextMarkViewFrame];
     [markView.tapGesture addTarget:self action:@selector(handleTap:)];
     [markView.longPressGesture addTarget:self action:@selector(handleLongPress:)];
     self.rootView.markViewToolbar.widthSlider.value = markView.layer.borderWidth;

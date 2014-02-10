@@ -19,9 +19,9 @@
 
 @implementation SUMarkView
 
-- (id)initWithFrame:(CGRect)frame withView:(UIView *)view
+- (id)initWithView:(UIView *)view
 {
-    self = [super initWithFrame:frame];
+    self = [super init];
     if (self) {
         self.gestureView = view;
         self.backgroundColor = [UIColor clearColor];

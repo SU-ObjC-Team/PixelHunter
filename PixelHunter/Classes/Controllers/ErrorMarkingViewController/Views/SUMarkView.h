@@ -18,7 +18,7 @@
 
 @interface SUMarkView : UIView
 
-- (id)initWithFrame:(CGRect)frame withView:(UIView *)view;
+- (id)initWithView:(UIView *)view;
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
