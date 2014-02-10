@@ -23,8 +23,8 @@
     
     // Uncomment this code for instant enter to UI debug mode while using simulator
     
-    SUPixelHunter *coolTool = [[SUPixelHunter alloc] init];
-    [coolTool performSelector:@selector(showWindowForDebug)];
+    SUPixelHunter *pixelHunter = [[SUPixelHunter alloc] init];
+    [pixelHunter performSelector:@selector(showWindowForDebug)];
 }
 
 @end
