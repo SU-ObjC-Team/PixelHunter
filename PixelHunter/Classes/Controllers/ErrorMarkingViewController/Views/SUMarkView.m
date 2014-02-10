@@ -8,11 +8,19 @@
 
 #import "SUMarkView.h"
 #import "SUPixelHunterConstants.h"
+#import "SUPixelHunterTheme.h"
+
+static NSString * const kSUTransfromrRotationName = @"transform.rotation";
+static const CGFloat kSUTransformRotationValue = 0.05f;
+static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
+static NSString * const kSUCloseButtonName = @"close_button.png";
+static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0f}};
 
 
 @interface SUMarkView ()
 
 @property (nonatomic, strong) UIView *gestureView;
+@property (nonatomic, strong) UIButton *removeButton;
 
 @end
 
@@ -33,18 +41,20 @@
         self.isActive = YES;
         self.selectedColorCenter = CGPointMake(kSUColorViewRect.size.width / 2, kSUColorViewRect.size.height / 2);
         
-        // Init tap gesture
         self.tapGesture = [[UITapGestureRecognizer alloc] init];
         [self addGestureRecognizer:self.tapGesture];
         
-        // Init pan gesture
         self.panGesture = [[UIPanGestureRecognizer alloc] init];
         [self addGestureRecognizer:self.panGesture];
         [self.panGesture addTarget:self action:@selector(handlePan:)];
         
-        // Init long press gesture
         self.longPressGesture = [[UILongPressGestureRecognizer alloc] init];
-        [self addGestureRecognizer:self.longPressGesture];  
+        [self addGestureRecognizer:self.longPressGesture];
+
+        self.removeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.removeButton setBackgroundImage:[UIImage imageNamed:kSUCloseButtonName] forState:UIControlStateNormal];
+        self.removeButton.backgroundColor = [[SUPixelHunterTheme colors] darkGrayBackgroundColor];
+        self.removeButton.frame = kSUMarkViewRemoveButtonFrame;
     }
     
     return self;
@@ -95,6 +105,41 @@
         self.layer.shadowOpacity = 0.0f;
     }
     _isActive = isActive;
+}
+
+#pragma mark - Public
+
+- (void)addShakingAnimationWithTarget:(id)target selector:(SEL)selector
+{
+    CAAnimation *animation = [self shakingViewAnimation];
+    [self.layer addAnimation:animation forKey:kSUShakingAnimationKey];
+    
+    [self.removeButton removeTarget:nil action:nil forControlEvents:UIControlEventAllEvents];
+    [self.removeButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.removeButton];
+}
+
+- (void)removeShakingAnimation
+{
+    [self.layer removeAnimationForKey:kSUShakingAnimationKey];
+    
+    [self.removeButton removeFromSuperview];
+}
+
+#pragma mark - Private
+
+- (CAAnimation *)shakingViewAnimation
+{
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation
+                                      animationWithKeyPath:kSUTransfromrRotationName];
+    NSNumber *value1 = [NSNumber numberWithFloat:-kSUTransformRotationValue];
+    NSNumber *value2 = [NSNumber numberWithFloat:kSUTransformRotationValue];
+    animation.values = [NSArray arrayWithObjects:value1, value2, nil];
+    animation.duration = kSURemovableViewShakeAnimationTime;
+    animation.autoreverses = YES;
+    animation.repeatCount = HUGE_VALF;
+    
+    return animation;
 }
 
 @end

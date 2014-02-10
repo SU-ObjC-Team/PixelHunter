@@ -80,4 +80,14 @@
     [textView resignFirstResponder];
 }
 
+#pragma mark - From base calsses
+
+- (void)removeShakingAnimation
+{
+    [super removeShakingAnimation];
+
+    [self.commentTextView endEditing:YES];
+}
+
+
 @end

@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "SUTextMarkView.h"
 
-static NSString * const kSUShakingAnimationKey = @"shakingAnimation";
-
 @class SUErrorMarkingViewControllerPrivate;
 
 @interface SUErrorMarkingViewController : UIViewController <SUMarkViewDelegate>

@@ -12,17 +12,11 @@
 
 #import "SUShareController.h"
 #import "SUPixelHunterConstants.h"
-#import "SUPixelHunterTheme.h"
 
-static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0f}};
 static CGFloat const kSUMinValidScale = 0.8f;
 static CGFloat const kSUMaxValidScale = 2.0f;
 static CGFloat const kSUScaleRestraintStartValue = 1.5f;
 static CGFloat const kSUMinimumViewSideSize = 25.0f;
-static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
-static NSString * const kSUCloseButtonName = @"close_button.png";
-static NSString * const kSUTransfromrRotationName = @"transform.rotation";
-static const CGFloat kSUTransformRotationValue = 0.05f;
 
 
 @interface SUErrorMarkingViewController () <UIGestureRecognizerDelegate,
@@ -164,33 +158,9 @@ static const CGFloat kSUTransformRotationValue = 0.05f;
     [self makeViewActiveWithRecognizer:recognizer];
     [self switchMarkViewCornerTypeOnView:recognizer.view];
     
-    for (SUMarkView *subview in [self.privateProperties.rootView subviews]) {
-        if ([subview isKindOfClass:[SUMarkView class]]) {
-            [subview.layer addAnimation:[self shakingViewAnimation] forKey:kSUShakingAnimationKey];
-            
-            // Init remove mark view button
-            UIButton *removeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            [removeButton setBackgroundImage:[UIImage imageNamed:kSUCloseButtonName] forState:UIControlStateNormal];
-            removeButton.backgroundColor = [[SUPixelHunterTheme colors] darkGrayBackgroundColor];
-            removeButton.frame = kSUMarkViewRemoveButtonFrame;
-            [removeButton addTarget:self action:@selector(removeMarkView:) forControlEvents:UIControlEventTouchUpInside];
-            [subview addSubview:removeButton];
-        }
+    for (SUMarkView *subview in self.privateProperties.markViewsArray) {
+        [subview addShakingAnimationWithTarget:self selector:@selector(removeMarkView:)];
     }
-}
-
-- (CAAnimation *)shakingViewAnimation
-{
-    CAKeyframeAnimation *animation = [CAKeyframeAnimation
-                                      animationWithKeyPath:kSUTransfromrRotationName];
-    NSNumber *value1 = [NSNumber numberWithFloat:-kSUTransformRotationValue];
-    NSNumber *value2 = [NSNumber numberWithFloat:kSUTransformRotationValue];
-    animation.values = [NSArray arrayWithObjects:value1, value2, nil];
-    animation.duration = kSURemovableViewShakeAnimationTime;
-    animation.autoreverses = YES;
-    animation.repeatCount = HUGE_VALF;
-
-    return animation;
 }
 
 #pragma mark - Handle tap and pan gestures

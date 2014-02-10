@@ -101,18 +101,8 @@ static CGRect const kSUMarkViewFrame = {{50.0f, 50.0f}, {150.0f, 150.0f}};
 
 - (void)stopShakingAnimation
 {
-    for (SUMarkView *subview in [self.view subviews]) {
-        if ([subview isKindOfClass:[SUMarkView class]]) {
-            [subview.layer removeAnimationForKey:kSUShakingAnimationKey];
-            for (UIButton *button in [subview subviews]) {
-                if ([button isKindOfClass:[UIButton class]]) {
-                    [button removeFromSuperview];
-                }
-                if ([subview isKindOfClass:[SUTextMarkView class]]) {
-                    [((SUTextMarkView *)subview).commentTextView endEditing:YES];
-                }
-            }
-        }
+    for (SUMarkView *subview in self.privateProperties.markViewsArray) {
+        [subview removeShakingAnimation];
     }
 }
 

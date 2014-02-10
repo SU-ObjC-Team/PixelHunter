@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * const kSUShakingAnimationKey = @"shakingAnimation";
 
 @protocol SUMarkViewDelegate <NSObject>
 
@@ -19,6 +20,8 @@
 @interface SUMarkView : UIView
 
 - (id)initWithView:(UIView *)view;
+- (void)addShakingAnimationWithTarget:(id)target selector:(SEL)selector;
+- (void)removeShakingAnimation;
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
