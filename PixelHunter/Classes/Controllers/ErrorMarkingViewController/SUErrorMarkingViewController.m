@@ -29,6 +29,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
                                             SUMarkColorViewDelegate>
 
 @property (nonatomic, strong) UIImage *screenshotImage;
+@property (nonatomic, strong) NSMutableArray *markViewsArray;
 @property (nonatomic, strong) SUErrorMarkingView *rootView;
 @property (nonatomic, strong) SUShareController *shareController;
 @property (nonatomic, assign) CGFloat horizontalScale;
@@ -61,6 +62,8 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.markViewsArray = [NSMutableArray array];
     
     [self subscribeForKeyboardAppearance];
     [self initShareController];
@@ -124,47 +127,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
                                                object:nil];
 }
 
-#pragma mark - Add marking notes
-
-- (void)addMarkViewWithText:(BOOL)withText
-{
-    [self stopShakingAnimation];
-    self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = NO;
-    
-    // Set start position for new mark view
-    SUMarkView *markView;
-    CGRect markViewFrame = kSUMarkViewFrame;
-    for (SUMarkView *subView in [self.rootView subviews]) {
-        if ([subView isKindOfClass:[SUMarkView class]]) {
-            if (subView.isActive) {
-                CGFloat x = subView.frame.origin.x + kSUNewMarkViewIndent;
-                CGFloat y = subView.frame.origin.y + kSUNewMarkViewIndent;
-                markViewFrame.origin = CGPointMake(x, y);
-            }
-        }
-    }
-    
-    // Make other views inactive
-    for (SUMarkView *subView in [self.rootView subviews]) {
-        if ([subView isKindOfClass:[SUMarkView class]]) {
-            subView.isActive = NO;
-        }
-    }
-    
-    if (withText) {
-        markView = [[SUTextMarkView alloc] initWithFrame:markViewFrame withView:self.rootView];
-    } else {
-        markView = [[SUMarkView alloc] initWithFrame:markViewFrame withView:self.rootView];
-    }
-    
-    // Setup new marking view
-    markView.delegate = self;
-    [markView.tapGesture addTarget:self action:@selector(handleTap:)];
-    [markView.longPressGesture addTarget:self action:@selector(handleLongPress:)];
-    self.rootView.markViewToolbar.widthSlider.value = markView.layer.borderWidth;
-    self.rootView.markViewToolbar.cornerTypeButton.state = SUCompositeButtonStateNormal;
-    [self.rootView insertSubview:markView belowSubview:self.rootView.errorMarkingToolbar];
-}
+#pragma mark - Marking views methods
 
 - (void)addMarkView
 {
@@ -174,6 +137,81 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 - (void)addTextMarkView
 {
     [self addMarkViewWithText:YES];
+}
+
+- (void)addMarkViewWithText:(BOOL)withText
+{
+    [self stopShakingAnimation];
+    self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = NO;
+    
+    [self deactivateAllMarkViews];
+
+    SUMarkView *markView = nil;
+    CGRect markViewFrame = [self nextMarkViewFrame];
+    if (withText) {
+        markView = [[SUTextMarkView alloc] initWithFrame:markViewFrame withView:self.rootView];
+    } else {
+        markView = [[SUMarkView alloc] initWithFrame:markViewFrame withView:self.rootView];
+    }
+    
+    // Setup new marking view
+    [self setupMarkView:markView];
+    [self.markViewsArray addObject:markView];
+}
+
+- (void)removeMarkView:(UIButton *)sender
+{
+    SUMarkView *markView = (SUMarkView *)sender.superview;
+    [markView removeFromSuperview];
+    [self.markViewsArray removeObject:markView];
+    
+    if ([self.markViewsArray count] == 0) {
+        self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = YES;
+    }
+}
+
+- (CGRect)nextMarkViewFrame
+{
+    CGRect markViewFrame = [[self.markViewsArray lastObject] frame];
+    markViewFrame.origin = CGPointMake(markViewFrame.origin.x + kSUNewMarkViewIndent,
+                                       markViewFrame.origin.y + kSUNewMarkViewIndent);
+    if ([self isMarkViewFrameValid:markViewFrame] == NO) {
+        markViewFrame = kSUMarkViewFrame;
+    }
+
+    return markViewFrame;
+}
+
+- (BOOL)isMarkViewFrameValid:(CGRect)markViewFrame
+{
+    BOOL isFrameValid = YES;
+    
+    CGRect rootFrame = self.view.frame;
+    if (markViewFrame.size.width <= 0.0f || markViewFrame.size.height <= 0.0f ||
+        markViewFrame.origin.x >= rootFrame.size.width ||
+        markViewFrame.origin.y >= rootFrame.size.height) {
+
+        isFrameValid = NO;
+    }
+    
+    return isFrameValid;
+}
+
+- (void)deactivateAllMarkViews
+{
+    for (SUMarkView *subView in self.markViewsArray) {
+        subView.isActive = NO;
+    }
+}
+
+- (void)setupMarkView:(SUMarkView *)markView
+{
+    markView.delegate = self;
+    [markView.tapGesture addTarget:self action:@selector(handleTap:)];
+    [markView.longPressGesture addTarget:self action:@selector(handleLongPress:)];
+    self.rootView.markViewToolbar.widthSlider.value = markView.layer.borderWidth;
+    self.rootView.markViewToolbar.cornerTypeButton.state = SUCompositeButtonStateNormal;
+    [self.rootView insertSubview:markView belowSubview:self.rootView.errorMarkingToolbar];
 }
 
 - (void)showPreviousViewController
@@ -224,21 +262,6 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
             removeButton.frame = kSUMarkViewRemoveButtonFrame;
             [removeButton addTarget:self action:@selector(removeMarkView:) forControlEvents:UIControlEventTouchUpInside];
             [subview addSubview:removeButton];
-        }
-    }
-}
-
-- (void)removeMarkView:(UIButton *)sender
-{
-    [sender.superview removeFromSuperview];
-    self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = YES;
-    
-    for (SUMarkView *subview in [self.rootView subviews]) {
-        
-        if ([subview isKindOfClass:[SUMarkView class]]) {
-            
-            self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = NO;
-            break;
         }
     }
 }
