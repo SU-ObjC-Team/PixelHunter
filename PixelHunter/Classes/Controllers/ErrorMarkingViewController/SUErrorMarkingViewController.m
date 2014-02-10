@@ -8,10 +8,8 @@
 
 #import "SUErrorMarkingViewController.h"
 #import "SUErrorMarkingView.h"
-#import "SUMarkView.h"
 #import "SUShareController.h"
 #import "SUPixelHunterConstants.h"
-#import "SUMarkColorView.h"
 #import "SUTextMarkView.h"
 #import "SUPixelHunterTheme.h"
 
@@ -25,7 +23,10 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 static CGFloat const kSUNewMarkViewIndent = 20.0f;
 static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 
-@interface SUErrorMarkingViewController () <UIGestureRecognizerDelegate, SUMarkViewDelegate, SUMarkColorViewDelegate>
+
+@interface SUErrorMarkingViewController () <UIGestureRecognizerDelegate,
+                                            SUMarkViewDelegate,
+                                            SUMarkColorViewDelegate>
 
 @property (nonatomic, strong) UIImage *screenshotImage;
 @property (nonatomic, strong) SUErrorMarkingView *rootView;
@@ -33,7 +34,6 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 @property (nonatomic, assign) CGFloat horizontalScale;
 @property (nonatomic, assign) CGFloat verticalScale;
 @property (nonatomic, assign) CGRect tempTextMarkViewRect;
-@property (nonatomic, readwrite) BOOL isKeyboardShown;
 
 @end
 
@@ -63,34 +63,45 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
     [super viewDidLoad];
     
     [self subscribeForKeyboardAppearance];
-    
-    // Init menu views array
+    [self initShareController];
+    [self initErrorMarkingToolbarActions];
+    [self initMarkViewToolbar];
+    [self addGestureRecognizers];
+}
+
+- (void)initShareController
+{
     NSArray *menuViewsArray = @[self.rootView.errorMarkingToolbar,
                                 self.rootView.markViewToolbar];
-    // Init share controller
+
     self.shareController = [[SUShareController alloc] initWithToolbar:self.rootView.errorMarkingToolbar
                                                    withMenuViewsArray:menuViewsArray
                                                      onViewController:self];
-    
-    // Error marking toolbar actions
-    [self.rootView.errorMarkingToolbar.addMarkingViewButton addTarget:self
-                                                                       action:@selector(addMarkView)];
-    [self.rootView.errorMarkingToolbar.addTextMarkingViewButton addTarget:self
-                                                                           action:@selector(addTextMarkView)];
-    [self.rootView.errorMarkingToolbar.backButton addTarget:self
-                                                             action:@selector(showPreviousViewController)];
-    
-    // Error marking view gestures
+}
+
+- (void)initErrorMarkingToolbarActions
+{
+    SUErrorMarkingToolbar *toolbar = self.rootView.errorMarkingToolbar;
+
+    [toolbar.addMarkingViewButton addTarget:self action:@selector(addMarkView)];
+    [toolbar.addTextMarkingViewButton addTarget:self action:@selector(addTextMarkView)];
+    [toolbar.backButton addTarget:self action:@selector(showPreviousViewController)];
+}
+
+- (void)initMarkViewToolbar
+{
+    SUMarkViewToolbar *toolbar = self.rootView.markViewToolbar;
+    [toolbar.cornerTypeButton addTarget:self action:@selector(switchMarkViewCornerType)];
+    toolbar.markColorView.delegate = self;
+    [toolbar.widthSlider addTarget:self
+                            action:@selector(changeBorderWidth:)
+                  forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)addGestureRecognizers
+{
     [self.rootView.pinchGesture addTarget:self action:@selector(handlePinch:)];
     [self.rootView.tapGesture addTarget:self action:@selector(stopShakingAnimation)];
-    
-    // Mark view toolbar
-    [self.rootView.markViewToolbar.cornerTypeButton addTarget:self
-                                                               action:@selector(switchMarkViewCornerType)];
-    [self.rootView.markViewToolbar.widthSlider addTarget:self
-                                         action:@selector(changeBorderWidth:)
-                               forControlEvents:UIControlEventValueChanged];
-    self.rootView.markViewToolbar.markColorView.delegate = self;
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -126,7 +137,9 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
     for (SUMarkView *subView in [self.rootView subviews]) {
         if ([subView isKindOfClass:[SUMarkView class]]) {
             if (subView.isActive) {
-                markViewFrame.origin = CGPointMake(subView.frame.origin.x + kSUNewMarkViewIndent, subView.frame.origin.y + kSUNewMarkViewIndent);
+                CGFloat x = subView.frame.origin.x + kSUNewMarkViewIndent;
+                CGFloat y = subView.frame.origin.y + kSUNewMarkViewIndent;
+                markViewFrame.origin = CGPointMake(x, y);
             }
         }
     }
@@ -232,13 +245,15 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 
 - (CAAnimation *)shakingViewAnimation
 {
-    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation"];
-    animation.values = [NSArray arrayWithObjects:[NSNumber numberWithFloat:-0.05f],
-                        [NSNumber numberWithFloat:0.05f],
-                        nil];
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation
+                                      animationWithKeyPath:@"transform.rotation"];
+    NSNumber *value1 = [NSNumber numberWithFloat:-0.05f];
+    NSNumber *value2 = [NSNumber numberWithFloat:0.05f];
+    animation.values = [NSArray arrayWithObjects:value1, value2, nil];
     animation.duration = kSURemovableViewShakeAnimationTime;
     animation.autoreverses = YES;
     animation.repeatCount = HUGE_VALF;
+
     return animation;
 }
 
