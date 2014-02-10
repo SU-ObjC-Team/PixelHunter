@@ -29,12 +29,17 @@
     [super drawRect:rect];
 
     CGColorRef lineColor = [UIColor colorWithWhite:0.5f alpha:0.5f].CGColor;
-    CGContextRef context = UIGraphicsGetCurrentContext();
     
-    // Draw vertical lines
+    [self drawVerticalLinesWithColor:lineColor];
+    [self drawHorizontalLinesWithColor:lineColor];
+}
+
+- (void)drawVerticalLinesWithColor:(CGColorRef)lineColor
+{
     CGFloat coord = 0.0f;
     CGFloat startCoord = self.startPoint.x;
     NSInteger numberOfLines = self.frame.size.width / self.gridStepSize + 1;
+    CGContextRef context = UIGraphicsGetCurrentContext();
     
     for (NSInteger i = 0; i < numberOfLines; i++) {
         CGPoint startPoint = CGPointMake(coord + startCoord, 0);
@@ -43,11 +48,14 @@
                           withEndPoint:endPoint withColor:lineColor];
         coord += self.gridStepSize;
     }
-    
-    // Draw horizontal lines
-    coord = 0.0f;
-    startCoord = self.startPoint.y;
-    numberOfLines = self.frame.size.height / self.gridStepSize + 1;
+}
+
+- (void)drawHorizontalLinesWithColor:(CGColorRef)lineColor
+{
+    CGFloat coord = 0.0f;
+    CGFloat startCoord = self.startPoint.y;
+    NSInteger numberOfLines = self.frame.size.height / self.gridStepSize + 1;
+    CGContextRef context = UIGraphicsGetCurrentContext();
     
     for (NSInteger i = 0; i < numberOfLines; i++) {
         CGPoint startPoint = CGPointMake(0, coord + startCoord);
