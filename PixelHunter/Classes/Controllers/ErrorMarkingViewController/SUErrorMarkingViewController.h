@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SUTextMarkView.h"
-
-@class SUErrorMarkingViewControllerPrivate;
+#import "SUErrorMarkingView.h"
 
 @interface SUErrorMarkingViewController : UIViewController <SUMarkViewDelegate>
 
@@ -17,6 +16,7 @@
 - (void)handleTap:(UITapGestureRecognizer *)recognizer;
 - (void)handleLongPress:(UILongPressGestureRecognizer *)recognizer;
 
-@property (nonatomic, strong) SUErrorMarkingViewControllerPrivate *privateProperties;
+@property (nonatomic, strong) NSMutableArray *markViewsArray;
+@property (nonatomic, strong) SUErrorMarkingView *rootView;
 
 @end

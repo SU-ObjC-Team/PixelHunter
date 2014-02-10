@@ -10,7 +10,6 @@
 		113B3ED41895913500129FF7 /* SUGridRulerViewHorizontal.m in Sources */ = {isa = PBXBuildFile; fileRef = 113B3ED31895913500129FF7 /* SUGridRulerViewHorizontal.m */; };
 		113B3ED71895932D00129FF7 /* SUGridRulerViewVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = 113B3ED61895932D00129FF7 /* SUGridRulerViewVertical.m */; };
 		11CC2C5218A954910067E0BF /* SUErrorMarkingViewController+MarkingViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CC2C5118A954910067E0BF /* SUErrorMarkingViewController+MarkingViews.m */; };
-		11CC2C5518A95A700067E0BF /* SUErrorMarkingViewControllerPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CC2C5418A95A700067E0BF /* SUErrorMarkingViewControllerPrivate.m */; };
 		11CEAC791886E6EB00C8BA29 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 11CEAC731886E6EB00C8BA29 /* InfoPlist.strings */; };
 		11CEAC7B1886E6EB00C8BA29 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11CEAC771886E6EB00C8BA29 /* Images.xcassets */; };
 		11CEAC7C1886E6EB00C8BA29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC781886E6EB00C8BA29 /* main.m */; };
@@ -121,8 +120,6 @@
 		113B3ED61895932D00129FF7 /* SUGridRulerViewVertical.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUGridRulerViewVertical.m; sourceTree = "<group>"; };
 		11CC2C5018A954910067E0BF /* SUErrorMarkingViewController+MarkingViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SUErrorMarkingViewController+MarkingViews.h"; sourceTree = "<group>"; };
 		11CC2C5118A954910067E0BF /* SUErrorMarkingViewController+MarkingViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SUErrorMarkingViewController+MarkingViews.m"; sourceTree = "<group>"; };
-		11CC2C5318A95A700067E0BF /* SUErrorMarkingViewControllerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUErrorMarkingViewControllerPrivate.h; sourceTree = "<group>"; };
-		11CC2C5418A95A700067E0BF /* SUErrorMarkingViewControllerPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUErrorMarkingViewControllerPrivate.m; sourceTree = "<group>"; };
 		11CEAC741886E6EB00C8BA29 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		11CEAC751886E6EB00C8BA29 /* ExamplePixelHunter-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ExamplePixelHunter-Info.plist"; sourceTree = "<group>"; };
 		11CEAC761886E6EB00C8BA29 /* ExamplePixelHunter-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ExamplePixelHunter-Prefix.pch"; sourceTree = "<group>"; };
@@ -328,8 +325,6 @@
 				11CEAC831886E73A00C8BA29 /* SUErrorMarkingViewController.m */,
 				11CC2C5018A954910067E0BF /* SUErrorMarkingViewController+MarkingViews.h */,
 				11CC2C5118A954910067E0BF /* SUErrorMarkingViewController+MarkingViews.m */,
-				11CC2C5318A95A700067E0BF /* SUErrorMarkingViewControllerPrivate.h */,
-				11CC2C5418A95A700067E0BF /* SUErrorMarkingViewControllerPrivate.m */,
 				11CEAC841886E73A00C8BA29 /* SUShareController.h */,
 				11CEAC851886E73A00C8BA29 /* SUShareController.m */,
 				11CEAC861886E73A00C8BA29 /* Views */,
@@ -743,7 +738,6 @@
 				11CEAD161886E73A00C8BA29 /* SUPixelHunter.m in Sources */,
 				11CEAD021886E73A00C8BA29 /* SUErrorMarkingToolbar.m in Sources */,
 				11CEAD0E1886E73A00C8BA29 /* SUGridUnderLayerView.m in Sources */,
-				11CC2C5518A95A700067E0BF /* SUErrorMarkingViewControllerPrivate.m in Sources */,
 				11CEAD061886E73A00C8BA29 /* SUMarkViewToolbar.m in Sources */,
 				11CEAD151886E73A00C8BA29 /* SUZGestureView.m in Sources */,
 				11CEAD091886E73A00C8BA29 /* SUGridViewController.m in Sources */,

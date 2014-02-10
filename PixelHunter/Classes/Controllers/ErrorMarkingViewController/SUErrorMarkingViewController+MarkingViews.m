@@ -7,7 +7,6 @@
 //
 
 #import "SUErrorMarkingViewController+MarkingViews.h"
-#import "SUErrorMarkingViewControllerPrivate.h"
 
 
 static CGFloat const kSUNewMarkViewIndent = 20.0f;
@@ -36,25 +35,25 @@ static CGRect const kSUMarkViewFrame = {{50.0f, 50.0f}, {150.0f, 150.0f}};
     
     [self setupMarkView:markView];
     
-    [self.privateProperties.markViewsArray addObject:markView];
+    [self.markViewsArray addObject:markView];
     
-    self.privateProperties.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = NO;
+    self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = NO;
 }
 
 - (void)removeMarkView:(UIButton *)sender
 {
     SUMarkView *markView = (SUMarkView *)sender.superview;
     [markView removeFromSuperview];
-    [self.privateProperties.markViewsArray removeObject:markView];
+    [self.markViewsArray removeObject:markView];
     
-    if ([self.privateProperties.markViewsArray count] == 0) {
-        self.privateProperties.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = YES;
+    if ([self.markViewsArray count] == 0) {
+        self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = YES;
     }
 }
 
 - (CGRect)nextMarkViewFrame
 {
-    CGRect markViewFrame = [[self.privateProperties.markViewsArray lastObject] frame];
+    CGRect markViewFrame = [[self.markViewsArray lastObject] frame];
     markViewFrame.origin = CGPointMake(markViewFrame.origin.x + kSUNewMarkViewIndent,
                                        markViewFrame.origin.y + kSUNewMarkViewIndent);
     if ([self isMarkViewFrameValid:markViewFrame] == NO) {
@@ -81,14 +80,14 @@ static CGRect const kSUMarkViewFrame = {{50.0f, 50.0f}, {150.0f, 150.0f}};
 
 - (void)deactivateAllMarkViews
 {
-    for (SUMarkView *subView in self.privateProperties.markViewsArray) {
+    for (SUMarkView *subView in self.markViewsArray) {
         subView.isActive = NO;
     }
 }
 
 - (void)setupMarkView:(SUMarkView *)markView
 {
-    SUErrorMarkingView *rootView = self.privateProperties.rootView;
+    SUErrorMarkingView *rootView = self.rootView;
 
     markView.delegate = self;
     markView.frame = [self nextMarkViewFrame];
@@ -101,7 +100,7 @@ static CGRect const kSUMarkViewFrame = {{50.0f, 50.0f}, {150.0f, 150.0f}};
 
 - (void)stopShakingAnimation
 {
-    for (SUMarkView *subview in self.privateProperties.markViewsArray) {
+    for (SUMarkView *subview in self.markViewsArray) {
         [subview removeShakingAnimation];
     }
 }
