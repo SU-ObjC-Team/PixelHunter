@@ -9,6 +9,10 @@
 #import "SUErrorMarkingView.h"
 #import "SUPixelHunterConstants.h"
 
+static CGFloat const kSUToolbarWidth = 88.0f;
+static CGFloat const kSUToolbarHeight = 315.0f;
+
+
 @interface SUErrorMarkingView ()
 
 @property (nonatomic, strong) UIImageView *screenshotImageView;
@@ -22,21 +26,17 @@
 {
     self = [super init];
     if (self) {
-        // Init screenshot image view
         self.screenshotImageView = [[UIImageView alloc] initWithImage:screenshotImage];
         self.screenshotImageView.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:self.screenshotImageView];
         
-        // Init tapGesture
         self.tapGesture = [[UITapGestureRecognizer alloc] init];
         [self addGestureRecognizer:self.tapGesture];
         [self.tapGesture addTarget:self action:@selector(viewTapped)];
         
-        // Init pinch gesture
         self.pinchGesture = [[UIPinchGestureRecognizer alloc] init];
         [self addGestureRecognizer:self.pinchGesture];
 
-        // Init error marking toolbar
         self.errorMarkingToolbar = [[SUErrorMarkingToolbar alloc] init];
         self.errorMarkingToolbar.hidden = YES;
         CGSize sz = [[UIScreen mainScreen] bounds].size;
@@ -54,8 +54,8 @@
         self.markViewToolbar = [[SUMarkViewToolbar alloc] init];
         self.markViewToolbar.hidden = YES;
         self.markViewToolbar.frame = CGRectMake(sz.width,
-                                                (sz.height - kSUMarkViewToolbarHeight) / 2.0f,
-                                                kSUMarkViewToolbarWidth, kSUMarkViewToolbarHeight);
+                                                (sz.height - kSUToolbarHeight) / 2.0f,
+                                                kSUToolbarWidth, kSUToolbarHeight);
         [self addSubview:self.markViewToolbar];
         
         // Init button actions
@@ -70,79 +70,103 @@
 
 - (void)layoutSubviews
 {
-    CGSize sz = [super bounds].size;
+    CGSize imageSize = self.screenshotImageView.image.size;
     
-    // Layout screenshot image view
-    self.screenshotImageView.frame = CGRectMake(0.0f, 0.0f, sz.width, sz.height);
+    self.screenshotImageView.frame = CGRectMake(0.0f, 0.0f,
+                                                imageSize.width,
+                                                imageSize.height);
 }
+
+#pragma mark - Toolbar show/hide
 
 - (void)showMarkingViewToolbar
 {
-    CGSize sz = self.frame.size;
-    
     if (self.markViewToolbar.isHidden) {
-        self.markViewToolbar.hidden = NO;
-        [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-            self.markViewToolbar.frame = CGRectMake(sz.width - kSUMarkViewToolbarWidth / 2.0f,
-                                                    (sz.height - kSUMarkViewToolbarHeight) / 2.0f,
-                                                    kSUMarkViewToolbarWidth, kSUMarkViewToolbarHeight);
-        }];
+        [self showToolbarAnimated];
     } else {
-        [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-            self.markViewToolbar.frame = CGRectMake(sz.width,
-                                                    (sz.height - kSUMarkViewToolbarHeight) / 2.0f,
-                                                    kSUMarkViewToolbarWidth, kSUMarkViewToolbarHeight);
-        } completion:^(BOOL finished) {
-            self.markViewToolbar.hidden = YES;
-            self.markViewToolbar.widthSlider.hidden = YES;
-            self.markViewToolbar.markColorView.hidden = YES;
-        }];
+        [self hideToolbarAnimated];
     }
 }
 
+- (void)showToolbarAnimated
+{
+    self.markViewToolbar.hidden = NO;
+    [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
+        CGRect newRect = self.markViewToolbar.frame;
+        newRect.origin.x -= newRect.size.width / 2.0f;
+        self.markViewToolbar.frame = newRect;
+    }];
+}
+
+- (void)hideToolbarAnimated
+{
+    CGSize sz = self.frame.size;
+
+    [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
+        CGRect newRect = self.markViewToolbar.frame;
+        newRect.origin.x = sz.width;
+        self.markViewToolbar.frame = newRect;
+    } completion:^(BOOL finished) {
+        self.markViewToolbar.hidden = YES;
+        self.markViewToolbar.widthSlider.hidden = YES;
+        self.markViewToolbar.markColorView.hidden = YES;
+    }];
+}
+
+#pragma mark - Slider show/hide
+
 - (void)showSlider:(SUMarkViewToolbarCompositeButton *)button
 {
-    if (!self.markViewToolbar.markColorView.hidden) {
+    if (self.markViewToolbar.markColorView.hidden) {
+        [self showSliderAnimatedWithButton:button];
+    } else {
+        [self hideSliderAnimatedWithButton:button];
+    }
+}
+
+- (void)hideSliderAnimatedWithButton:(SUMarkViewToolbarCompositeButton *)button
+{
+    [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
+        CGRect newFrame = self.markViewToolbar.frame;
+        self.markViewToolbar.frame = CGRectMake(newFrame.origin.x + kSUToolbarWidth / 2.0f,
+                                                newFrame.origin.y,
+                                                newFrame.size.width, newFrame.size.height);
+    } completion:^(BOOL finished) {
+        [self showSeparatorWithButton:button];
+        self.markViewToolbar.markColorView.hidden = YES;
+        self.markViewToolbar.widthSlider.hidden = NO;
         [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
             CGRect newFrame = self.markViewToolbar.frame;
-            self.markViewToolbar.frame = CGRectMake(newFrame.origin.x + kSUMarkViewToolbarWidth / 2.0f,
+            self.markViewToolbar.frame = CGRectMake(newFrame.origin.x - kSUToolbarWidth / 2.0f,
+                                                    newFrame.origin.y,
+                                                    newFrame.size.width, newFrame.size.height);
+        }];
+        
+    }];
+}
+
+- (void)showSliderAnimatedWithButton:(SUMarkViewToolbarCompositeButton *)button
+{
+    if (self.markViewToolbar.widthSlider.hidden) {
+        self.markViewToolbar.widthSlider.hidden = NO;
+        [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
+            CGRect newFrame = self.markViewToolbar.frame;
+            self.markViewToolbar.frame = CGRectMake(newFrame.origin.x - kSUToolbarWidth / 2.0f,
                                                     newFrame.origin.y,
                                                     newFrame.size.width, newFrame.size.height);
         } completion:^(BOOL finished) {
             [self showSeparatorWithButton:button];
-            self.markViewToolbar.markColorView.hidden = YES;
-            self.markViewToolbar.widthSlider.hidden = NO;
-            [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-                CGRect newFrame = self.markViewToolbar.frame;
-                self.markViewToolbar.frame = CGRectMake(newFrame.origin.x - kSUMarkViewToolbarWidth / 2.0f,
-                                                        newFrame.origin.y,
-                                                        newFrame.size.width, newFrame.size.height);
-            }];
-
         }];
-
+        
     } else {
-        if (self.markViewToolbar.widthSlider.hidden) {
-            self.markViewToolbar.widthSlider.hidden = NO;
-            [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-                CGRect newFrame = self.markViewToolbar.frame;
-                self.markViewToolbar.frame = CGRectMake(newFrame.origin.x - kSUMarkViewToolbarWidth / 2.0f,
-                                                                         newFrame.origin.y,
-                                                                         newFrame.size.width, newFrame.size.height);
-            } completion:^(BOOL finished) {
-                [self showSeparatorWithButton:button];
-            }];
-            
-        } else {
-            [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-                CGRect newFrame = self.markViewToolbar.frame;
-                self.markViewToolbar.frame = CGRectMake(newFrame.origin.x + kSUMarkViewToolbarWidth / 2.0f,
-                                                                         newFrame.origin.y,
-                                                                         newFrame.size.width, newFrame.size.height);
-            } completion:^(BOOL finished) {
-                self.markViewToolbar.widthSlider.hidden = YES;
-            }];
-        }
+        [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
+            CGRect newFrame = self.markViewToolbar.frame;
+            self.markViewToolbar.frame = CGRectMake(newFrame.origin.x + kSUToolbarWidth / 2.0f,
+                                                    newFrame.origin.y,
+                                                    newFrame.size.width, newFrame.size.height);
+        } completion:^(BOOL finished) {
+            self.markViewToolbar.widthSlider.hidden = YES;
+        }];
     }
 }
 
@@ -151,7 +175,7 @@
     if (!self.markViewToolbar.widthSlider.hidden) {
         [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
             CGRect newFrame = self.markViewToolbar.frame;
-            self.markViewToolbar.frame = CGRectMake(newFrame.origin.x + kSUMarkViewToolbarWidth / 2.0f,
+            self.markViewToolbar.frame = CGRectMake(newFrame.origin.x + kSUToolbarWidth / 2.0f,
                                                     newFrame.origin.y,
                                                     newFrame.size.width, newFrame.size.height);
         } completion:^(BOOL finished) {
@@ -160,7 +184,7 @@
             self.markViewToolbar.markColorView.hidden = NO;
             [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
                 CGRect newFrame = self.markViewToolbar.frame;
-                self.markViewToolbar.frame = CGRectMake(newFrame.origin.x - kSUMarkViewToolbarWidth / 2.0f,
+                self.markViewToolbar.frame = CGRectMake(newFrame.origin.x - kSUToolbarWidth / 2.0f,
                                                         newFrame.origin.y,
                                                         newFrame.size.width, newFrame.size.height);
             }];
@@ -170,7 +194,7 @@
             self.markViewToolbar.markColorView.hidden = NO;
             [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
                 CGRect newFrame = self.markViewToolbar.frame;
-                self.markViewToolbar.frame = CGRectMake(newFrame.origin.x - kSUMarkViewToolbarWidth / 2.0f,
+                self.markViewToolbar.frame = CGRectMake(newFrame.origin.x - kSUToolbarWidth / 2.0f,
                                                         newFrame.origin.y,
                                                         newFrame.size.width, newFrame.size.height);
             } completion:^(BOOL finished) {
@@ -180,7 +204,7 @@
         } else {
             [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
                 CGRect newFrame = self.markViewToolbar.frame;
-                self.markViewToolbar.frame = CGRectMake(newFrame.origin.x + kSUMarkViewToolbarWidth / 2.0f,
+                self.markViewToolbar.frame = CGRectMake(newFrame.origin.x + kSUToolbarWidth / 2.0f,
                                                         newFrame.origin.y,
                                                         newFrame.size.width, newFrame.size.height);
             } completion:^(BOOL finished) {
@@ -232,8 +256,8 @@
                                                 sz.height - toolbarSize.height + kSUToolBarHeight,
                                                 toolbarSize.width, toolbarSize.height);
                 self.markViewToolbar.frame = CGRectMake(sz.width,
-                                                        (sz.height - kSUMarkViewToolbarHeight) / 2.0f,
-                                                        kSUMarkViewToolbarWidth, kSUMarkViewToolbarHeight);
+                                                        (sz.height - kSUToolbarHeight) / 2.0f,
+                                                        kSUToolbarWidth, kSUToolbarHeight);
             }
         } completion:^(BOOL finished) {
             self.errorMarkingToolbar.hidden = YES;

@@ -11,6 +11,9 @@
 #import "SUPixelHunterTheme.h"
 
 static CGFloat const kSUButtonIndent = 5.0f;
+static CGFloat const kSUButtonWidth = 65.0f;
+static CGFloat const kSUButtonHeight = 48.0f;
+
 
 @implementation SUErrorMarkingToolbar
 
@@ -76,24 +79,19 @@ static CGFloat const kSUButtonIndent = 5.0f;
 {
     [super layoutSubviews];
     
-    // Layout back button
-    self.backButton.frame = CGRectMake(0.0f, 0.0f, kSUErrorMarkingToolbarButtonWidth, kSUErrorMarkingToolbarButtonHeight);
+    self.backButton.frame = CGRectMake(0.0f, 0.0f, kSUButtonWidth, kSUButtonHeight);
     
-    // Layout add text marking view button
     self.addTextMarkingViewButton.frame = CGRectMake(CGRectGetMaxX(self.backButton.frame), 0.0f,
-                                                     kSUErrorMarkingToolbarButtonWidth, kSUErrorMarkingToolbarButtonHeight);
+                                                     kSUButtonWidth, kSUButtonHeight);
     
-    // Layout add markingview button
     self.addMarkingViewButton.frame = CGRectMake(CGRectGetMaxX(self.addTextMarkingViewButton.frame), 0.0f,
-                                                 kSUErrorMarkingToolbarButtonWidth, kSUErrorMarkingToolbarButtonHeight);
+                                                 kSUButtonWidth, kSUButtonHeight);
     
-    // Layout send mail button
     self.sendMailButton.frame = CGRectMake(CGRectGetMaxX(self.addMarkingViewButton.frame), 0.0f,
-                                           kSUErrorMarkingToolbarButtonWidth, kSUErrorMarkingToolbarButtonHeight);
+                                           kSUButtonWidth, kSUButtonHeight);
     
-    // Layout show marking view toolbar button
     self.showMarkingViewToolbarButton.frame = CGRectMake(CGRectGetMaxX(self.sendMailButton.frame), 0.0f,
-                                                         kSUErrorMarkingToolbarButtonWidth, kSUErrorMarkingToolbarButtonHeight);
+                                                         kSUButtonWidth, kSUButtonHeight);
 }
 
 @end

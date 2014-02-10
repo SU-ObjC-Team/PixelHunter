@@ -23,18 +23,12 @@ static CGFloat const kSUSeparatorHeight = 47.0f;
 static CGFloat const kSUHorizontalSeparatorWidth = 46.0f;
 static CGFloat const kSUHorizontalSeparatorHeight = 2.0f;
 
-static CGFloat const kSUErrorMarkingToolbarButtonWidth = 65.0f;
-static CGFloat const kSUErrorMarkingToolbarButtonHeight = 48.0f;
-
 static CGFloat const kSUMarkViewToolbarButtonWidth = 46.0f;
 static CGFloat const kSUMarkViewToolbarColorViewWidth = 42.0f;
 static CGFloat const kSUMarkViewToolbarButtonHeight = 105.0f;
 static CGFloat const kSUMarkViewToolbarSeparatorHeight = 105.0f;
 
 static CGFloat const kSUCornerRadius = 10.0f;
-
-static CGFloat const kSUMarkViewToolbarHeight = 315.0f;
-static CGFloat const kSUMarkViewToolbarWidth = 88.0f;
 
 static CGRect const kSUColorViewRect = {0.0f, 0.0f, 36.0f, 36.0f};
 

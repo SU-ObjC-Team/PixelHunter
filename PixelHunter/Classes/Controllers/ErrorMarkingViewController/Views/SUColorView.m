@@ -40,7 +40,7 @@ static CGFloat const kSUColorCircleRadius = 10.0f;
     CGContextRef ctx = UIGraphicsGetCurrentContext();
 
     CGPoint center = CGPointMake(self.frame.size.width / 2.0, self.frame.size.height / 2.0);
-        CGContextBeginPath(ctx);
+    CGContextBeginPath(ctx);
     
     CGContextBeginPath(ctx);
     CGContextAddArc(ctx, center.x, center.y, kSUColorCircleRadius, 0, 2*M_PI, 0);
