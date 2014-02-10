@@ -7,10 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SUTextMarkView.h"
 
+static NSString * const kSUShakingAnimationKey = @"shakingAnimation";
 
-@interface SUErrorMarkingViewController : UIViewController
+@class SUErrorMarkingViewControllerPrivate;
+
+@interface SUErrorMarkingViewController : UIViewController <SUMarkViewDelegate>
 
 - (id)initWithImage:(UIImage *)screenshotImage;
+- (void)handleTap:(UITapGestureRecognizer *)recognizer;
+- (void)handleLongPress:(UILongPressGestureRecognizer *)recognizer;
+
+@property (nonatomic, strong) SUErrorMarkingViewControllerPrivate *privateProperties;
 
 @end

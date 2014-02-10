@@ -7,30 +7,28 @@
 //
 
 #import "SUErrorMarkingViewController.h"
-#import "SUErrorMarkingView.h"
+#import "SUErrorMarkingViewController+MarkingViews.h"
+#import "SUErrorMarkingViewControllerPrivate.h"
+
 #import "SUShareController.h"
 #import "SUPixelHunterConstants.h"
-#import "SUTextMarkView.h"
 #import "SUPixelHunterTheme.h"
 
-static CGRect const kSUMarkViewFrame = {{50.0f, 50.0f}, {150.0f, 150.0f}};
 static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0f}};
 static CGFloat const kSUMinValidScale = 0.8f;
 static CGFloat const kSUMaxValidScale = 2.0f;
 static CGFloat const kSUScaleRestraintStartValue = 1.5f;
-static NSString * const kSUShakingAnimationKey = @"shakingAnimation";
 static CGFloat const kSUMinimumViewSideSize = 25.0f;
-static CGFloat const kSUNewMarkViewIndent = 20.0f;
 static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
+static NSString * const kSUCloseButtonName = @"close_button.png";
+static NSString * const kSUTransfromrRotationName = @"transform.rotation";
+static const CGFloat kSUTransformRotationValue = 0.05f;
 
 
 @interface SUErrorMarkingViewController () <UIGestureRecognizerDelegate,
-                                            SUMarkViewDelegate,
                                             SUMarkColorViewDelegate>
 
 @property (nonatomic, strong) UIImage *screenshotImage;
-@property (nonatomic, strong) NSMutableArray *markViewsArray;
-@property (nonatomic, strong) SUErrorMarkingView *rootView;
 @property (nonatomic, strong) SUShareController *shareController;
 @property (nonatomic, assign) CGFloat horizontalScale;
 @property (nonatomic, assign) CGFloat verticalScale;
@@ -46,6 +44,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
     self = [super init];
 	if (self) {
 		self.screenshotImage = screenshotImage;
+        self.privateProperties = [[SUErrorMarkingViewControllerPrivate alloc] init];
 	}
     
 	return self;
@@ -56,14 +55,14 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
     SUErrorMarkingView *view = [[SUErrorMarkingView alloc] initWithImage:self.screenshotImage];
     view.contentMode = UIViewContentModeScaleAspectFit;
     self.view = view;
-    self.rootView = view;
+    self.privateProperties.rootView = view;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.markViewsArray = [NSMutableArray array];
+    self.privateProperties.markViewsArray = [NSMutableArray array];
     
     [self subscribeForKeyboardAppearance];
     [self initShareController];
@@ -74,17 +73,18 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 
 - (void)initShareController
 {
-    NSArray *menuViewsArray = @[self.rootView.errorMarkingToolbar,
-                                self.rootView.markViewToolbar];
+    SUErrorMarkingToolbar *errorToolbar = self.privateProperties.rootView.errorMarkingToolbar;
+    NSArray *menuViewsArray = @[errorToolbar,
+                                self.privateProperties.rootView.markViewToolbar];
 
-    self.shareController = [[SUShareController alloc] initWithToolbar:self.rootView.errorMarkingToolbar
+    self.shareController = [[SUShareController alloc] initWithToolbar:errorToolbar
                                                    withMenuViewsArray:menuViewsArray
                                                      onViewController:self];
 }
 
 - (void)initErrorMarkingToolbarActions
 {
-    SUErrorMarkingToolbar *toolbar = self.rootView.errorMarkingToolbar;
+    SUErrorMarkingToolbar *toolbar = self.privateProperties.rootView.errorMarkingToolbar;
 
     [toolbar.addMarkingViewButton addTarget:self action:@selector(addMarkView)];
     [toolbar.addTextMarkingViewButton addTarget:self action:@selector(addTextMarkView)];
@@ -93,7 +93,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 
 - (void)initMarkViewToolbar
 {
-    SUMarkViewToolbar *toolbar = self.rootView.markViewToolbar;
+    SUMarkViewToolbar *toolbar = self.privateProperties.rootView.markViewToolbar;
     [toolbar.cornerTypeButton addTarget:self action:@selector(switchMarkViewCornerType)];
     toolbar.markColorView.delegate = self;
     [toolbar.widthSlider addTarget:self
@@ -103,13 +103,18 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 
 - (void)addGestureRecognizers
 {
-    [self.rootView.pinchGesture addTarget:self action:@selector(handlePinch:)];
-    [self.rootView.tapGesture addTarget:self action:@selector(stopShakingAnimation)];
+    [self.privateProperties.rootView.pinchGesture addTarget:self action:@selector(handlePinch:)];
+    [self.privateProperties.rootView.tapGesture addTarget:self action:@selector(stopShakingAnimation)];
 }
 
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
+}
+
+- (void)showPreviousViewController
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Notifications
@@ -127,98 +132,11 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
                                                object:nil];
 }
 
-#pragma mark - Marking views methods
-
-- (void)addMarkView
-{
-    SUMarkView *markView = [[SUMarkView alloc] initWithView:self.rootView];
-    [self addMarkView:markView];
-}
-
-- (void)addTextMarkView
-{
-    SUMarkView *markView = [[SUTextMarkView alloc] initWithView:self.rootView];
-    [self addMarkView:markView];
-}
-
-- (void)addMarkView:(SUMarkView *)markView
-{
-    [self stopShakingAnimation];
-    [self deactivateAllMarkViews];
-
-    [self setupMarkView:markView];
-    
-    [self.markViewsArray addObject:markView];
-    
-    self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = NO;
-}
-
-- (void)removeMarkView:(UIButton *)sender
-{
-    SUMarkView *markView = (SUMarkView *)sender.superview;
-    [markView removeFromSuperview];
-    [self.markViewsArray removeObject:markView];
-    
-    if ([self.markViewsArray count] == 0) {
-        self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = YES;
-    }
-}
-
-- (CGRect)nextMarkViewFrame
-{
-    CGRect markViewFrame = [[self.markViewsArray lastObject] frame];
-    markViewFrame.origin = CGPointMake(markViewFrame.origin.x + kSUNewMarkViewIndent,
-                                       markViewFrame.origin.y + kSUNewMarkViewIndent);
-    if ([self isMarkViewFrameValid:markViewFrame] == NO) {
-        markViewFrame = kSUMarkViewFrame;
-    }
-
-    return markViewFrame;
-}
-
-- (BOOL)isMarkViewFrameValid:(CGRect)markViewFrame
-{
-    BOOL isFrameValid = YES;
-    
-    CGRect rootFrame = self.view.frame;
-    if (markViewFrame.size.width <= 0.0f || markViewFrame.size.height <= 0.0f ||
-        markViewFrame.origin.x >= rootFrame.size.width ||
-        markViewFrame.origin.y >= rootFrame.size.height) {
-
-        isFrameValid = NO;
-    }
-    
-    return isFrameValid;
-}
-
-- (void)deactivateAllMarkViews
-{
-    for (SUMarkView *subView in self.markViewsArray) {
-        subView.isActive = NO;
-    }
-}
-
-- (void)setupMarkView:(SUMarkView *)markView
-{
-    markView.delegate = self;
-    markView.frame = [self nextMarkViewFrame];
-    [markView.tapGesture addTarget:self action:@selector(handleTap:)];
-    [markView.longPressGesture addTarget:self action:@selector(handleLongPress:)];
-    self.rootView.markViewToolbar.widthSlider.value = markView.layer.borderWidth;
-    self.rootView.markViewToolbar.cornerTypeButton.state = SUCompositeButtonStateNormal;
-    [self.rootView insertSubview:markView belowSubview:self.rootView.errorMarkingToolbar];
-}
-
-- (void)showPreviousViewController
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 #pragma mark - Mark View toolbar
 
 - (void)changeBorderWidth:(UISlider *)sender
 {
-    for (SUMarkView *subview in [self.rootView subviews]) {
+    for (SUMarkView *subview in [self.privateProperties.rootView subviews]) {
         if ([subview isKindOfClass:[SUMarkView class]]) {
             if (subview.isActive) {
                 subview.layer.borderWidth = [sender value];
@@ -229,7 +147,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 
 - (void)colorViewPickedWithColor:(UIColor *)color withSelectedColorViewCenter:(CGPoint)center
 {
-    for (SUMarkView *subview in [self.rootView subviews]) {
+    for (SUMarkView *subview in [self.privateProperties.rootView subviews]) {
         if ([subview isKindOfClass:[SUMarkView class]]) {
             if (subview.isActive) {
                 subview.layer.borderColor = color.CGColor;
@@ -246,13 +164,13 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
     [self makeViewActiveWithRecognizer:recognizer];
     [self switchMarkViewCornerTypeOnView:recognizer.view];
     
-    for (SUMarkView *subview in [self.rootView subviews]) {
+    for (SUMarkView *subview in [self.privateProperties.rootView subviews]) {
         if ([subview isKindOfClass:[SUMarkView class]]) {
             [subview.layer addAnimation:[self shakingViewAnimation] forKey:kSUShakingAnimationKey];
             
             // Init remove mark view button
             UIButton *removeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            [removeButton setBackgroundImage:[UIImage imageNamed:@"close_button.png"] forState:UIControlStateNormal];
+            [removeButton setBackgroundImage:[UIImage imageNamed:kSUCloseButtonName] forState:UIControlStateNormal];
             removeButton.backgroundColor = [[SUPixelHunterTheme colors] darkGrayBackgroundColor];
             removeButton.frame = kSUMarkViewRemoveButtonFrame;
             [removeButton addTarget:self action:@selector(removeMarkView:) forControlEvents:UIControlEventTouchUpInside];
@@ -264,32 +182,15 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 - (CAAnimation *)shakingViewAnimation
 {
     CAKeyframeAnimation *animation = [CAKeyframeAnimation
-                                      animationWithKeyPath:@"transform.rotation"];
-    NSNumber *value1 = [NSNumber numberWithFloat:-0.05f];
-    NSNumber *value2 = [NSNumber numberWithFloat:0.05f];
+                                      animationWithKeyPath:kSUTransfromrRotationName];
+    NSNumber *value1 = [NSNumber numberWithFloat:-kSUTransformRotationValue];
+    NSNumber *value2 = [NSNumber numberWithFloat:kSUTransformRotationValue];
     animation.values = [NSArray arrayWithObjects:value1, value2, nil];
     animation.duration = kSURemovableViewShakeAnimationTime;
     animation.autoreverses = YES;
     animation.repeatCount = HUGE_VALF;
 
     return animation;
-}
-
-- (void)stopShakingAnimation
-{
-    for (SUMarkView *subview in [self.rootView subviews]) {
-        if ([subview isKindOfClass:[SUMarkView class]]) {
-            [subview.layer removeAnimationForKey:kSUShakingAnimationKey];
-            for (UIButton *button in [subview subviews]) {
-                if ([button isKindOfClass:[UIButton class]]) {
-                    [button removeFromSuperview];
-                }
-                if ([subview isKindOfClass:[SUTextMarkView class]]) {
-                    [((SUTextMarkView *)subview).commentTextView endEditing:YES];
-                }
-            }
-        }
-    }
 }
 
 #pragma mark - Handle tap and pan gestures
@@ -299,7 +200,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
     [self makeViewActiveWithRecognizer:recognizer];
     [self switchMarkViewCornerTypeOnView:recognizer.view];
     
-    for (SUTextMarkView *subview in [self.rootView subviews]) {
+    for (SUTextMarkView *subview in [self.privateProperties.rootView subviews]) {
         if ([subview isKindOfClass:[SUTextMarkView class]]) {
             [subview.commentTextView endEditing:YES];
             if (subview.isActive) {
@@ -317,7 +218,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
     [self makeViewActiveWithRecognizer:recognizer];
     [self switchMarkViewCornerTypeOnView:recognizer.view];
     
-    for (SUTextMarkView *subview in [self.rootView subviews]) {
+    for (SUTextMarkView *subview in [self.privateProperties.rootView subviews]) {
         if ([subview isKindOfClass:[SUTextMarkView class]]) {
             if (!subview.isActive) {
                 [subview.commentTextView endEditing:YES];
@@ -328,14 +229,16 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 
 - (void)makeViewActiveWithRecognizer:(UIGestureRecognizer *)recognizer
 {
-    for (SUMarkView *subview in [self.rootView subviews]) {
+    for (SUMarkView *subview in [self.privateProperties.rootView subviews]) {
         if ([subview isKindOfClass:[SUMarkView class]]) {
             subview.isActive = NO;
         }
     }
     
-    self.rootView.markViewToolbar.widthSlider.value = ((SUMarkView *)recognizer.view).layer.borderWidth;
-    self.rootView.markViewToolbar.markColorView.selectedColorView.center = ((SUMarkView *)recognizer.view).selectedColorCenter;
+    self.privateProperties.rootView.markViewToolbar.widthSlider.value =
+        ((SUMarkView *)recognizer.view).layer.borderWidth;
+    self.privateProperties.rootView.markViewToolbar.markColorView.selectedColorView.center =
+        ((SUMarkView *)recognizer.view).selectedColorCenter;
     
     if (!((SUMarkView *)recognizer.view).isActive) {
         ((SUMarkView *)recognizer.view).isActive = YES;
@@ -346,7 +249,7 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 
 - (void)handlePinch:(UIPinchGestureRecognizer *)recognizer
 {
-    for (SUMarkView *subview in [self.rootView subviews]) {
+    for (SUMarkView *subview in [self.privateProperties.rootView subviews]) {
         if ([subview isKindOfClass:[SUMarkView class]]) {
             if (subview.isActive) {
                 if ([recognizer numberOfTouches] == 2) {
@@ -414,12 +317,13 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 
 - (void)switchMarkViewCornerType
 {
-    BOOL pressed = self.rootView.markViewToolbar.cornerTypeButton.state == SUCompositeButtonStateNormal ? YES : NO;
+    BOOL pressed = self.privateProperties.rootView.markViewToolbar.cornerTypeButton.state ==
+        SUCompositeButtonStateNormal ? YES : NO;
     
-    self.rootView.markViewToolbar.cornerTypeButton.state =
+    self.privateProperties.rootView.markViewToolbar.cornerTypeButton.state =
         pressed == YES ? SUCompositeButtonStateActivated : SUCompositeButtonStateNormal;
     
-    for (SUMarkView *subview in [self.rootView subviews]) {
+    for (SUMarkView *subview in [self.privateProperties.rootView subviews]) {
         if ([subview isKindOfClass:[SUMarkView class]]) {
             if (subview.isActive) {
                 if (subview.layer.cornerRadius == kSUCornerRadius) {
@@ -441,9 +345,9 @@ static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 - (void)switchMarkViewCornerTypeOnView:(UIView *)view
 {
     if (view.layer.cornerRadius != kSUCornerRadius) {
-        self.rootView.markViewToolbar.cornerTypeButton.state = SUCompositeButtonStateActivated;
+        self.privateProperties.rootView.markViewToolbar.cornerTypeButton.state = SUCompositeButtonStateActivated;
     } else {
-        self.rootView.markViewToolbar.cornerTypeButton.state = SUCompositeButtonStateNormal;
+        self.privateProperties.rootView.markViewToolbar.cornerTypeButton.state = SUCompositeButtonStateNormal;
     }
 }
 
@@ -466,16 +370,16 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     keyboardRect = [self.view convertRect:keyboardRect toView:nil];
     CGSize keyboardSize = keyboardRect.size;
     
-    for (SUTextMarkView *subview in [self.rootView subviews]) {
+    for (SUTextMarkView *subview in [self.privateProperties.rootView subviews]) {
         if ([subview isKindOfClass:[SUTextMarkView class]]) {
             if (subview.isActive) {
                 if (subview.frame.origin.y + subview.frame.size.height > self.view.frame.size.height - keyboardSize.height) {
-                    CGRect tempRect = self.rootView.frame;
+                    CGRect tempRect = self.privateProperties.rootView.frame;
                     tempRect.origin.y -= keyboardSize.height;
                     if (tempRect.origin.y == -keyboardSize.height) {
                         [UIView animateWithDuration:keyboardAnimationTime animations:^{
-                            self.tempTextMarkViewRect = self.rootView.frame;
-                            self.rootView.frame = tempRect;
+                            self.tempTextMarkViewRect = self.privateProperties.rootView.frame;
+                            self.privateProperties.rootView.frame = tempRect;
                         }];
                     }
                 }
@@ -494,16 +398,16 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     
     CGSize keyboardSize = keyboardRect.size;
     
-    for (SUTextMarkView *subview in [self.rootView subviews]) {
+    for (SUTextMarkView *subview in [self.privateProperties.rootView subviews]) {
         if ([subview isKindOfClass:[SUTextMarkView class]]) {
             if (subview.isActive) {
-                if (!CGRectIsEmpty(self.tempTextMarkViewRect) && (self.rootView.frame.origin.y != self.tempTextMarkViewRect.origin.y)) {
-                    CGRect tempRect = self.rootView.frame;
+                if (!CGRectIsEmpty(self.tempTextMarkViewRect) && (self.privateProperties.rootView.frame.origin.y != self.tempTextMarkViewRect.origin.y)) {
+                    CGRect tempRect = self.privateProperties.rootView.frame;
                     tempRect.origin.y += keyboardSize.height;
-                    if (self.rootView.frame.origin.y == -keyboardSize.height) {
+                    if (self.privateProperties.rootView.frame.origin.y == -keyboardSize.height) {
                         [UIView animateWithDuration:keyboardAnimationTime animations:^{
-                            self.rootView.frame = tempRect;
-                            self.rootView.frame = self.tempTextMarkViewRect;
+                            self.privateProperties.rootView.frame = tempRect;
+                            self.privateProperties.rootView.frame = self.tempTextMarkViewRect;
                         }];
                     }
                 }
