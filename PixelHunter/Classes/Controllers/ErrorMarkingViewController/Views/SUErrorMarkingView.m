@@ -9,6 +9,12 @@
 #import "SUErrorMarkingView.h"
 #import "SUPixelHunterConstants.h"
 
+typedef enum {
+    SUToolbarStateNone = 0,
+    SUToolbarStateHidden,
+    SUToolbarStateShown
+} SUToolBarState;
+
 static CGFloat const kSUMarkViewToolbarWidth = 88.0f;
 static CGFloat const kSUMarkViewToolbarHeight = 315.0f;
 static CGFloat const kSUErrorMarkingToolbarWidth = 320.0f;
@@ -17,6 +23,8 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 @interface SUErrorMarkingView ()
 
 @property (nonatomic, strong) UIImageView *screenshotImageView;
+@property (nonatomic, assign) SUToolBarState markToolbarState;
+@property (nonatomic, assign) SUToolBarState mainToolbarState;
 
 @end
 
@@ -53,6 +61,7 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 
 - (void)initErrorMarkingToolbar
 {
+    self.mainToolbarState = SUToolbarStateHidden;
     self.errorMarkingToolbar = [[SUErrorMarkingToolbar alloc] init];
     self.errorMarkingToolbar.hidden = YES;
     CGSize boundsSize = [[UIScreen mainScreen] bounds].size;
@@ -68,12 +77,8 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 
 - (void)initMarkViewToolbar
 {
-    CGSize boundsSize = [[UIScreen mainScreen] bounds].size;
+    self.markToolbarState = SUToolbarStateHidden;
     self.markViewToolbar = [[SUMarkViewToolbar alloc] init];
-    self.markViewToolbar.hidden = YES;
-    self.markViewToolbar.frame = CGRectMake(boundsSize.width,
-                                            (boundsSize.height - kSUMarkViewToolbarHeight) / 2.0f,
-                                            kSUMarkViewToolbarWidth, kSUMarkViewToolbarHeight);
     [self addSubview:self.markViewToolbar];
 }
 
@@ -84,13 +89,25 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
     CGSize imageSize = self.screenshotImageView.image.size;
     
     self.screenshotImageView.frame = CGRectMake(0.0f, 0.0f, imageSize.width, imageSize.height);
+    
+    [self layoutMarkToolbar];
+}
+
+- (void)layoutMarkToolbar
+{
+    CGSize boundsSize = self.bounds.size;
+    CGFloat x = self.markToolbarState == SUToolbarStateHidden ?
+                boundsSize.width : boundsSize.width - kSUMarkViewToolbarWidth;
+    self.markViewToolbar.frame = CGRectMake(x, (boundsSize.height - kSUMarkViewToolbarHeight) / 2.0f,
+                                            kSUMarkViewToolbarWidth, kSUMarkViewToolbarHeight);
+    
 }
 
 #pragma mark - Toolbar show/hide
 
 - (void)displayMarkingViewToolbar
 {
-    if (self.markViewToolbar.hidden) {
+    if (self.markToolbarState == SUToolbarStateHidden) {
         [self showMarkingViewToolbarAnimated];
     } else {
         [self hideMarkingViewToolbarAnimated];
@@ -99,38 +116,17 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 
 - (void)showMarkingViewToolbarAnimated
 {
-    self.markViewToolbar.hidden = NO;
-    CGSize frameSize = self.frame.size;
-    CGRect newFrame = self.markViewToolbar.frame;
-    
-    if ([self isLandscape]) {
-        frameSize = CGSizeMake(frameSize.height, frameSize.width);
-    }
-    
-    newFrame.origin = CGPointMake(frameSize.width - newFrame.size.width,
-                                  (frameSize.height - newFrame.size.height) / 2.0f);
-    
+    self.markToolbarState = SUToolbarStateShown;
     [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-        self.markViewToolbar.frame = newFrame;
+        [self layoutMarkToolbar];
     }];
 }
 
 - (void)hideMarkingViewToolbarAnimated
 {
-    CGSize frameSize = self.frame.size;
-    CGRect newFrame = self.markViewToolbar.frame;
-    
-    if ([self isLandscape]) {
-        frameSize = CGSizeMake(frameSize.height, frameSize.width);
-    }
-    
-    newFrame.origin = CGPointMake(frameSize.width,
-                                  (frameSize.height - newFrame.size.height) / 2.0f);
-    
+    self.markToolbarState = SUToolbarStateHidden;
     [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-        self.markViewToolbar.frame = newFrame;
-    } completion:^(BOOL finished) {
-        self.markViewToolbar.hidden = YES;
+        [self layoutMarkToolbar];
     }];
 }
 
@@ -163,7 +159,7 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 }
 
 - (void)viewTapped
-{    
+{
     if (self.errorMarkingToolbar.hidden) {
         [self showErrorMarkingToolbarAnimated];
         
