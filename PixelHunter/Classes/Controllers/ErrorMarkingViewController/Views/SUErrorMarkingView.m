@@ -58,9 +58,10 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
         [self addSubview:self.markViewToolbar];
         
         [self.markViewToolbar.borderWidthSliderButton addTarget:self
-                                                         action:@selector(showSlider:)];
+                                                         action:@selector(displaySlider:)];
         [self.markViewToolbar.borderColorPickerButton addTarget:self
-                                                         action:@selector(showColorPicker:)];
+                                                         action:@selector(displayColorPicker:)];
+        [self showSeparatorWithButton:self.markViewToolbar.borderWidthSliderButton];
     }
     
     return self;
@@ -89,7 +90,7 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
     self.markViewToolbar.hidden = NO;
     [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
         CGRect newRect = self.markViewToolbar.frame;
-        newRect.origin.x -= newRect.size.width / 2.0f;
+        newRect.origin.x -= newRect.size.width;
         self.markViewToolbar.frame = newRect;
     }];
 }
@@ -104,108 +105,23 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
         self.markViewToolbar.frame = newRect;
     } completion:^(BOOL finished) {
         self.markViewToolbar.hidden = YES;
-        self.markViewToolbar.widthSlider.hidden = YES;
-        self.markViewToolbar.markColorView.hidden = YES;
     }];
 }
 
-#pragma mark - Slider show/hide
+#pragma mark - Display Slider/Color picker
 
-- (void)showSlider:(SUMarkViewToolbarCompositeButton *)button
+- (void)displaySlider:(SUMarkViewToolbarCompositeButton *)button
 {
-    if (self.markViewToolbar.markColorView.hidden) {
-        [self showSliderAnimatedWithButton:button];
-    } else {
-        [self hideSliderAnimatedWithButton:button];
-    }
+    [self showSeparatorWithButton:button];
+    self.markViewToolbar.markColorView.hidden = YES;
+    self.markViewToolbar.widthSlider.hidden = NO;
 }
 
-- (void)hideSliderAnimatedWithButton:(SUMarkViewToolbarCompositeButton *)button
+- (void)displayColorPicker:(SUMarkViewToolbarCompositeButton *)button
 {
-    [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-        CGRect newFrame = self.markViewToolbar.frame;
-        newFrame.origin.x += kSUToolbarWidth / 2.0f;
-        self.markViewToolbar.frame = newFrame;
-        
-    } completion:^(BOOL finished) {
-        [self showSeparatorWithButton:button];
-        self.markViewToolbar.markColorView.hidden = YES;
-        self.markViewToolbar.widthSlider.hidden = NO;
-        [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-            CGRect newFrame = self.markViewToolbar.frame;
-            newFrame.origin.x -= kSUToolbarWidth / 2.0f;
-            self.markViewToolbar.frame = newFrame;
-        }];
-        
-    }];
-}
-
-- (void)showSliderAnimatedWithButton:(SUMarkViewToolbarCompositeButton *)button
-{
-    if (self.markViewToolbar.widthSlider.hidden) {
-        self.markViewToolbar.widthSlider.hidden = NO;
-        [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-            CGRect newFrame = self.markViewToolbar.frame;
-            newFrame.origin.x -= kSUToolbarWidth / 2.0f;
-            self.markViewToolbar.frame = newFrame;
-            
-        } completion:^(BOOL finished) {
-            [self showSeparatorWithButton:button];
-        }];
-        
-    } else {
-        [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-            CGRect newFrame = self.markViewToolbar.frame;
-            newFrame.origin.x += kSUToolBarWidth / 2.0f;
-            self.markViewToolbar.frame = newFrame;
-        } completion:^(BOOL finished) {
-            self.markViewToolbar.widthSlider.hidden = YES;
-        }];
-    }
-}
-
-- (void)showColorPicker:(SUMarkViewToolbarCompositeButton *)button
-{
-    if (!self.markViewToolbar.widthSlider.hidden) {
-        [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-            CGRect newFrame = self.markViewToolbar.frame;
-            newFrame.origin.x += kSUToolbarWidth / 2.0f;
-            self.markViewToolbar.frame = newFrame;
-            
-        } completion:^(BOOL finished) {
-            [self showSeparatorWithButton:button];
-            self.markViewToolbar.widthSlider.hidden = YES;
-            self.markViewToolbar.markColorView.hidden = NO;
-            [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-                CGRect newFrame = self.markViewToolbar.frame;
-                newFrame.origin.x -= kSUToolbarWidth / 2.0f;
-                self.markViewToolbar.frame = newFrame;
-                
-            }];
-        }];
-    } else {
-        if (self.markViewToolbar.markColorView.hidden) {
-            self.markViewToolbar.markColorView.hidden = NO;
-            [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-                CGRect newFrame = self.markViewToolbar.frame;
-                newFrame.origin.x -= kSUToolbarWidth / 2.0f;
-                self.markViewToolbar.frame = newFrame;
-                
-            } completion:^(BOOL finished) {
-                [self showSeparatorWithButton:button];
-            }];
-            
-        } else {
-            [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-                CGRect newFrame = self.markViewToolbar.frame;
-                newFrame.origin.x += kSUToolbarWidth / 2.0f;
-                self.markViewToolbar.frame = newFrame;
-                
-            } completion:^(BOOL finished) {
-                self.markViewToolbar.markColorView.hidden = YES;
-            }];
-        }
-    }
+    [self showSeparatorWithButton:button];
+    self.markViewToolbar.markColorView.hidden = NO;
+    self.markViewToolbar.widthSlider.hidden = YES;
 }
 
 - (void)showSeparatorWithButton:(SUMarkViewToolbarCompositeButton *)button
@@ -256,8 +172,6 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
         } completion:^(BOOL finished) {
             self.errorMarkingToolbar.hidden = YES;
             self.markViewToolbar.hidden = YES;
-            self.markViewToolbar.widthSlider.hidden = YES;
-            self.markViewToolbar.markColorView.hidden = YES;
         }];
     }
     
