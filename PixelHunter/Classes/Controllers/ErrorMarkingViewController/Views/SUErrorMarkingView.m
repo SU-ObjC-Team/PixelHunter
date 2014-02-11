@@ -38,24 +38,8 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
         self.pinchGesture = [[UIPinchGestureRecognizer alloc] init];
         [self addGestureRecognizer:self.pinchGesture];
         
-        self.errorMarkingToolbar = [[SUErrorMarkingToolbar alloc] init];
-        self.errorMarkingToolbar.hidden = YES;
-        CGSize boundsSize = [[UIScreen mainScreen] bounds].size;
-        CGRect toolbarFrame = CGRectMake((boundsSize.width - kSUErrorMarkingToolbarWidth) / 2.0f,
-                                         boundsSize.height + kSUErrorMarkingToolbarHeight,
-                                         kSUErrorMarkingToolbarWidth, kSUErrorMarkingToolbarHeight);
-        self.errorMarkingToolbar.frame = toolbarFrame;
-        SEL showMarkingViewToolbar = @selector(showMarkingViewToolbar);
-        [self.errorMarkingToolbar.showMarkingViewToolbarButton addTarget:self
-                                                                  action:showMarkingViewToolbar];
-        [self addSubview:self.errorMarkingToolbar];
-        
-        self.markViewToolbar = [[SUMarkViewToolbar alloc] init];
-        self.markViewToolbar.hidden = YES;
-        self.markViewToolbar.frame = CGRectMake(boundsSize.width,
-                                                (boundsSize.height - kSUMarkViewToolbarHeight) / 2.0f,
-                                                kSUMarkViewToolbarWidth, kSUMarkViewToolbarHeight);
-        [self addSubview:self.markViewToolbar];
+        [self initErrorMarkingToolbar];
+        [self initMarkViewToolbar];
         
         [self.markViewToolbar.borderWidthSliderButton addTarget:self
                                                          action:@selector(displaySlider:)];
@@ -67,8 +51,36 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
     return self;
 }
 
+- (void)initErrorMarkingToolbar
+{
+    self.errorMarkingToolbar = [[SUErrorMarkingToolbar alloc] init];
+    self.errorMarkingToolbar.hidden = YES;
+    CGSize boundsSize = [[UIScreen mainScreen] bounds].size;
+    CGRect toolbarFrame = CGRectMake((boundsSize.width - kSUErrorMarkingToolbarWidth) / 2.0f,
+                                     boundsSize.height + kSUErrorMarkingToolbarHeight,
+                                     kSUErrorMarkingToolbarWidth, kSUErrorMarkingToolbarHeight);
+    self.errorMarkingToolbar.frame = toolbarFrame;
+    SEL displayMarkingViewToolbar = @selector(displayMarkingViewToolbar);
+    [self.errorMarkingToolbar.showMarkingViewToolbarButton addTarget:self
+                                                              action:displayMarkingViewToolbar];
+    [self addSubview:self.errorMarkingToolbar];
+}
+
+- (void)initMarkViewToolbar
+{
+    CGSize boundsSize = [[UIScreen mainScreen] bounds].size;
+    self.markViewToolbar = [[SUMarkViewToolbar alloc] init];
+    self.markViewToolbar.hidden = YES;
+    self.markViewToolbar.frame = CGRectMake(boundsSize.width,
+                                            (boundsSize.height - kSUMarkViewToolbarHeight) / 2.0f,
+                                            kSUMarkViewToolbarWidth, kSUMarkViewToolbarHeight);
+    [self addSubview:self.markViewToolbar];
+}
+
 - (void)layoutSubviews
 {
+    [super layoutSubviews];
+    
     CGSize imageSize = self.screenshotImageView.image.size;
     
     self.screenshotImageView.frame = CGRectMake(0.0f, 0.0f, imageSize.width, imageSize.height);
@@ -76,47 +88,47 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 
 #pragma mark - Toolbar show/hide
 
-- (void)showMarkingViewToolbar
+- (void)displayMarkingViewToolbar
 {
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     
     if (self.markViewToolbar.hidden) {
-        [self showToolbarAnimatedWithOrientation:orientation];
+        [self showMarkingViewToolbarAnimatedWithOrientation:orientation];
     } else {
-        [self hideToolbarAnimatedWithOrientation:orientation];
+        [self hideMarkingViewToolbarAnimatedWithOrientation:orientation];
     }
 }
 
-- (void)showToolbarAnimatedWithOrientation:(UIInterfaceOrientation)orientation
+- (void)showMarkingViewToolbarAnimatedWithOrientation:(UIInterfaceOrientation)orientation
 {
     self.markViewToolbar.hidden = NO;
-    
     CGSize frameSize = self.frame.size;
     CGRect newFrame = self.markViewToolbar.frame;
+    
     if (UIInterfaceOrientationIsLandscape(orientation)) {
-        newFrame.origin = CGPointMake(frameSize.height - newFrame.size.width,
-                                      (frameSize.width - newFrame.size.height) / 2.0f);
-    } else {
-        newFrame.origin = CGPointMake(frameSize.width - newFrame.size.width,
-                                      (frameSize.height - newFrame.size.height) / 2.0f);
+        frameSize = CGSizeMake(frameSize.height, frameSize.width);
     }
+    
+    newFrame.origin = CGPointMake(frameSize.width - newFrame.size.width,
+                                  (frameSize.height - newFrame.size.height) / 2.0f);
+    
     [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
         self.markViewToolbar.frame = newFrame;
     }];
 }
 
-- (void)hideToolbarAnimatedWithOrientation:(UIInterfaceOrientation)orientation
+- (void)hideMarkingViewToolbarAnimatedWithOrientation:(UIInterfaceOrientation)orientation
 {
     CGSize frameSize = self.frame.size;
     CGRect newFrame = self.markViewToolbar.frame;
     
     if (UIInterfaceOrientationIsLandscape(orientation)) {
-        newFrame.origin = CGPointMake(frameSize.height,
-                                      (frameSize.width - newFrame.size.height) / 2.0f);
-    } else {
-        newFrame.origin = CGPointMake(frameSize.width,
-                                      (frameSize.height - newFrame.size.height) / 2.0f);
+        frameSize = CGSizeMake(frameSize.height, frameSize.width);
     }
+    
+    newFrame.origin = CGPointMake(frameSize.width,
+                                  (frameSize.height - newFrame.size.height) / 2.0f);
+    
     [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
         self.markViewToolbar.frame = newFrame;
     } completion:^(BOOL finished) {
@@ -157,46 +169,46 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     
     if (self.errorMarkingToolbar.hidden) {
-        [self showErrorMarkingToolbarWithOrientation:orientation];
+        [self showErrorMarkingToolbarAnimatedWithOrientation:orientation];
         
     } else {
-        [self hideErrorMarkingToolbarWithOrientatiom:orientation];
-        [self hideToolbarAnimatedWithOrientation:orientation];
+        [self hideErrorMarkingToolbarAnimatedWithOrientatiom:orientation];
+        [self hideMarkingViewToolbarAnimatedWithOrientation:orientation];
     }
     
     UIWindow *applicationWindow = [[[UIApplication sharedApplication] delegate] window];
     [applicationWindow endEditing:YES];
 }
 
-- (void)showErrorMarkingToolbarWithOrientation:(UIInterfaceOrientation)orientation
+- (void)showErrorMarkingToolbarAnimatedWithOrientation:(UIInterfaceOrientation)orientation
 {
     self.errorMarkingToolbar.hidden = NO;
     CGSize frameSize = self.frame.size;
     CGRect newFrame = self.errorMarkingToolbar.frame;
+
     if (UIInterfaceOrientationIsLandscape(orientation)) {
-        newFrame.origin = CGPointMake((frameSize.height - newFrame.size.width) / 2.0f,
-                                      frameSize.width - newFrame.size.height);
-    } else {
-        newFrame.origin = CGPointMake((frameSize.width - newFrame.size.width) / 2.0f,
-                                      frameSize.height - newFrame.size.height);
+        frameSize = CGSizeMake(frameSize.height, frameSize.width);
     }
+    
+    newFrame.origin = CGPointMake((frameSize.width - newFrame.size.width) / 2.0f,
+                                      frameSize.height - newFrame.size.height);
     
     [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
         self.errorMarkingToolbar.frame = newFrame;
     }];
 }
 
-- (void)hideErrorMarkingToolbarWithOrientatiom:(UIInterfaceOrientation)orientation
+- (void)hideErrorMarkingToolbarAnimatedWithOrientatiom:(UIInterfaceOrientation)orientation
 {
     CGSize frameSize = self.frame.size;
     CGRect newFrame = self.errorMarkingToolbar.frame;
+    
     if (UIInterfaceOrientationIsLandscape(orientation)) {
-        newFrame.origin = CGPointMake((frameSize.height - newFrame.size.width) / 2.0f,
-                                      frameSize.width + newFrame.size.height) ;
-    } else {
-        newFrame.origin = CGPointMake((frameSize.width - newFrame.size.width) / 2.0f,
-                                      frameSize.height + newFrame.size.height);
+        frameSize = CGSizeMake(frameSize.height, frameSize.width);
     }
+    
+    newFrame.origin = CGPointMake((frameSize.width - newFrame.size.width) / 2.0f,
+                                  frameSize.height + newFrame.size.height);
     
     [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
         self.errorMarkingToolbar.frame = newFrame;
