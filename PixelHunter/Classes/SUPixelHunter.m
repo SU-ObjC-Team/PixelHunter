@@ -204,7 +204,7 @@ static id __sharedInstance;
 
 - (UIWindow *)getTopWindow
 {
-    return [[UIApplication sharedApplication] keyWindow];
+    return [[[UIApplication sharedApplication] delegate] window];
 }
 
 #pragma mark - Orientation handling
