@@ -29,7 +29,6 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
         self.backgroundColor = [[SUPixelHunterTheme colors] lightGrayBackgroundColor];
         self.userInteractionEnabled = YES;
         
-        // Init grid display button
         SUCompositeButtonModel *model = [SUCompositeButtonModel new];
         model.imageNormalName = @"grid_button.png";
         model.imagePressedName = @"grid_button_active.png";
@@ -38,7 +37,6 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
         self.displayGridButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.displayGridButton];
         
-        // Init show picker button
         model = [SUCompositeButtonModel new];
         model.imageNormalName = @"image_button.png";
         model.imagePressedName = @"image_button_active.png";
@@ -46,8 +44,7 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
 
         self.showPickerButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.showPickerButton];
-        
-        // Init show marking view controller button
+
         model = [SUCompositeButtonModel new];
         model.imageNormalName = @"next_button.png";
         model.imagePressedName = @"next_button_active.png";
@@ -56,8 +53,7 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
         self.showMarkingViewControllerButton = [[SUCompositeButton alloc] initWithModel:model];
         self.showMarkingViewControllerButton.separatorState = SUSeparatorHidden;
         [self addSubview:self.showMarkingViewControllerButton];
-        
-        // Init slider
+
         self.slider = [[UISlider alloc] init];
         self.slider.maximumValue = kSUSliderMaximumValue;
         self.slider.minimumValue = kSUSliderMinimumValue;
@@ -67,8 +63,7 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
         [[UISlider appearance] setMinimumTrackImage:[UIImage imageNamed:@"slider_line"] forState:UIControlStateNormal];
         [[UISlider appearance] setThumbImage:[UIImage imageNamed:@"slider_circle"] forState:UIControlStateNormal];
         [self addSubview:self.slider];
-        
-        // Init close button
+
         model = [SUCompositeButtonModel new];
         model.imageNormalName = @"close_button.png";
         model.imagePressedName = @"close_button_active.png";
@@ -76,8 +71,7 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
 
         self.closeButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.closeButton];
-        
-        // Init horizontal separator
+
         self.horizontalSeparatorImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gorizontal_separator.png"]];
         [self addSubview:self.horizontalSeparatorImageView];
     }
@@ -89,25 +83,27 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
 {
     [super layoutSubviews];
     
-    CGSize sz = self.bounds.size;
-    
-    // Layout slider
+    CGSize boundsSize = self.bounds.size;
+
     self.slider.frame = CGRectMake(20.0f, 0.0f, 280.0f, kSUToolBarHeight / 2);
-    
-    // Layout horizontal separator
-    self.horizontalSeparatorImageView.frame = CGRectMake(0.0f, CGRectGetMaxY(self.slider.frame), sz.width, 1.0f);
-    
-    // Layout close button
-    self.closeButton.frame = CGRectMake(0.0f, CGRectGetMaxY(self.horizontalSeparatorImageView.frame), kSUCloseButtonWidth, kSUCloseButtonHeight);
-    
-    // Layout grid display button
-    self.displayGridButton.frame = CGRectMake(CGRectGetMaxX(self.closeButton.frame), CGRectGetMinY(self.closeButton.frame), kSUCloseButtonWidth, kSUCloseButtonHeight);
-    
-    // Layout show picker button
-    self.showPickerButton.frame = CGRectMake(CGRectGetMaxX(self.displayGridButton.frame), CGRectGetMinY(self.closeButton.frame), kSUCloseButtonWidth, kSUCloseButtonHeight);
-    
-    // Layout show marking view controller button
-    self.showMarkingViewControllerButton.frame = CGRectMake(CGRectGetMaxX(self.showPickerButton.frame), CGRectGetMinY(self.closeButton.frame), kSUCloseButtonWidth, kSUCloseButtonHeight);
+
+    self.horizontalSeparatorImageView.frame = CGRectMake(0.0f, CGRectGetMaxY(self.slider.frame),
+                                                         boundsSize.width, 1.0f);
+
+    self.closeButton.frame = CGRectMake(0.0f, CGRectGetMaxY(self.horizontalSeparatorImageView.frame),
+                                        kSUCloseButtonWidth, kSUCloseButtonHeight);
+
+    self.displayGridButton.frame = CGRectMake(CGRectGetMaxX(self.closeButton.frame),
+                                              CGRectGetMinY(self.closeButton.frame),
+                                              kSUCloseButtonWidth, kSUCloseButtonHeight);
+
+    self.showPickerButton.frame = CGRectMake(CGRectGetMaxX(self.displayGridButton.frame),
+                                             CGRectGetMinY(self.closeButton.frame),
+                                             kSUCloseButtonWidth, kSUCloseButtonHeight);
+
+    self.showMarkingViewControllerButton.frame = CGRectMake(CGRectGetMaxX(self.showPickerButton.frame),
+                                                            CGRectGetMinY(self.closeButton.frame),
+                                                            kSUCloseButtonWidth, kSUCloseButtonHeight);
 }
 
 @end

@@ -27,12 +27,13 @@
     if (self) {
         self.autoresizesSubviews = YES;
         
-        // Init comment text view
         self.commentTextView = [[UITextView alloc] init];
-        self.placeholderText = NSLocalizedStringFromTable(@"TYPE_YOUR_TEXT_HERE", @"PixelHunter", nil);
+        self.placeholderText = NSLocalizedStringFromTable(@"TYPE_YOUR_TEXT_HERE",
+                                                          @"PixelHunter", nil);
         self.commentTextView.text = self.placeholderText;
         self.commentTextView.textColor = [UIColor colorWithWhite:0.7f alpha:1.0f];
-        self.commentTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.commentTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
+        UIViewAutoresizingFlexibleHeight;
         self.commentTextView.layer.cornerRadius = kSUCornerRadius;
         [self.commentTextView setReturnKeyType: UIReturnKeyDone];
         self.commentTextView.delegate = self;

@@ -21,10 +21,8 @@ static CGFloat const kSUColorCircleRadius = 10.0f;
         self.backgroundColor = [UIColor clearColor];
         self.userInteractionEnabled = YES;
         
-        // Init color
         self.color = color;
         
-        // Init color view button
         self.colorViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.colorViewButton.backgroundColor = [UIColor clearColor];
         [self addSubview:self.colorViewButton];

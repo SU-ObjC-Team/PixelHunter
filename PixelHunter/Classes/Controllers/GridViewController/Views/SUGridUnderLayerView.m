@@ -24,29 +24,24 @@
     self = [super initWithFrame:rect];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        
-        // Init scroll view
+
         self.scrollView = [[UIScrollView alloc] initWithFrame:rect];
         self.scrollView.bouncesZoom = NO;
         self.scrollView.bounces = NO;
         [self addSubview:self.scrollView];
-        
-        // Init container view
+
         self.containerView = [[UIView alloc] initWithFrame:rect];
         [self.scrollView addSubview:self.containerView];
-        
-        // Init screenshotImageView
+
         self.screenshotImageView = [[UIImageView alloc] initWithImage:image];
         self.screenshotImageView.contentMode = UIViewContentModeScaleAspectFit;
         [self.containerView addSubview:self.screenshotImageView];
-        
-        // Init mockup image view
+
         self.mockupImageView = [[UIImageView alloc] init];
         self.mockupImageView.alpha = kSUStartAlpha;
         self.mockupImageView.contentMode = UIViewContentModeScaleAspectFit;
         [self.containerView addSubview:self.mockupImageView];
-        
-        // Init grid view
+
         self.gridView = [[SUGridView alloc] init];
         self.gridView.hidden = YES;
         self.gridView.gridStepSize = kSUStepSize;
@@ -61,17 +56,17 @@
 {
     [super layoutSubviews];
     
-    CGSize sz = [super bounds].size;
+    CGSize boundsSize = [super bounds].size;
     
-    self.scrollView.frame = CGRectMake(0.0f, 0.0f, sz.width, sz.height);
+    self.scrollView.frame = CGRectMake(0.0f, 0.0f, boundsSize.width, boundsSize.height);
     
-    self.containerView.frame = CGRectMake(0.0f, 0.0f, sz.width, sz.height);
+    self.containerView.frame = CGRectMake(0.0f, 0.0f, boundsSize.width, boundsSize.height);
     
-    self.screenshotImageView.frame = CGRectMake(0.0f, 0.0f, sz.width, sz.height);
+    self.screenshotImageView.frame = CGRectMake(0.0f, 0.0f, boundsSize.width, boundsSize.height);
     
-    self.mockupImageView.frame = CGRectMake(0.0f, 0.0f, sz.width, sz.height);
+    self.mockupImageView.frame = CGRectMake(0.0f, 0.0f, boundsSize.width, boundsSize.height);
     
-    self.gridView.frame = CGRectMake(0.0f, 0.0f, sz.width, sz.height);
+    self.gridView.frame = CGRectMake(0.0f, 0.0f, boundsSize.width, boundsSize.height);
 }
 
 @end

@@ -50,7 +50,6 @@ static CGFloat const kSUToolbarHeight = 315.0f;
                                                                   action:@selector(showMarkingViewToolbar)];
         [self addSubview:self.errorMarkingToolbar];
         
-        // Init mark view toolbar
         self.markViewToolbar = [[SUMarkViewToolbar alloc] init];
         self.markViewToolbar.hidden = YES;
         self.markViewToolbar.frame = CGRectMake(sz.width,
@@ -58,7 +57,6 @@ static CGFloat const kSUToolbarHeight = 315.0f;
                                                 kSUToolbarWidth, kSUToolbarHeight);
         [self addSubview:self.markViewToolbar];
         
-        // Init button actions
         [self.markViewToolbar.borderWidthSliderButton addTarget:self
                                                          action:@selector(showSlider:)];
         [self.markViewToolbar.borderColorPickerButton addTarget:self

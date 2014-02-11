@@ -30,7 +30,6 @@ static NSString * const kSUVerticalSeparatorImageName = @"sidebar_vertical_separ
     if (self) {
         self.backgroundColor = [[SUPixelHunterTheme colors] lightGrayBackgroundColor];
         
-        // Init horizontal separator
         UIImage *image = [UIImage imageNamed:kSUHorizontalSeparatorImageName];
         self.horizontalSeparatorImageView = [[UIImageView alloc] initWithImage:image];
         [self addSubview:self.horizontalSeparatorImageView];
@@ -43,10 +42,10 @@ static NSString * const kSUVerticalSeparatorImageName = @"sidebar_vertical_separ
 {
     [super layoutSubviews];
     
-    CGSize sz = self.frame.size;
+    CGSize frameSize = self.frame.size;
 
     self.horizontalSeparatorImageView.frame = CGRectMake(0.0f,
-                                                         sz.height - kSUHorizontalSeparatorHeight,
+                                                         frameSize.height - kSUHorizontalSeparatorHeight,
                                                          kSUHorizontalSeparatorWidth,
                                                          kSUHorizontalSeparatorHeight);
 }

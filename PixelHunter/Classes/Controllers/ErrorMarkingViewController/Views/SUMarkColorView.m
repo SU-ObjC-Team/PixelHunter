@@ -28,14 +28,11 @@
     if (self) {
         self.hidden = YES;
         self.userInteractionEnabled = YES;
-        
-        // Init color views array
+
         self.colorViews = [[NSMutableArray alloc] init];
-        
-        // Init colors array
+
         [self setupColorArray];
-        
-        // Init color views
+
         for (NSInteger i = 0; i < [self.colorArray count]; i++) {
             SUColorView *colorView = [[SUColorView alloc] initWithColor:[self.colorArray objectAtIndex:i]];
             colorView.frame = [self rectWithIndex:i];
@@ -44,7 +41,6 @@
             [self.colorViews addObject:colorView];
         }
         
-        // Init selected color view
         self.selectedColorView = [[UIView alloc] init];
         self.selectedColorView.userInteractionEnabled = NO;
         self.selectedColorView.backgroundColor = [UIColor colorWithWhite:0.5f alpha:0.3f];
@@ -83,14 +79,7 @@
                                                 RGB(22.0f, 183.0f, 243.0f),
                                                 RGB(14.0f, 60.0f, 181.0f),
                                                 RGB(231.0f, 0.0f, 205.0f),
-//                       [UIColor colorWithRed:255.0f/255.0f green:0.0f/255.0f blue:19.0f/255.0f alpha:1.0f],
-//                       [UIColor colorWithRed:255.0f/255.0f green:98.0f/255.0f blue:36.0f/255.0f alpha:1.0f],
-//                       [UIColor colorWithRed:253.0f/255.0f green:254.0f/255.0f blue:80.0f/255.0f alpha:1.0f],
-//                       [UIColor colorWithRed:0.0f/255.0f green:185.0f/255.0f blue:59.0f/255.0f alpha:1.0f],
-//                       [UIColor colorWithRed:22.0f/255.0f green:183.0f/255.0f blue:243.0f/255.0f alpha:1.0f],
-//                       [UIColor colorWithRed:14.0f/255.0f green:60.0f/255.0f blue:181.0f/255.0f alpha:1.0f],
-//                       [UIColor colorWithRed:231.0f/255.0f green:0.0f/255.0f blue:205.0f/255.0f alpha:1.0f],
-                       nil];
+                                                nil];
 }
 
 @end

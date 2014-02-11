@@ -10,9 +10,9 @@
 
 @implementation SUGridRulerViewVertical
 
-- (CGRect)rectForLength:(CGFloat)lenght position:(NSInteger)position
+- (CGRect)rectForLength:(CGFloat)length position:(NSInteger)position
 {
-    return CGRectMake(0.0f, position * lenght, kSURulerSize, lenght);
+    return CGRectMake(0.0f, position * length, kSURulerSize, length);
 }
 
 - (CGFloat)maxLengthForRect:(CGRect)rect

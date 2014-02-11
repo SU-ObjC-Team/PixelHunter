@@ -24,7 +24,6 @@ static CGFloat const kSUButtonHeight = 48.0f;
         self.backgroundColor = [[SUPixelHunterTheme colors] lightGrayBackgroundColor];
         self.userInteractionEnabled = YES;
         
-        // Init add markingview button
         SUCompositeButtonModel *model = [SUCompositeButtonModel new];
         model.imageNormalName = @"add_screenshot_button.png";
         model.imagePressedName = @"add_screenshot_button_active.png";
@@ -33,7 +32,6 @@ static CGFloat const kSUButtonHeight = 48.0f;
         self.addMarkingViewButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.addMarkingViewButton];
         
-        // Init add text marking view button
         model = [SUCompositeButtonModel new];
         model.imageNormalName = @"add_note_button.png";
         model.imagePressedName = @"add_note_button_active.png";
@@ -42,7 +40,6 @@ static CGFloat const kSUButtonHeight = 48.0f;
         self.addTextMarkingViewButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.addTextMarkingViewButton];
         
-        // Init send mail button
         model = [SUCompositeButtonModel new];
         model.imageNormalName = @"email_buton.png";
         model.imagePressedName = @"email_buton_active.png";
@@ -50,8 +47,7 @@ static CGFloat const kSUButtonHeight = 48.0f;
 
         self.sendMailButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.sendMailButton];
-        
-        // Init show marking view toolbar button
+
         model = [SUCompositeButtonModel new];
         model.imageNormalName = @"settings_button.png";
         model.imagePressedName = @"settings_button_active.png";
@@ -62,7 +58,6 @@ static CGFloat const kSUButtonHeight = 48.0f;
         self.showMarkingViewToolbarButton.separatorState = SUSeparatorHidden;
         [self addSubview:self.showMarkingViewToolbarButton];
         
-        // Init back button
         model = [SUCompositeButtonModel new];
         model.imageNormalName = @"back_button.png";
         model.imagePressedName = @"back_button_active.png";
