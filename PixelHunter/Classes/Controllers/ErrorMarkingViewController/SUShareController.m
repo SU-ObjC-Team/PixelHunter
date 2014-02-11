@@ -12,6 +12,13 @@
 #import <AVFoundation/AVAudioPlayer.h>
 #import "SUPixelHunterScreenshotUtil.h"
 
+static NSString * const kSUBugImageName = @"Bug-image.png";
+static NSString * const kSUBugImageType = @"image/png";
+static NSString * const kSUSoundName = @"photoShutter";
+static NSString * const kSUSoundType = @"mp3";
+static const CGFloat kSUAnimationTime = 1.0f;
+static const CGFloat kSUImageQuality = 1.0f;
+
 
 @interface SUShareController () <MFMailComposeViewControllerDelegate>
 
@@ -34,6 +41,7 @@
         self.toolbar = toolbar;
         self.unnecessaryViewsArray = menuViewsArray;
         self.viewController = viewController;
+        
         [self.toolbar.sendMailButton addTarget:self action:@selector(sendScreenshotViaMail:)];
         [self createScreenshotSound];
     }
@@ -46,8 +54,10 @@
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
         mailComposeViewController.mailComposeDelegate = self;
+        
+        NSString *subjectString = NSLocalizedStringFromTable(@"MAIL_SUBJECT", @"PixelHunter", nil);
 
-        [mailComposeViewController setSubject:NSLocalizedStringFromTable(@"MAIL_SUBJECT", @"PixelHunter", nil)];
+        [mailComposeViewController setSubject:subjectString];
         for (UIView *view in self.unnecessaryViewsArray) {
             if (view.hidden == NO) {
                 [view setHidden:YES];
@@ -55,13 +65,19 @@
         }
         [self.screenshotSound play];
         [self showBlinkingViewWithCompletionBlock:^(void) {
-            UIImage *imageToSend = [SUPixelHunterScreenshotUtil convertViewToImage:self.viewController.view];
-            NSData *imageData = UIImageJPEGRepresentation(imageToSend, 1.0f);
-            [mailComposeViewController addAttachmentData:imageData mimeType:@"image/png" fileName:@"Bug-image.png"];
+            UIView *viewToSend = self.viewController.view;
+            UIImage *imageToSend = [SUPixelHunterScreenshotUtil convertViewToImage:viewToSend];
+            NSData *imageData = UIImageJPEGRepresentation(imageToSend, kSUImageQuality);
+            
+            [mailComposeViewController addAttachmentData:imageData
+                                                mimeType:kSUBugImageType
+                                                fileName:kSUBugImageName];
             NSString *emailBody = NSLocalizedStringFromTable(@"MAIL_BODY", @"PixelHunter", nil);
             [mailComposeViewController setMessageBody:emailBody isHTML:NO];
 
-            [self.viewController presentViewController:mailComposeViewController animated:YES completion:nil];
+            [self.viewController presentViewController:mailComposeViewController
+                                              animated:YES
+                                            completion:nil];
         }];
     } else {
         [self showErrorAlertView];
@@ -70,15 +86,19 @@
 
 - (void)createScreenshotSound
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"photoShutter" ofType:@"mp3"];
-    self.screenshotSound = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:nil];
+    NSString *path = [[NSBundle mainBundle] pathForResource:kSUSoundName ofType:kSUSoundType];
+    self.screenshotSound = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]
+                                                                  error:nil];
 }
 
 - (void)showBlinkingViewWithCompletionBlock:(void (^)())completionBlock
 {
     UIViewController *viewController;
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.viewController.view.frame.size.width, self.viewController.view.frame.size.height)];
-    [UIView animateWithDuration:1.0f animations:^{
+    CGSize frameSize = self.viewController.view.frame.size;
+    CGRect frameRect = CGRectMake(0.0f, 0.0f, frameSize.width, frameSize.height);
+    UIView *view = [[UIView alloc] initWithFrame:frameRect];
+    
+    [UIView animateWithDuration:kSUAnimationTime animations:^{
         [self.viewController.view addSubview:view];
         view.backgroundColor = [UIColor whiteColor];
         view.alpha = 0.0f;
@@ -90,16 +110,23 @@
 
 - (void)showErrorAlertView
 {
+    NSString *alertTitle = NSLocalizedStringFromTable(@"ERROR_ALERT_VIEW_TITLE",
+                                                      @"PixelHunter", nil);
+    NSString *alertMessage = NSLocalizedStringFromTable(@"ERROR_ALERT_VIEW_MESSAGE",
+                                                        @"PixelHunter", nil);
+    NSString *cancelButtonTitle = NSLocalizedStringFromTable(@"OK", @"PixelHunter", nil);
     UIAlertView *alertView = [[UIAlertView alloc]
-                              initWithTitle:NSLocalizedStringFromTable(@"ERROR_ALERT_VIEW_TITLE", @"PixelHunter", nil)
-                              message:NSLocalizedStringFromTable(@"ERROR_ALERT_VIEW_MESSAGE", @"PixelHunter", nil)
+                              initWithTitle:alertTitle
+                              message:alertMessage
                               delegate:self
-                              cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"PixelHunter", nil)
+                              cancelButtonTitle:cancelButtonTitle
                               otherButtonTitles:nil];
     [alertView show];
 }
 
-- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+- (void)mailComposeController:(MFMailComposeViewController *)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError *)error
 {
     switch(result)
     {
