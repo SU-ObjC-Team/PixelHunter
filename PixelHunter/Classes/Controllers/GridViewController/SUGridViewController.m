@@ -40,8 +40,8 @@
 {
     [super loadView];
     
-    CGSize sz = [[UIScreen mainScreen] applicationFrame].size;
-    CGRect rc = CGRectMake(0.0f, 0.0f, sz.width, sz.height);
+    CGSize frameSize = [[UIScreen mainScreen] applicationFrame].size;
+    CGRect rc = CGRectMake(0.0f, 0.0f, frameSize.width, frameSize.height);
     SUGridRootView *view = [[SUGridRootView alloc]
                             initWithFrame:rc withImage:self.screenshotImage];
     view.contentMode = UIViewContentModeScaleAspectFit;
