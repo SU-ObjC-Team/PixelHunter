@@ -128,23 +128,20 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
 - (void)changeBorderWidth:(UISlider *)sender
 {
-    for (SUMarkView *subview in [self.rootView subviews]) {
-        if ([subview isKindOfClass:[SUMarkView class]]) {
-            if (subview.isActive) {
-                subview.layer.borderWidth = [sender value];
-            }
+    for (SUMarkView *markView in self.markViewsArray) {
+        if (markView.isActive) {
+            markView.layer.borderWidth = [sender value];
         }
     }
 }
 
 - (void)colorViewPickedWithColor:(UIColor *)color withSelectedColorViewCenter:(CGPoint)center
 {
-    for (SUMarkView *subview in [self.rootView subviews]) {
-        if ([subview isKindOfClass:[SUMarkView class]]) {
-            if (subview.isActive) {
-                subview.layer.borderColor = color.CGColor;
-                subview.selectedColorCenter = center;
-            }
+    for (SUMarkView *markView in self.markViewsArray) {
+        if (markView.isActive) {
+            markView.layer.borderColor = color.CGColor;
+            markView.selectedColorCenter = center;
+            break;
         }
     }
 }
@@ -167,15 +164,17 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 {
     [self makeViewActiveWithRecognizer:recognizer];
     [self switchMarkViewCornerTypeOnView:recognizer.view];
-    
-    for (SUTextMarkView *subview in [self.rootView subviews]) {
-        if ([subview isKindOfClass:[SUTextMarkView class]]) {
-            [subview.commentTextView endEditing:YES];
-            if (subview.isActive) {
-                subview.commentTextView.userInteractionEnabled = YES;
-                [subview.commentTextView becomeFirstResponder];
+
+    for (SUTextMarkView *markTextView in self.markViewsArray) {
+
+        if ([markTextView isKindOfClass:[SUTextMarkView class]]) {
+
+            [markTextView.commentTextView endEditing:YES];
+            if (markTextView.isActive) {
+                markTextView.commentTextView.userInteractionEnabled = YES;
+                [markTextView.commentTextView becomeFirstResponder];
             } else {
-                subview.commentTextView.userInteractionEnabled = NO;
+                markTextView.commentTextView.userInteractionEnabled = NO;
             }
         }
     }
@@ -185,11 +184,11 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 {
     [self makeViewActiveWithRecognizer:recognizer];
     [self switchMarkViewCornerTypeOnView:recognizer.view];
-    
-    for (SUTextMarkView *subview in [self.rootView subviews]) {
-        if ([subview isKindOfClass:[SUTextMarkView class]]) {
-            if (!subview.isActive) {
-                [subview.commentTextView endEditing:YES];
+
+    for (SUTextMarkView *markTextView in self.markViewsArray) {
+        if ([markTextView isKindOfClass:[SUTextMarkView class]]) {
+            if (!markTextView.isActive) {
+                [markTextView.commentTextView endEditing:YES];
             }
         }
     }
@@ -197,19 +196,18 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
 - (void)makeViewActiveWithRecognizer:(UIGestureRecognizer *)recognizer
 {
-    for (SUMarkView *subview in [self.rootView subviews]) {
-        if ([subview isKindOfClass:[SUMarkView class]]) {
-            subview.isActive = NO;
-        }
+    for (SUMarkView *markView in self.markViewsArray) {
+        markView.isActive = NO;
     }
     
+    SUMarkView *markView = (SUMarkView *)recognizer.view;
     self.rootView.markViewToolbar.widthSlider.value =
-        ((SUMarkView *)recognizer.view).layer.borderWidth;
+        markView.layer.borderWidth;
     self.rootView.markViewToolbar.markColorView.selectedColorView.center =
-        ((SUMarkView *)recognizer.view).selectedColorCenter;
+        markView.selectedColorCenter;
     
-    if (!((SUMarkView *)recognizer.view).isActive) {
-        ((SUMarkView *)recognizer.view).isActive = YES;
+    if (!markView.isActive) {
+        markView.isActive = YES;
     }
 }
 
@@ -217,45 +215,49 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
 - (void)handlePinch:(UIPinchGestureRecognizer *)recognizer
 {
-    for (SUMarkView *subview in [self.rootView subviews]) {
-        if ([subview isKindOfClass:[SUMarkView class]]) {
-            if (subview.isActive) {
-                if ([recognizer numberOfTouches] == 2) {
-                    CGFloat x = [recognizer locationInView:subview].x - [recognizer locationOfTouch:1 inView:subview].x;
-                    if (x < 0) {
-                        x *= -1;
-                    }
-                    CGFloat y = [recognizer locationInView:subview].y - [recognizer locationOfTouch:1 inView:subview].y;
-                    if (y < 0) {
-                        y *= -1;
-                    }
-                    
-                    if (recognizer.state == UIGestureRecognizerStateBegan) {
-                        self.horizontalScale = subview.bounds.size.width - x * 2;
-                        self.verticalScale = subview.bounds.size.height - y * 2;
-                    }
-                        
-                    CGFloat width = x * 2 + self.horizontalScale;
-                    if (width < kSUMinimumViewSideSize) {
-                        width = kSUMinimumViewSideSize;
-                    }
-                    if (width > self.view.frame.size.width) {
-                        width = self.view.frame.size.width;
-                    }
-                    CGFloat height = y * 2 + self.verticalScale;
-                    if (height < kSUMinimumViewSideSize) {
-                        height = kSUMinimumViewSideSize;
-                    }
-                    if (height > self.view.frame.size.height) {
-                        height = self.view.frame.size.height;
-                    }
-                    subview.bounds = CGRectMake(subview.bounds.origin.x , subview.bounds.origin.y , width, height);
-                    
-                    if (recognizer.state == UIGestureRecognizerStateEnded) {
-                        [self moveView:subview toVisiblePositionOnParentView:self.view];
-                    }
-                    [recognizer setScale:1.0f];
+    for (SUMarkView *markView in self.markViewsArray) {
+    
+        if (markView.isActive) {
+            if ([recognizer numberOfTouches] == 2) {
+                
+                CGPoint locationInView = [recognizer locationInView:markView];
+                CGPoint locationOfTouch = [recognizer locationOfTouch:1 inView:markView];
+                
+                CGFloat x = locationInView.x - locationOfTouch.x;
+                if (x < 0) {
+                    x *= -1;
                 }
+
+                CGFloat y = locationInView.y - locationOfTouch.y;
+                if (y < 0) {
+                    y *= -1;
+                }
+                
+                if (recognizer.state == UIGestureRecognizerStateBegan) {
+                    self.horizontalScale = markView.bounds.size.width - x * 2;
+                    self.verticalScale = markView.bounds.size.height - y * 2;
+                }
+                    
+                CGFloat width = x * 2 + self.horizontalScale;
+                if (width < kSUMinimumViewSideSize) {
+                    width = kSUMinimumViewSideSize;
+                }
+                if (width > self.view.frame.size.width) {
+                    width = self.view.frame.size.width;
+                }
+                CGFloat height = y * 2 + self.verticalScale;
+                if (height < kSUMinimumViewSideSize) {
+                    height = kSUMinimumViewSideSize;
+                }
+                if (height > self.view.frame.size.height) {
+                    height = self.view.frame.size.height;
+                }
+                markView.bounds = CGRectMake(markView.bounds.origin.x , markView.bounds.origin.y , width, height);
+                
+                if (recognizer.state == UIGestureRecognizerStateEnded) {
+                    [self moveView:markView toVisiblePositionOnParentView:self.view];
+                }
+                [recognizer setScale:1.0f];
             }
         }
     }
@@ -290,20 +292,18 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
     
     self.rootView.markViewToolbar.cornerTypeButton.state =
         pressed == YES ? SUCompositeButtonStateActivated : SUCompositeButtonStateNormal;
-    
-    for (SUMarkView *subview in [self.rootView subviews]) {
-        if ([subview isKindOfClass:[SUMarkView class]]) {
-            if (subview.isActive) {
-                if (subview.layer.cornerRadius == kSUCornerRadius) {
-                    subview.layer.cornerRadius = 0.0f;
-                    if ([subview isKindOfClass:[SUTextMarkView class]]) {
-                        ((SUTextMarkView *)subview).commentTextView.layer.cornerRadius = 0.0f;
-                    }
-                } else {
-                    subview.layer.cornerRadius = kSUCornerRadius;
-                    if ([subview isKindOfClass:[SUTextMarkView class]]) {
-                        ((SUTextMarkView *)subview).commentTextView.layer.cornerRadius = kSUCornerRadius;
-                    }
+
+    for (SUMarkView *markView in self.markViewsArray) {
+        if (markView.isActive) {
+            if (markView.layer.cornerRadius == kSUCornerRadius) {
+                markView.layer.cornerRadius = 0.0f;
+                if ([markView isKindOfClass:[SUTextMarkView class]]) {
+                    ((SUTextMarkView *)markView).commentTextView.layer.cornerRadius = 0.0f;
+                }
+            } else {
+                markView.layer.cornerRadius = kSUCornerRadius;
+                if ([markView isKindOfClass:[SUTextMarkView class]]) {
+                    ((SUTextMarkView *)markView).commentTextView.layer.cornerRadius = kSUCornerRadius;
                 }
             }
         }

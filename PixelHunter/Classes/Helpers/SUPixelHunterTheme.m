@@ -28,7 +28,8 @@ static SUPixelHunterTheme *_sharedTheme = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 	    _sharedTheme = [[SUPixelHunterTheme alloc] init];
-        [_sharedTheme performSelector:@selector(setColors:) withObject:[[SUPixelHunterColorProvider alloc] init]];
+        [_sharedTheme performSelector:@selector(setColors:)
+                           withObject:[[SUPixelHunterColorProvider alloc] init]];
 	});
     
 	return _sharedTheme;

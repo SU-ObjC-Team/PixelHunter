@@ -10,6 +10,12 @@
 
 static NSString * const kSUShakingAnimationKey = @"shakingAnimation";
 
+typedef enum {
+    SUMarkViewCornerTypeNone = 0,
+    SUMarkViewCornerTypeRound,
+    SUMarkViewCornerTypeCorner
+} SUMarkViewCornerType;
+
 @protocol SUMarkViewDelegate <NSObject>
 
 - (void)panGestureActivated:(UIPanGestureRecognizer *)recognizer;
@@ -29,5 +35,6 @@ static NSString * const kSUShakingAnimationKey = @"shakingAnimation";
 @property (nonatomic, assign) BOOL isActive;
 @property (nonatomic, assign) CGPoint selectedColorCenter;
 @property (nonatomic, assign) id <SUMarkViewDelegate> delegate;
+@property (nonatomic, assign) SUMarkViewCornerType *conterType;
 
 @end
