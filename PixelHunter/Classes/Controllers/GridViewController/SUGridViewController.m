@@ -41,9 +41,9 @@
     [super loadView];
     
     CGSize frameSize = [[UIScreen mainScreen] applicationFrame].size;
-    CGRect rc = CGRectMake(0.0f, 0.0f, frameSize.width, frameSize.height);
+    CGRect frameRect = CGRectMake(0.0f, 0.0f, frameSize.width, frameSize.height);
     SUGridRootView *view = [[SUGridRootView alloc]
-                            initWithFrame:rc withImage:self.screenshotImage];
+                            initWithFrame:frameRect withImage:self.screenshotImage];
     view.contentMode = UIViewContentModeScaleAspectFit;
     self.view = view;
     self.gridRootView = view;
@@ -119,8 +119,8 @@
 - (void)centerContainerViewWithSize:(CGSize)size
 {
     UIView *containerView = self.gridRootView.gridUnderLayerView.containerView;
-    CGRect rc = containerView.frame;
-    containerView.frame = [self centeredFrameWithSize:size inRect:rc];
+    CGRect frameRect = containerView.frame;
+    containerView.frame = [self centeredFrameWithSize:size inRect:frameRect];
 }
 
 - (CGRect)centeredFrameWithSize:(CGSize)size inRect:(CGRect)rect
