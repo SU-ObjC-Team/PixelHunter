@@ -61,7 +61,6 @@
         [self addSubview:colorView];
         [self.colorViews addObject:colorView];
     }
-    [self setupSelectedColorView];
 }
 
 - (CGRect)rectWithIndex:(NSInteger)index
