@@ -45,7 +45,7 @@ static CGFloat const kSUMarkColorViewIndent = 3.0f;
         self.widthSlider.minimumValue = 1.0f;
         self.widthSlider.maximumValue = 4.0f;
         self.widthSlider.value = 1.0f;
-        CGAffineTransform transform = CGAffineTransformMakeRotation(M_PI * 0.5);
+        CGAffineTransform transform = CGAffineTransformMakeRotation(M_PI * -0.5);
         self.widthSlider.transform = transform;
         [self addSubview:self.widthSlider];
         
