@@ -25,7 +25,7 @@ static const CGFloat kSUImageQuality = 1.0f;
 @property (nonatomic, strong) AVAudioPlayer *screenshotSound;
 @property (nonatomic, strong) SUErrorMarkingToolbar *toolbar;
 @property (nonatomic, strong) UIViewController *viewController;
-@property (nonatomic, strong) NSArray *unnecessaryViewsArray;
+@property (nonatomic, strong) NSArray *menuViewsArray;
 
 @end
 
@@ -39,7 +39,7 @@ static const CGFloat kSUImageQuality = 1.0f;
     self = [super init];
     if (self) {
         self.toolbar = toolbar;
-        self.unnecessaryViewsArray = menuViewsArray;
+        self.menuViewsArray = menuViewsArray;
         self.viewController = viewController;
         
         [self.toolbar.sendMailButton addTarget:self action:@selector(sendScreenshotViaMail:)];
@@ -58,7 +58,7 @@ static const CGFloat kSUImageQuality = 1.0f;
         NSString *subjectString = NSLocalizedStringFromTable(@"MAIL_SUBJECT", @"PixelHunter", nil);
 
         [mailComposeViewController setSubject:subjectString];
-        for (UIView *view in self.unnecessaryViewsArray) {
+        for (UIView *view in self.menuViewsArray) {
             if (view.hidden == NO) {
                 [view setHidden:YES];
             }
