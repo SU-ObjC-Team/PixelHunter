@@ -63,11 +63,6 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 {
     self.mainToolbarState = SUToolbarStateHidden;
     self.errorMarkingToolbar = [[SUErrorMarkingToolbar alloc] init];
-    CGSize boundsSize = [[UIScreen mainScreen] bounds].size;
-    CGRect toolbarFrame = CGRectMake((boundsSize.width - kSUErrorMarkingToolbarWidth) / 2.0f,
-                                     boundsSize.height,
-                                     kSUErrorMarkingToolbarWidth, kSUErrorMarkingToolbarHeight);
-    self.errorMarkingToolbar.frame = toolbarFrame;
     SEL displayMarkingViewToolbar = @selector(displayMarkingViewToolbar);
     [self.errorMarkingToolbar.showMarkingViewToolbarButton addTarget:self
                                                               action:displayMarkingViewToolbar];
