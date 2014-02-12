@@ -272,21 +272,17 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
     self.rootView.markViewToolbar.cornerTypeButton.state =
         pressed == YES ? SUCompositeButtonStateActivated : SUCompositeButtonStateNormal;
 
-    for (SUMarkView *markView in self.markViewsArray) {
-        if (markView.isActive) {
-            if (markView.layer.cornerRadius == kSUCornerRadius) {
-                markView.layer.cornerRadius = kSUZeroCornerRadius;
-                if ([markView isKindOfClass:[SUTextMarkView class]]) {
-                    SUTextMarkView *textMarkView = (SUTextMarkView *)markView;
-                    textMarkView.commentTextView.layer.cornerRadius = kSUZeroCornerRadius;
-                }
-            } else {
-                markView.layer.cornerRadius = kSUCornerRadius;
-                if ([markView isKindOfClass:[SUTextMarkView class]]) {
-                    SUTextMarkView *textMarkView = (SUTextMarkView *)markView;
-                    textMarkView.commentTextView.layer.cornerRadius = kSUCornerRadius;
-                }
-            }
+    if (self.activeMarkView.layer.cornerRadius == kSUCornerRadius) {
+        self.activeMarkView.layer.cornerRadius = kSUZeroCornerRadius;
+        if ([self.activeMarkView isKindOfClass:[SUTextMarkView class]]) {
+            SUTextMarkView *textMarkView = (SUTextMarkView *)self.activeMarkView;
+            textMarkView.commentTextView.layer.cornerRadius = kSUZeroCornerRadius;
+        }
+    } else {
+        self.activeMarkView.layer.cornerRadius = kSUCornerRadius;
+        if ([self.activeMarkView isKindOfClass:[SUTextMarkView class]]) {
+            SUTextMarkView *textMarkView = (SUTextMarkView *)self.activeMarkView;
+            textMarkView.commentTextView.layer.cornerRadius = kSUCornerRadius;
         }
     }
 }
