@@ -35,28 +35,33 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 {
     self = [super init];
     if (self) {
-        self.screenshotImageView = [[UIImageView alloc] initWithImage:screenshotImage];
-        self.screenshotImageView.contentMode = UIViewContentModeScaleAspectFit;
-        [self addSubview:self.screenshotImageView];
-        
-        self.tapGesture = [[UITapGestureRecognizer alloc] init];
-        [self addGestureRecognizer:self.tapGesture];
-        [self.tapGesture addTarget:self action:@selector(viewTapped)];
-        
-        self.pinchGesture = [[UIPinchGestureRecognizer alloc] init];
-        [self addGestureRecognizer:self.pinchGesture];
-        
+        [self initScreenshotImageViewWithImage:screenshotImage];
+        [self initGestureRecognizers];
         [self initErrorMarkingToolbar];
         [self initMarkViewToolbar];
-        
-        [self.markViewToolbar.borderWidthSliderButton addTarget:self
-                                                         action:@selector(displaySlider:)];
-        [self.markViewToolbar.borderColorPickerButton addTarget:self
-                                                         action:@selector(displayColorPicker:)];
-        [self showSeparatorWithButton:self.markViewToolbar.borderWidthSliderButton];
+        [self initActions];
     }
     
     return self;
+}
+
+#pragma mark - Initialization methods
+
+- (void)initScreenshotImageViewWithImage:(UIImage *)screenshotImage
+{
+    self.screenshotImageView = [[UIImageView alloc] initWithImage:screenshotImage];
+    self.screenshotImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self addSubview:self.screenshotImageView];
+}
+
+- (void)initGestureRecognizers
+{
+    self.tapGesture = [[UITapGestureRecognizer alloc] init];
+    [self addGestureRecognizer:self.tapGesture];
+    [self.tapGesture addTarget:self action:@selector(viewTapped)];
+    
+    self.pinchGesture = [[UIPinchGestureRecognizer alloc] init];
+    [self addGestureRecognizer:self.pinchGesture];
 }
 
 - (void)initErrorMarkingToolbar
@@ -76,6 +81,17 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
     [self addSubview:self.markViewToolbar];
 }
 
+- (void)initActions
+{
+    [self.markViewToolbar.borderWidthSliderButton addTarget:self
+                                                     action:@selector(displaySlider:)];
+    [self.markViewToolbar.borderColorPickerButton addTarget:self
+                                                     action:@selector(displayColorPicker:)];
+    [self showSeparatorWithButton:self.markViewToolbar.borderWidthSliderButton];
+}
+
+#pragma mark - Layout methods
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -92,7 +108,7 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 {
     CGSize boundsSize = self.bounds.size;
     CGFloat y = self.mainToolbarState == SUToolbarStateHidden ?
-    boundsSize.height : boundsSize.height - kSUErrorMarkingToolbarHeight;
+                boundsSize.height : boundsSize.height - kSUErrorMarkingToolbarHeight;
     CGRect newFrame = CGRectMake((boundsSize.width - kSUErrorMarkingToolbarWidth) / 2.0f, y,
                                  kSUErrorMarkingToolbarWidth, kSUErrorMarkingToolbarHeight);
     self.errorMarkingToolbar.frame = newFrame;
@@ -151,6 +167,7 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
     self.markViewToolbar.widthSlider.hidden = YES;
 }
 
+//TODO: Discuss solution to remove loop
 - (void)showSeparatorWithButton:(SUMarkViewToolbarCompositeButton *)button
 {
     for (SUMarkViewToolbarCompositeButton *button in [self.markViewToolbar subviews]) {
