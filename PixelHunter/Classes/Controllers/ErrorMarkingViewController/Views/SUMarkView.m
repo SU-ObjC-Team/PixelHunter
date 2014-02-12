@@ -20,7 +20,6 @@ static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0
 @interface SUMarkView ()
 
 @property (nonatomic, strong) UIView *gestureView;
-@property (nonatomic, strong) UIButton *removeButton;
 
 @end
 
@@ -55,6 +54,8 @@ static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0
         [self.removeButton setBackgroundImage:[UIImage imageNamed:kSUCloseButtonName] forState:UIControlStateNormal];
         self.removeButton.backgroundColor = [[SUPixelHunterTheme colors] darkGrayBackgroundColor];
         self.removeButton.frame = kSUMarkViewRemoveButtonFrame;
+        self.removeButton.hidden = YES;
+        [self addSubview:self.removeButton];
     }
     
     return self;
@@ -110,21 +111,10 @@ static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0
 
 #pragma mark - Public
 
-- (void)addShakingAnimationWithTarget:(id)target selector:(SEL)selector
+- (void)addDeleteButtonTarget:(id)target selector:(SEL)selector
 {
-    CAAnimation *animation = [self shakingViewAnimation];
-    [self.layer addAnimation:animation forKey:kSUShakingAnimationKey];
-    
     [self.removeButton removeTarget:nil action:nil forControlEvents:UIControlEventAllEvents];
     [self.removeButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.removeButton];
-}
-
-- (void)removeShakingAnimation
-{
-    [self.layer removeAnimationForKey:kSUShakingAnimationKey];
-    
-    [self.removeButton removeFromSuperview];
 }
 
 #pragma mark - Private
@@ -141,6 +131,24 @@ static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0
     animation.repeatCount = HUGE_VALF;
     
     return animation;
+}
+
+#pragma mark - Properties
+
+- (void)setIsDeletingAnimationOn:(BOOL)isDeletingAnimationOn
+{
+    _isDeletingAnimationOn = isDeletingAnimationOn;
+    
+    if (self.isDeletingAnimationOn == YES) {
+        
+        self.removeButton.hidden = NO;
+        CAAnimation *animation = [self shakingViewAnimation];
+        [self.layer addAnimation:animation forKey:kSUShakingAnimationKey];
+    } else {
+        
+        self.removeButton.hidden = YES;
+        [self.layer removeAnimationForKey:kSUShakingAnimationKey];
+    }
 }
 
 @end

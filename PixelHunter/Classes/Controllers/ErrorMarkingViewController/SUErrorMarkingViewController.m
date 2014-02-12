@@ -147,7 +147,7 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
     [self switchMarkViewCornerTypeOnView:markView];
     
     for (SUMarkView *subview in self.markViewsArray) {
-        [subview addShakingAnimationWithTarget:self selector:@selector(removeMarkView:)];
+        subview.isDeletingAnimationOn = YES;
     }
 }
 
@@ -169,7 +169,7 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
 - (void)panGestureActivatedWithView:(SUMarkView *)markView
 {
-    if (markView != self.activeMarkView) {
+    if (markView != self.activeMarkView && [self.activeMarkView isKindOfClass:[SUTextMarkView class]]) {
         [((SUTextMarkView *)self.activeMarkView).commentTextView endEditing:YES];
     }
     

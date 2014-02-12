@@ -28,8 +28,7 @@ typedef enum {
 @interface SUMarkView : UIView
 
 - (id)initWithView:(UIView *)view;
-- (void)addShakingAnimationWithTarget:(id)target selector:(SEL)selector;
-- (void)removeShakingAnimation;
+- (void)addDeleteButtonTarget:(id)target selector:(SEL)selector;
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
@@ -38,5 +37,7 @@ typedef enum {
 @property (nonatomic, assign) CGPoint selectedColorCenter;
 @property (nonatomic, assign) id <SUMarkViewDelegate> delegate;
 @property (nonatomic, assign) SUMarkViewCornerType *conterType;
+@property (nonatomic, assign) BOOL isDeletingAnimationOn;
+@property (nonatomic, strong) UIButton *removeButton;
 
 @end

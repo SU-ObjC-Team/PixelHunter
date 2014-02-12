@@ -39,6 +39,8 @@
         self.commentTextView.delegate = self;
         self.commentTextView.userInteractionEnabled = NO;
         [self addSubview:self.commentTextView];
+        
+        [self insertSubview:self.removeButton aboveSubview:self.commentTextView];
     }
     
     return self;
@@ -81,13 +83,15 @@
     [textView resignFirstResponder];
 }
 
-#pragma mark - From base calsses
+#pragma mark - Properties
 
-- (void)removeShakingAnimation
+- (void)setIsDeletingAnimationOn:(BOOL)isDeletingAnimationOn
 {
-    [super removeShakingAnimation];
-
-    [self.commentTextView endEditing:YES];
+    [super setIsDeletingAnimationOn:isDeletingAnimationOn];
+    
+    if (isDeletingAnimationOn == NO) {
+        [self.commentTextView endEditing:YES];
+    }
 }
 
 @end

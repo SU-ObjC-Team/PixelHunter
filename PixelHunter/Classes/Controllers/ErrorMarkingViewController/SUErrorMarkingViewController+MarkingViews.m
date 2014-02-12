@@ -38,6 +38,8 @@ static CGRect const kSUMarkViewFrame = {{50.0f, 50.0f}, {150.0f, 150.0f}};
     [self.markViewsArray addObject:markView];
     
     self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = NO;
+    
+    [markView addDeleteButtonTarget:self selector:@selector(removeMarkView:)];
 }
 
 - (void)removeMarkView:(UIButton *)sender
@@ -94,7 +96,7 @@ static CGRect const kSUMarkViewFrame = {{50.0f, 50.0f}, {150.0f, 150.0f}};
 - (void)stopShakingAnimation
 {
     for (SUMarkView *subview in self.markViewsArray) {
-        [subview removeShakingAnimation];
+        subview.isDeletingAnimationOn = NO;
     }
 }
 
