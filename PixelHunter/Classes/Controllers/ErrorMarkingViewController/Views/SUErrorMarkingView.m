@@ -63,10 +63,9 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 {
     self.mainToolbarState = SUToolbarStateHidden;
     self.errorMarkingToolbar = [[SUErrorMarkingToolbar alloc] init];
-    self.errorMarkingToolbar.hidden = YES;
     CGSize boundsSize = [[UIScreen mainScreen] bounds].size;
     CGRect toolbarFrame = CGRectMake((boundsSize.width - kSUErrorMarkingToolbarWidth) / 2.0f,
-                                     boundsSize.height + kSUErrorMarkingToolbarHeight,
+                                     boundsSize.height,
                                      kSUErrorMarkingToolbarWidth, kSUErrorMarkingToolbarHeight);
     self.errorMarkingToolbar.frame = toolbarFrame;
     SEL displayMarkingViewToolbar = @selector(displayMarkingViewToolbar);
@@ -86,11 +85,22 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 {
     [super layoutSubviews];
 
-    CGSize imageSize = self.screenshotImageView.image.size;
+    CGSize boundsSize = self.bounds.size;
     
-    self.screenshotImageView.frame = CGRectMake(0.0f, 0.0f, imageSize.width, imageSize.height);
+    self.screenshotImageView.frame = CGRectMake(0.0f, 0.0f, boundsSize.width, boundsSize.height);
     
+    [self layoutMainToolbar];
     [self layoutMarkToolbar];
+}
+
+- (void)layoutMainToolbar
+{
+    CGSize boundsSize = self.bounds.size;
+    CGFloat y = self.mainToolbarState == SUToolbarStateHidden ?
+    boundsSize.height : boundsSize.height - kSUErrorMarkingToolbarHeight;
+    CGRect newFrame = CGRectMake((boundsSize.width - kSUErrorMarkingToolbarWidth) / 2.0f, y,
+                                 kSUErrorMarkingToolbarWidth, kSUErrorMarkingToolbarHeight);
+    self.errorMarkingToolbar.frame = newFrame;
 }
 
 - (void)layoutMarkToolbar
@@ -98,9 +108,9 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
     CGSize boundsSize = self.bounds.size;
     CGFloat x = self.markToolbarState == SUToolbarStateHidden ?
                 boundsSize.width : boundsSize.width - kSUMarkViewToolbarWidth;
-    self.markViewToolbar.frame = CGRectMake(x, (boundsSize.height - kSUMarkViewToolbarHeight) / 2.0f,
-                                            kSUMarkViewToolbarWidth, kSUMarkViewToolbarHeight);
-    
+    CGRect newFrame = CGRectMake(x, (boundsSize.height - kSUMarkViewToolbarHeight) / 2.0f,
+                                 kSUMarkViewToolbarWidth, kSUMarkViewToolbarHeight);
+    self.markViewToolbar.frame = newFrame;
 }
 
 #pragma mark - Toolbar show/hide
@@ -160,7 +170,7 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 
 - (void)viewTapped
 {
-    if (self.errorMarkingToolbar.hidden) {
+    if (self.mainToolbarState == SUToolbarStateHidden) {
         [self showErrorMarkingToolbarAnimated];
         
     } else {
@@ -174,38 +184,17 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 
 - (void)showErrorMarkingToolbarAnimated
 {
-    self.errorMarkingToolbar.hidden = NO;
-    CGSize frameSize = self.frame.size;
-    CGRect newFrame = self.errorMarkingToolbar.frame;
-
-    if ([self isLandscape]) {
-        frameSize = CGSizeMake(frameSize.height, frameSize.width);
-    }
-    
-    newFrame.origin = CGPointMake((frameSize.width - newFrame.size.width) / 2.0f,
-                                      frameSize.height - newFrame.size.height);
-    
+    self.mainToolbarState = SUToolbarStateShown;
     [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-        self.errorMarkingToolbar.frame = newFrame;
+        [self layoutMainToolbar];
     }];
 }
 
 - (void)hideErrorMarkingToolbarAnimated
 {
-    CGSize frameSize = self.frame.size;
-    CGRect newFrame = self.errorMarkingToolbar.frame;
-    
-    if ([self isLandscape]) {
-        frameSize = CGSizeMake(frameSize.height, frameSize.width);
-    }
-    
-    newFrame.origin = CGPointMake((frameSize.width - newFrame.size.width) / 2.0f,
-                                  frameSize.height + newFrame.size.height);
-    
+    self.mainToolbarState = SUToolbarStateHidden;
     [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-        self.errorMarkingToolbar.frame = newFrame;
-    } completion:^(BOOL finished) {
-        self.errorMarkingToolbar.hidden = YES;
+        [self layoutMainToolbar];
     }];
 }
 
