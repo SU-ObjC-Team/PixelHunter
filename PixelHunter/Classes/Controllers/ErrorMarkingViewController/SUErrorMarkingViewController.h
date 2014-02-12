@@ -15,6 +15,7 @@
 - (id)initWithImage:(UIImage *)screenshotImage;
 - (void)handleTap:(UITapGestureRecognizer *)recognizer;
 - (void)handleLongPress:(UILongPressGestureRecognizer *)recognizer;
+- (void)makeViewActive:(SUMarkView *)markView;
 
 @property (nonatomic, strong) NSMutableArray *markViewsArray;
 @property (nonatomic, strong) SUErrorMarkingView *rootView;

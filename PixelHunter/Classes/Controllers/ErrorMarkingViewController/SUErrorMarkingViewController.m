@@ -17,7 +17,6 @@ static CGFloat const kSUMaxValidScale = 2.0f;
 static CGFloat const kSUScaleRestraintStartValue = 1.5f;
 static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
-
 @interface SUErrorMarkingViewController () <UIGestureRecognizerDelegate,
                                             SUMarkColorViewDelegate>
 
@@ -26,6 +25,7 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 @property (nonatomic, assign) CGFloat horizontalScale;
 @property (nonatomic, assign) CGFloat verticalScale;
 @property (nonatomic, assign) CGRect tempTextMarkViewRect;
+@property (nonatomic, strong) SUMarkView *activeMarkView;
 
 @end
 
@@ -45,7 +45,6 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 - (void)loadView
 {
     SUErrorMarkingView *view = [[SUErrorMarkingView alloc] initWithImage:self.screenshotImage];
-    view.contentMode = UIViewContentModeScaleAspectFit;
     self.view = view;
     self.rootView = view;
 }
@@ -63,6 +62,19 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
     [self addGestureRecognizers];
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
+- (void)showPreviousViewController
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Initialization methods
+
+//TODO:Dicsuss solution on Friday
 - (void)initShareController
 {
     SUErrorMarkingToolbar *errorToolbar = self.rootView.errorMarkingToolbar;
@@ -99,18 +111,6 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
     [self.rootView.tapGesture addTarget:self action:@selector(stopShakingAnimation)];
 }
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
-
-- (void)showPreviousViewController
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-#pragma mark - Notifications
-
 - (void)subscribeForKeyboardAppearance
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -131,6 +131,7 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
     for (SUMarkView *markView in self.markViewsArray) {
         if (markView.isActive) {
             markView.layer.borderWidth = [sender value];
+            break;
         }
     }
 }
@@ -150,7 +151,7 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
 - (void)handleLongPress:(UILongPressGestureRecognizer *)recognizer
 {
-    [self makeViewActiveWithRecognizer:recognizer];
+    [self makeViewActive:(SUMarkView *)recognizer.view];
     [self switchMarkViewCornerTypeOnView:recognizer.view];
     
     for (SUMarkView *subview in self.markViewsArray) {
@@ -162,7 +163,7 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
 - (void)handleTap:(UITapGestureRecognizer *)recognizer
 {
-    [self makeViewActiveWithRecognizer:recognizer];
+    [self makeViewActive:(SUMarkView *)recognizer.view];
     [self switchMarkViewCornerTypeOnView:recognizer.view];
 
     for (SUTextMarkView *markTextView in self.markViewsArray) {
@@ -182,7 +183,7 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
 - (void)panGestureActivated:(UIPanGestureRecognizer *)recognizer
 {
-    [self makeViewActiveWithRecognizer:recognizer];
+    [self makeViewActive:(SUMarkView *)recognizer.view];
     [self switchMarkViewCornerTypeOnView:recognizer.view];
 
     for (SUTextMarkView *markTextView in self.markViewsArray) {
@@ -194,21 +195,17 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
     }
 }
 
-- (void)makeViewActiveWithRecognizer:(UIGestureRecognizer *)recognizer
+- (void)makeViewActive:(SUMarkView *)markView
 {
-    for (SUMarkView *markView in self.markViewsArray) {
-        markView.isActive = NO;
-    }
-    
-    SUMarkView *markView = (SUMarkView *)recognizer.view;
+    self.activeMarkView.isActive = NO;
+
     self.rootView.markViewToolbar.widthSlider.value =
         markView.layer.borderWidth;
     self.rootView.markViewToolbar.markColorView.selectedColorView.center =
         markView.selectedColorCenter;
     
-    if (!markView.isActive) {
-        markView.isActive = YES;
-    }
+    self.activeMarkView = markView;
+    self.activeMarkView.isActive = YES;
 }
 
 #pragma mark - Handle pinch gesture
@@ -296,14 +293,16 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
     for (SUMarkView *markView in self.markViewsArray) {
         if (markView.isActive) {
             if (markView.layer.cornerRadius == kSUCornerRadius) {
-                markView.layer.cornerRadius = 0.0f;
+                markView.layer.cornerRadius = kSUZeroCornerRadius;
                 if ([markView isKindOfClass:[SUTextMarkView class]]) {
-                    ((SUTextMarkView *)markView).commentTextView.layer.cornerRadius = 0.0f;
+                    SUTextMarkView *textMarkView = (SUTextMarkView *)markView;
+                    textMarkView.commentTextView.layer.cornerRadius = kSUZeroCornerRadius;
                 }
             } else {
                 markView.layer.cornerRadius = kSUCornerRadius;
                 if ([markView isKindOfClass:[SUTextMarkView class]]) {
-                    ((SUTextMarkView *)markView).commentTextView.layer.cornerRadius = kSUCornerRadius;
+                    SUTextMarkView *textMarkView = (SUTextMarkView *)markView;
+                    textMarkView.commentTextView.layer.cornerRadius = kSUCornerRadius;
                 }
             }
         }

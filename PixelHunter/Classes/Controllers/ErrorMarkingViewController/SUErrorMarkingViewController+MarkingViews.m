@@ -34,6 +34,7 @@ static CGRect const kSUMarkViewFrame = {{50.0f, 50.0f}, {150.0f, 150.0f}};
     [self deactivateAllMarkViews];
     
     [self setupMarkView:markView];
+    [self makeViewActive:markView];
     
     [self.markViewsArray addObject:markView];
     

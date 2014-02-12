@@ -38,7 +38,7 @@ static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0
         self.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
         self.layer.borderWidth = 1.0f;
         self.layer.cornerRadius = kSUCornerRadius;
-        self.isActive = YES;
+        self.isActive = NO;
         self.selectedColorCenter = CGPointMake(kSUColorViewRect.size.width / 2, kSUColorViewRect.size.height / 2);
         
         self.tapGesture = [[UITapGestureRecognizer alloc] init];
