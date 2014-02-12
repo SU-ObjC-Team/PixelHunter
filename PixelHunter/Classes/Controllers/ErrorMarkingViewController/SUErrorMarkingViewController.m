@@ -24,7 +24,6 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 @property (nonatomic, strong) SUShareController *shareController;
 @property (nonatomic, assign) CGFloat horizontalScale;
 @property (nonatomic, assign) CGFloat verticalScale;
-@property (nonatomic, assign) CGRect tempTextMarkViewRect;
 @property (nonatomic, strong) SUMarkView *activeMarkView;
 
 @end
@@ -304,61 +303,70 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     return YES;
 }
 
-#pragma mark - Kayboard notifications methods
+#pragma mark - Keyboard notifications methods
+
+- (CGRect)screenBounds
+{
+    return [[UIScreen mainScreen] bounds];
+}
+
+
+- (void)swapSizeIfLandscape:(CGSize *)size
+{
+    if ([self isLandscape]) {
+        CGFloat temp = size->width;
+        size->width = size->height;
+        size->height = temp;
+    }
+}
+
+- (BOOL)isLandscape
+{
+    return UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation);
+}
 
 - (void)keyboardWillShow:(id)sender
 {
-    NSDictionary *userInfo = [sender userInfo];
+    CGFloat keyboardAnimationTime = [self keyboardAnimationTimeWithSender:sender];
     
-    CGFloat keyboardAnimationTime = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    NSDictionary *userInfo = [sender userInfo];
     CGRect keyboardRect = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
     keyboardRect = [self.view convertRect:keyboardRect toView:nil];
     CGSize keyboardSize = keyboardRect.size;
     
-    for (SUTextMarkView *subview in [self.rootView subviews]) {
-        if ([subview isKindOfClass:[SUTextMarkView class]]) {
-            if (subview.isActive) {
-                if (subview.frame.origin.y + subview.frame.size.height > self.view.frame.size.height - keyboardSize.height) {
-                    CGRect tempRect = self.rootView.frame;
-                    tempRect.origin.y -= keyboardSize.height;
-                    if (tempRect.origin.y == -keyboardSize.height) {
-                        [UIView animateWithDuration:keyboardAnimationTime animations:^{
-                            self.tempTextMarkViewRect = self.rootView.frame;
-                            self.rootView.frame = tempRect;
-                        }];
-                    }
-                }
-            }
+    CGRect tempRect = [self screenBounds];
+    [self swapSizeIfLandscape:&tempRect.size];
+    
+    CGFloat markViewPosition = CGRectGetMaxY(self.activeMarkView.frame);
+    CGFloat keyboardPosition = tempRect.size.height - keyboardSize.height;
+    if (markViewPosition > keyboardPosition) {
+        tempRect.origin.y += keyboardSize.height;
+        if (tempRect.origin.y == keyboardSize.height) {
+            [UIView animateWithDuration:keyboardAnimationTime animations:^{
+                self.view.bounds = tempRect;
+            }];
         }
     }
 }
 
 - (void)keyboardWillHide:(id)sender
 {
+    CGFloat keyboardAnimationTime = [self keyboardAnimationTimeWithSender:sender];
+    CGRect tempRect = [self screenBounds];
+    [self swapSizeIfLandscape:&tempRect.size];
+    
+    tempRect.origin.y = 0.0f;
+    [UIView animateWithDuration:keyboardAnimationTime animations:^{
+        self.view.bounds = tempRect;
+    }];
+}
+
+- (CGFloat)keyboardAnimationTimeWithSender:(id)sender
+{
     NSDictionary *userInfo = [sender userInfo];
+    id animationDurationKey = UIKeyboardAnimationDurationUserInfoKey;
     
-    CGFloat keyboardAnimationTime = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    CGRect keyboardRect = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    keyboardRect = [self.view convertRect:keyboardRect toView:nil];
-    
-    CGSize keyboardSize = keyboardRect.size;
-    
-    for (SUTextMarkView *subview in [self.rootView subviews]) {
-        if ([subview isKindOfClass:[SUTextMarkView class]]) {
-            if (subview.isActive) {
-                if (!CGRectIsEmpty(self.tempTextMarkViewRect) && (self.rootView.frame.origin.y != self.tempTextMarkViewRect.origin.y)) {
-                    CGRect tempRect = self.rootView.frame;
-                    tempRect.origin.y += keyboardSize.height;
-                    if (self.rootView.frame.origin.y == -keyboardSize.height) {
-                        [UIView animateWithDuration:keyboardAnimationTime animations:^{
-                            self.rootView.frame = tempRect;
-                            self.rootView.frame = self.tempTextMarkViewRect;
-                        }];
-                    }
-                }
-            }
-        }
-    }
+    return [[userInfo objectForKey:animationDurationKey] doubleValue];
 }
 
 @end
