@@ -31,7 +31,6 @@ static CGRect const kSUMarkViewFrame = {{50.0f, 50.0f}, {150.0f, 150.0f}};
 - (void)addMarkView:(SUMarkView *)markView
 {
     [self stopShakingAnimation];
-    [self deactivateAllMarkViews];
     
     [self setupMarkView:markView];
     [self makeViewActive:markView];
@@ -77,13 +76,6 @@ static CGRect const kSUMarkViewFrame = {{50.0f, 50.0f}, {150.0f, 150.0f}};
     }
     
     return isFrameValid;
-}
-
-- (void)deactivateAllMarkViews
-{
-    for (SUMarkView *subView in self.markViewsArray) {
-        subView.isActive = NO;
-    }
 }
 
 - (void)setupMarkView:(SUMarkView *)markView

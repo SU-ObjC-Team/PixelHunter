@@ -128,31 +128,23 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
 - (void)changeBorderWidth:(UISlider *)sender
 {
-    for (SUMarkView *markView in self.markViewsArray) {
-        if (markView.isActive) {
-            markView.layer.borderWidth = [sender value];
-            break;
-        }
-    }
+    self.activeMarkView.layer.borderWidth = [sender value];
 }
 
 - (void)colorViewPickedWithColor:(UIColor *)color withSelectedColorViewCenter:(CGPoint)center
 {
-    for (SUMarkView *markView in self.markViewsArray) {
-        if (markView.isActive) {
-            markView.layer.borderColor = color.CGColor;
-            markView.selectedColorCenter = center;
-            break;
-        }
-    }
+    self.activeMarkView.layer.borderColor = color.CGColor;
+    self.activeMarkView.selectedColorCenter = center;
 }
 
 #pragma mark - Handle long tap gesture
 
 - (void)handleLongPress:(UILongPressGestureRecognizer *)recognizer
 {
-    [self makeViewActive:(SUMarkView *)recognizer.view];
-    [self switchMarkViewCornerTypeOnView:recognizer.view];
+    SUMarkView *markView = (SUMarkView *)recognizer.view;
+    
+    [self makeViewActive:markView];
+    [self switchMarkViewCornerTypeOnView:markView];
     
     for (SUMarkView *subview in self.markViewsArray) {
         [subview addShakingAnimationWithTarget:self selector:@selector(removeMarkView:)];
@@ -163,36 +155,26 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
 - (void)handleTap:(UITapGestureRecognizer *)recognizer
 {
-    [self makeViewActive:(SUMarkView *)recognizer.view];
-    [self switchMarkViewCornerTypeOnView:recognizer.view];
-
-    for (SUTextMarkView *markTextView in self.markViewsArray) {
-
-        if ([markTextView isKindOfClass:[SUTextMarkView class]]) {
-
-            [markTextView.commentTextView endEditing:YES];
-            if (markTextView.isActive) {
-                markTextView.commentTextView.userInteractionEnabled = YES;
-                [markTextView.commentTextView becomeFirstResponder];
-            } else {
-                markTextView.commentTextView.userInteractionEnabled = NO;
-            }
-        }
+    SUMarkView *markView = (SUMarkView *)recognizer.view;
+    
+    if ([markView isKindOfClass:[SUTextMarkView class]]) {
+        
+        SUTextMarkView *markTextView = (SUTextMarkView *)markView;
+        [markTextView.commentTextView becomeFirstResponder];
     }
+
+    [self makeViewActive:markView];
+    [self switchMarkViewCornerTypeOnView:markView];
 }
 
-- (void)panGestureActivated:(UIPanGestureRecognizer *)recognizer
+- (void)panGestureActivatedWithView:(SUMarkView *)markView
 {
-    [self makeViewActive:(SUMarkView *)recognizer.view];
-    [self switchMarkViewCornerTypeOnView:recognizer.view];
-
-    for (SUTextMarkView *markTextView in self.markViewsArray) {
-        if ([markTextView isKindOfClass:[SUTextMarkView class]]) {
-            if (!markTextView.isActive) {
-                [markTextView.commentTextView endEditing:YES];
-            }
-        }
+    if (markView != self.activeMarkView) {
+        [((SUTextMarkView *)self.activeMarkView).commentTextView endEditing:YES];
     }
+    
+    [self makeViewActive:markView];
+    [self switchMarkViewCornerTypeOnView:markView];
 }
 
 - (void)makeViewActive:(SUMarkView *)markView

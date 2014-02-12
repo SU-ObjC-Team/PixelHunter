@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class SUMarkView;
+
 static NSString * const kSUShakingAnimationKey = @"shakingAnimation";
 
 typedef enum {
@@ -18,7 +20,7 @@ typedef enum {
 
 @protocol SUMarkViewDelegate <NSObject>
 
-- (void)panGestureActivated:(UIPanGestureRecognizer *)recognizer;
+- (void)panGestureActivatedWithView:(SUMarkView *)markView;
 
 @end
 

@@ -62,7 +62,8 @@ static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer
 {
-    [self.delegate panGestureActivated:recognizer];
+    SUMarkView *markView = (SUMarkView *)recognizer.view;
+    [self.delegate panGestureActivatedWithView:markView];
     CGPoint translation = [recognizer translationInView:self.gestureView];
     recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
                                          recognizer.view.center.y + translation.y);
