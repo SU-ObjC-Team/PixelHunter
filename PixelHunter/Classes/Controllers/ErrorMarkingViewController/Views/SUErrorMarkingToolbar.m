@@ -14,6 +14,20 @@ static CGFloat const kSUButtonIndent = 5.0f;
 static CGFloat const kSUButtonWidth = 65.0f;
 static CGFloat const kSUButtonHeight = 48.0f;
 
+static NSString * const kSUMarkingViewButtonImageNormalName = @"add_screenshot_button.png";
+static NSString * const kSUMarkingViewButtonImageActiveName = @"add_screenshot_button.png";
+
+static NSString * const kSUTextMarkingViewButtonImageNormalName = @"add_note_button.png";
+static NSString * const kSUTextMarkingViewButtonImageActiveName = @"add_note_button_active.png";
+
+static NSString * const kSUSendMailButtonImageNormalName = @"email_buton.png";
+static NSString * const kSUSendMailButtonImageActiveName = @"email_buton_active.png";
+
+static NSString * const kSUShowMarkingViewToolbarButtonImageNormalName = @"settings_button.png";
+static NSString * const kSUShowMarkingViewToolbarButtonImageActiveName = @"settings_button_active.png";
+
+static NSString * const kSUBackButtonImageNormalName = @"back_button.png";
+static NSString * const kSUBackButtonImageActiveName = @"back_button_active.png";
 
 @implementation SUErrorMarkingToolbar
 
@@ -25,33 +39,33 @@ static CGFloat const kSUButtonHeight = 48.0f;
         self.userInteractionEnabled = YES;
         
         SUCompositeButtonModel *model = [SUCompositeButtonModel new];
-        model.imageNormalName = @"add_screenshot_button.png";
-        model.imagePressedName = @"add_screenshot_button_active.png";
-        model.imageActivatedName = @"add_screenshot_button_active.png";
+        model.imageNormalName = kSUMarkingViewButtonImageNormalName;
+        model.imagePressedName = kSUMarkingViewButtonImageActiveName;
+        model.imageActivatedName = kSUMarkingViewButtonImageActiveName;
 
         self.addMarkingViewButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.addMarkingViewButton];
         
         model = [SUCompositeButtonModel new];
-        model.imageNormalName = @"add_note_button.png";
-        model.imagePressedName = @"add_note_button_active.png";
-        model.imageActivatedName = @"add_note_button_active.png";
+        model.imageNormalName = kSUTextMarkingViewButtonImageNormalName;
+        model.imagePressedName = kSUTextMarkingViewButtonImageActiveName;
+        model.imageActivatedName = kSUTextMarkingViewButtonImageActiveName;
         
         self.addTextMarkingViewButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.addTextMarkingViewButton];
         
         model = [SUCompositeButtonModel new];
-        model.imageNormalName = @"email_buton.png";
-        model.imagePressedName = @"email_buton_active.png";
-        model.imageActivatedName = @"email_buton_active.png";
+        model.imageNormalName = kSUSendMailButtonImageNormalName;
+        model.imagePressedName = kSUSendMailButtonImageActiveName;
+        model.imageActivatedName = kSUSendMailButtonImageActiveName;
 
         self.sendMailButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.sendMailButton];
 
         model = [SUCompositeButtonModel new];
-        model.imageNormalName = @"settings_button.png";
-        model.imagePressedName = @"settings_button_active.png";
-        model.imageActivatedName = @"settings_button_active.png";
+        model.imageNormalName = kSUShowMarkingViewToolbarButtonImageNormalName;
+        model.imagePressedName = kSUShowMarkingViewToolbarButtonImageActiveName;
+        model.imageActivatedName = kSUShowMarkingViewToolbarButtonImageActiveName;
 
         self.showMarkingViewToolbarButton = [[SUCompositeButton alloc] initWithModel:model];
         self.showMarkingViewToolbarButton.hidden = YES;
@@ -59,9 +73,9 @@ static CGFloat const kSUButtonHeight = 48.0f;
         [self addSubview:self.showMarkingViewToolbarButton];
         
         model = [SUCompositeButtonModel new];
-        model.imageNormalName = @"back_button.png";
-        model.imagePressedName = @"back_button_active.png";
-        model.imageActivatedName = @"back_button_active.png";
+        model.imageNormalName = kSUBackButtonImageNormalName;
+        model.imagePressedName = kSUBackButtonImageActiveName;
+        model.imageActivatedName = kSUBackButtonImageActiveName;
 
         self.backButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.backButton];
