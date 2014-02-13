@@ -10,6 +10,10 @@
 #import "SUPixelHunterScreenshotUtil.h"
 #import "SUErrorMarkingViewController.h"
 
+
+static CGFloat const kSUMaximumZoomScale = 40.0f;
+
+
 @interface SUGridViewController () <SUGridViewControllerDelegate,
                                     UIScrollViewDelegate,
                                     UIImagePickerControllerDelegate,

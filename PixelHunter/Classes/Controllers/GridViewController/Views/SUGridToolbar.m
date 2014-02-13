@@ -12,6 +12,10 @@
 
 static CGFloat const kSUSliderMinimumValue = 0.1f;
 static CGFloat const kSUSliderMaximumValue = 1.0f;
+static CGFloat const kSUSliderWidth = 280.0f;
+static CGFloat const kSUSliderHeight = 48.0f;
+static CGFloat const kSUButtonWidth = 80.0f;
+static CGFloat const kSUButtonHeight = 47.0f;
 
 @interface SUGridToolbar ()
 
@@ -59,9 +63,12 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
         self.slider.minimumValue = kSUSliderMinimumValue;
         self.slider.value = kSUStartAlpha;
         self.slider.enabled = NO;
-        [[UISlider appearance] setMaximumTrackImage:[UIImage imageNamed:@"slider_line"] forState:UIControlStateNormal];
-        [[UISlider appearance] setMinimumTrackImage:[UIImage imageNamed:@"slider_line"] forState:UIControlStateNormal];
-        [[UISlider appearance] setThumbImage:[UIImage imageNamed:@"slider_circle"] forState:UIControlStateNormal];
+        [[UISlider appearance] setMaximumTrackImage:[UIImage imageNamed:@"slider_line"]
+                                           forState:UIControlStateNormal];
+        [[UISlider appearance] setMinimumTrackImage:[UIImage imageNamed:@"slider_line"]
+                                           forState:UIControlStateNormal];
+        [[UISlider appearance] setThumbImage:[UIImage imageNamed:@"slider_circle"]
+                                    forState:UIControlStateNormal];
         [self addSubview:self.slider];
 
         model = [SUCompositeButtonModel new];
@@ -85,25 +92,25 @@ static CGFloat const kSUSliderMaximumValue = 1.0f;
     
     CGSize boundsSize = self.bounds.size;
 
-    self.slider.frame = CGRectMake(20.0f, 0.0f, 280.0f, kSUToolBarHeight / 2);
+    self.slider.frame = CGRectMake(20.0f, 0.0f, kSUSliderWidth, kSUSliderHeight);
 
     self.horizontalSeparatorImageView.frame = CGRectMake(0.0f, CGRectGetMaxY(self.slider.frame),
                                                          boundsSize.width, 1.0f);
 
     self.closeButton.frame = CGRectMake(0.0f, CGRectGetMaxY(self.horizontalSeparatorImageView.frame),
-                                        kSUCloseButtonWidth, kSUCloseButtonHeight);
+                                        kSUButtonWidth, kSUButtonHeight);
 
     self.displayGridButton.frame = CGRectMake(CGRectGetMaxX(self.closeButton.frame),
                                               CGRectGetMinY(self.closeButton.frame),
-                                              kSUCloseButtonWidth, kSUCloseButtonHeight);
+                                              kSUButtonWidth, kSUButtonHeight);
 
     self.showPickerButton.frame = CGRectMake(CGRectGetMaxX(self.displayGridButton.frame),
                                              CGRectGetMinY(self.closeButton.frame),
-                                             kSUCloseButtonWidth, kSUCloseButtonHeight);
+                                             kSUButtonWidth, kSUButtonHeight);
 
     self.showMarkingViewControllerButton.frame = CGRectMake(CGRectGetMaxX(self.showPickerButton.frame),
                                                             CGRectGetMinY(self.closeButton.frame),
-                                                            kSUCloseButtonWidth, kSUCloseButtonHeight);
+                                                            kSUButtonWidth, kSUButtonHeight);
 }
 
 @end

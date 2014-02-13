@@ -11,6 +11,8 @@
 #import "SUPixelHunterTheme.h"
 
 static NSString * const kSUSeparatorImageName = @"vertical_separator.png";
+static CGFloat const kSUSeparatorWidth = 2.0f;
+
 
 @implementation SUCompositeButtonModel
 

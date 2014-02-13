@@ -11,6 +11,9 @@
 #import "SUPixelHunterTheme.h"
 
 
+static CGFloat const kSUHorizontalSeparatorWidth = 46.0f;
+static CGFloat const kSUHorizontalSeparatorHeight = 2.0f;
+
 static NSString * const kSUHorizontalSeparatorImageName = @"sidebar_horizontal_separator.png";
 static NSString * const kSUVerticalSeparatorImageName = @"sidebar_vertical_separator.png";
 

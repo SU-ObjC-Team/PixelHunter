@@ -10,6 +10,8 @@
 #import "SUGridRulerViewHorizontal.h"
 #import "SUGridRulerViewVertical.h"
 
+static CGFloat const kSUToolBarHeight = 96.0f;
+static CGFloat const kSUToolBarWidth = 320.0f;
 
 @implementation SUGridRootView
 
@@ -117,7 +119,7 @@
 
 - (void)onViewTap
 {
-    CGSize frameSize = self.frame.size;
+    CGSize frameSize = [self screenBounds].size;
     [self swapSizeIfLandscape:&frameSize];
     CGRect toolbarFrame = CGRectMake((frameSize.width - kSUToolBarWidth) / 2.0f,
                                      frameSize.height,

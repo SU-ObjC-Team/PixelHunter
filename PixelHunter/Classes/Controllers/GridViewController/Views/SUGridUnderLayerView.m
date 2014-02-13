@@ -10,6 +10,8 @@
 #import "SUPixelHunterConstants.h"
 
 
+static CGFloat const kSUStepSize = 50.0f;
+
 @interface SUGridUnderLayerView ()
 
 @property (nonatomic, strong) UIImageView *screenshotImageView;

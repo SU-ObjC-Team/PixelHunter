@@ -19,6 +19,10 @@ static CGFloat const kSUMarkColorViewIndent = 3.0f;
 static CGFloat const kSUWidthSliderMinimumValue = 1.0f;
 static CGFloat const kSUWidthSliderMaximumValue = 4.0f;
 
+static CGFloat const kSUToolbarButtonWidth = 46.0f;
+static CGFloat const kSUToolbarColorViewWidth = 42.0f;
+static CGFloat const kSUToolbarButtonHeight = 105.0f;
+
 static NSString * const kSUCornerTypeButtonImageNormal = @"corner2_button.png";
 static NSString * const kSUCornerTypeButtonImageActive = @"corner_button.png";
 
@@ -82,26 +86,26 @@ static NSString * const kSUBorderColorPickerButtonImageActive = @"color_button_a
     [super layoutSubviews];
     
     self.borderWidthSliderButton.frame = CGRectMake(0.0f, 0.0f,
-                                                    kSUMarkViewToolbarButtonWidth,
-                                                    kSUMarkViewToolbarButtonHeight);
+                                                    kSUToolbarButtonWidth,
+                                                    kSUToolbarButtonHeight);
     
     self.borderColorPickerButton.frame = CGRectMake(0.0f,
                                                     CGRectGetMaxY(self.borderWidthSliderButton.frame),
-                                                    kSUMarkViewToolbarButtonWidth,
-                                                    kSUMarkViewToolbarButtonHeight);
+                                                    kSUToolbarButtonWidth,
+                                                    kSUToolbarButtonHeight);
     
     self.cornerTypeButton.frame = CGRectMake(0.0f,
                                              CGRectGetMaxY(self.borderColorPickerButton.frame),
-                                             kSUMarkViewToolbarButtonWidth,
-                                             kSUMarkViewToolbarButtonHeight);
+                                             kSUToolbarButtonWidth,
+                                             kSUToolbarButtonHeight);
     
     self.widthSlider.frame = CGRectMake(CGRectGetMaxX(self.borderWidthSliderButton.frame),
                                         kSUSliderStartY,
                                         kSUSliderWidth, kSUSliderHeight);
     
-    self.markColorView.frame = CGRectMake(kSUMarkViewToolbarButtonWidth + kSUMarkColorViewIndent,
+    self.markColorView.frame = CGRectMake(kSUToolbarButtonWidth + kSUMarkColorViewIndent,
                                           kSUMarkColorViewStartY,
-                                          kSUMarkViewToolbarColorViewWidth, kSUSliderHeight);
+                                          kSUToolbarColorViewWidth, kSUSliderHeight);
 }
 
 
