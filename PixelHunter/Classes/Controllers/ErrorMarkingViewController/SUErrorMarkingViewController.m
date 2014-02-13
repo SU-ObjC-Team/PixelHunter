@@ -8,7 +8,7 @@
 
 #import "SUErrorMarkingViewController.h"
 #import "SUErrorMarkingViewController+MarkingViews.h"
-
+#import "SUPixelHunterPositioningUtility.h"
 #import "SUShareController.h"
 #import "SUPixelHunterConstants.h"
 
@@ -233,7 +233,8 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
                 markView.bounds = CGRectMake(markView.bounds.origin.x , markView.bounds.origin.y , width, height);
                 
                 if (recognizer.state == UIGestureRecognizerStateEnded) {
-                    [self moveView:markView toVisiblePositionOnParentView:self.view];
+                    [SUPixelHunterPositioningUtility moveViewAnimated:markView
+                                                        toVisibleRect:self.view.bounds];
                 }
                 [recognizer setScale:1.0f];
             }
@@ -241,49 +242,18 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
     }
 }
 
-- (void)moveView:(UIView *)view toVisiblePositionOnParentView:(UIView *)parentView
-{
-    CGRect newFrame = view.frame;
-    if (view.frame.origin.y < parentView.frame.origin.y) {
-        newFrame.origin.y = parentView.frame.origin.y;
-    }
-    if (view.frame.origin.x < parentView.frame.origin.x) {
-        newFrame.origin.x = parentView.frame.origin.x;
-    }
-    if (view.frame.origin.x + view.frame.size.width > parentView.frame.size.width) {
-        newFrame.origin.x = parentView.frame.size.width - view.frame.size.width;
-    }
-    if (view.frame.origin.y + view.frame.size.height > parentView.frame.size.height) {
-        newFrame.origin.y = parentView.frame.size.height - view.frame.size.height;
-    }
-    [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-        view.frame = newFrame;
-    }];
-}
-
 #pragma mark - Switch mark view corner type
 
 - (void)switchMarkViewCornerType
 {
-    BOOL pressed = self.rootView.markViewToolbar.cornerTypeButton.state ==
-        SUCompositeButtonStateNormal ? YES : NO;
-    
-    self.rootView.markViewToolbar.cornerTypeButton.state =
-        pressed == YES ? SUCompositeButtonStateActivated : SUCompositeButtonStateNormal;
+    SUMarkViewToolbarCompositeButton *cornerButton =
+                self.rootView.markViewToolbar.cornerTypeButton;
+    cornerButton.state = cornerButton.state == SUCompositeButtonStateActivated ?
+        SUCompositeButtonStateNormal : SUCompositeButtonStateActivated;
 
-    if (self.activeMarkView.layer.cornerRadius == kSUCornerRadius) {
-        self.activeMarkView.layer.cornerRadius = kSUZeroCornerRadius;
-        if ([self.activeMarkView isKindOfClass:[SUTextMarkView class]]) {
-            SUTextMarkView *textMarkView = (SUTextMarkView *)self.activeMarkView;
-            textMarkView.commentTextView.layer.cornerRadius = kSUZeroCornerRadius;
-        }
-    } else {
-        self.activeMarkView.layer.cornerRadius = kSUCornerRadius;
-        if ([self.activeMarkView isKindOfClass:[SUTextMarkView class]]) {
-            SUTextMarkView *textMarkView = (SUTextMarkView *)self.activeMarkView;
-            textMarkView.commentTextView.layer.cornerRadius = kSUCornerRadius;
-        }
-    }
+    CGFloat cornerRadius = self.activeMarkView.cornerRadius;
+    cornerRadius = cornerRadius == kSUCornerRadius ? kSUZeroCornerRadius : kSUCornerRadius;
+    self.activeMarkView.cornerRadius = cornerRadius;
 }
 
 - (void)switchMarkViewCornerTypeOnView:(UIView *)view

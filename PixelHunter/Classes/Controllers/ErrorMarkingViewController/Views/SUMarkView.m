@@ -9,6 +9,8 @@
 #import "SUMarkView.h"
 #import "SUPixelHunterConstants.h"
 #import "SUPixelHunterTheme.h"
+#import "SUPixelHunterPositioningUtility.h"
+
 
 static NSString * const kSUTransfromrRotationName = @"transform.rotation";
 static CGFloat const kSUTransformRotationValue = 0.05f;
@@ -75,38 +77,10 @@ static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0
                                          recognizer.view.center.y);
         finalPoint.x = MIN(MAX(finalPoint.x, 0), self.gestureView.bounds.size.width);
         finalPoint.y = MIN(MAX(finalPoint.y, 0), self.gestureView.bounds.size.height);
-        [self returnView:recognizer.view toVisiblePositionOnParentView:recognizer.view.superview];
+        
+        [SUPixelHunterPositioningUtility moveViewAnimated:recognizer.view
+                                            toVisibleRect:recognizer.view.superview.bounds];
     }
-}
-
-- (void)returnView:(UIView *)view toVisiblePositionOnParentView:(UIView *)parentView
-{
-    CGRect newFrame = view.frame;
-    if (view.frame.origin.y < parentView.frame.origin.y) {
-        newFrame.origin.y = parentView.frame.origin.y;
-    }
-    if (view.frame.origin.x < parentView.frame.origin.x) {
-        newFrame.origin.x = parentView.frame.origin.x;
-    }
-    if (view.frame.origin.x + view.frame.size.width > parentView.frame.size.width) {
-        newFrame.origin.x = parentView.frame.size.width - view.frame.size.width;
-    }
-    if (view.frame.origin.y + view.frame.size.height > parentView.frame.size.height) {
-        newFrame.origin.y = parentView.frame.size.height - view.frame.size.height;
-    }
-    [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-        view.frame = newFrame;
-    }];
-}
-
-- (void)setIsActive:(BOOL)isActive
-{
-    if (isActive) {
-        self.layer.shadowOpacity = 1.0f;
-    } else {
-        self.layer.shadowOpacity = 0.0f;
-    }
-    _isActive = isActive;
 }
 
 #pragma mark - Public
@@ -149,6 +123,26 @@ static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0
         self.removeButton.hidden = YES;
         [self.layer removeAnimationForKey:kSUShakingAnimationKey];
     }
+}
+
+- (void)setIsActive:(BOOL)isActive
+{
+    if (isActive) {
+        self.layer.shadowOpacity = 1.0f;
+    } else {
+        self.layer.shadowOpacity = 0.0f;
+    }
+    _isActive = isActive;
+}
+
+- (CGFloat)cornerRadius
+{
+    return self.layer.cornerRadius;
+}
+
+- (void)setCornerRadius:(CGFloat)cornerRadius
+{
+    self.layer.cornerRadius = cornerRadius;
 }
 
 @end

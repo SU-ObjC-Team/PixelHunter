@@ -39,5 +39,6 @@ typedef enum {
 @property (nonatomic, assign) SUMarkViewCornerType *conterType;
 @property (nonatomic, assign) BOOL isDeletingAnimationOn;
 @property (nonatomic, strong) UIButton *removeButton;
+@property (nonatomic, assign) CGFloat cornerRadius;
 
 @end

@@ -94,4 +94,11 @@
     }
 }
 
+- (void)setCornerRadius:(CGFloat)cornerRadius
+{
+    [super setCornerRadius:cornerRadius];
+    
+    self.commentTextView.layer.cornerRadius = cornerRadius;
+}
+
 @end

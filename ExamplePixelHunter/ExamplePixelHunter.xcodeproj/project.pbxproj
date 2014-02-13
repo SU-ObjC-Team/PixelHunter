@@ -104,6 +104,7 @@
 		11CEAD581886E73A00C8BA29 /* photoShutter.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 11CEACFE1886E73A00C8BA29 /* photoShutter.mp3 */; };
 		CE24A2C11847B4FF00543E73 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE7B7FFD1847B43100B77A69 /* Main_iPad.storyboard */; };
 		CE24A2C21847B4FF00543E73 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE7B7FFF1847B43100B77A69 /* Main_iPhone.storyboard */; };
+		CE6BED6618ACC60B004613FB /* SUPixelHunterPositioningUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = CE6BED6518ACC60B004613FB /* SUPixelHunterPositioningUtility.m */; };
 		CE7B7F7D1847ACAB00B77A69 /* iPadMock.png in Resources */ = {isa = PBXBuildFile; fileRef = CE7B7F741847ACAB00B77A69 /* iPadMock.png */; };
 		CE7B7F7E1847ACAB00B77A69 /* iPhoneMock.png in Resources */ = {isa = PBXBuildFile; fileRef = CE7B7F751847ACAB00B77A69 /* iPhoneMock.png */; };
 		CEAA503B18588D0B00187CB9 /* SUAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAA503718588D0B00187CB9 /* SUAppDelegate.m */; };
@@ -238,6 +239,8 @@
 		11CEACFB1886E73A00C8BA29 /* vertical_separator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vertical_separator.png; sourceTree = "<group>"; };
 		11CEACFC1886E73A00C8BA29 /* vertical_separator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vertical_separator@2x.png"; sourceTree = "<group>"; };
 		11CEACFE1886E73A00C8BA29 /* photoShutter.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = photoShutter.mp3; sourceTree = "<group>"; };
+		CE6BED6418ACC60B004613FB /* SUPixelHunterPositioningUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUPixelHunterPositioningUtility.h; sourceTree = "<group>"; };
+		CE6BED6518ACC60B004613FB /* SUPixelHunterPositioningUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUPixelHunterPositioningUtility.m; sourceTree = "<group>"; };
 		CE7B7F741847ACAB00B77A69 /* iPadMock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPadMock.png; sourceTree = "<group>"; };
 		CE7B7F751847ACAB00B77A69 /* iPhoneMock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneMock.png; sourceTree = "<group>"; };
 		CE7B7FFE1847B43100B77A69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
@@ -399,6 +402,8 @@
 				11CEACAF1886E73A00C8BA29 /* SUPixelHunterTheme.h */,
 				11CEACB01886E73A00C8BA29 /* SUPixelHunterTheme.m */,
 				11CEACB11886E73A00C8BA29 /* ZGesture */,
+				CE6BED6418ACC60B004613FB /* SUPixelHunterPositioningUtility.h */,
+				CE6BED6518ACC60B004613FB /* SUPixelHunterPositioningUtility.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -750,6 +755,7 @@
 				11CEAD121886E73A00C8BA29 /* SUPixelHunterScreenshotUtil.m in Sources */,
 				11CEAD131886E73A00C8BA29 /* SUPixelHunterTheme.m in Sources */,
 				11CEAD071886E73A00C8BA29 /* SUMarkViewToolbarCompositeButton.m in Sources */,
+				CE6BED6618ACC60B004613FB /* SUPixelHunterPositioningUtility.m in Sources */,
 				11CEAD0A1886E73A00C8BA29 /* SUCompositeButton.m in Sources */,
 				11CEAD0B1886E73A00C8BA29 /* SUGridRootView.m in Sources */,
 				11CEAC7C1886E6EB00C8BA29 /* main.m in Sources */,
