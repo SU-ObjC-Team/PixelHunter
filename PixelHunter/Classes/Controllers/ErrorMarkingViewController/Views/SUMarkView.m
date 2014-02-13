@@ -17,7 +17,8 @@ static CGFloat const kSUTransformRotationValue = 0.05f;
 static CGFloat const kSURemovableViewShakeAnimationTime = 0.1f;
 static NSString * const kSUCloseButtonName = @"close_button.png";
 static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0f}};
-
+static CGFloat const kSUCornerRadius = 10.0f;
+static CGFloat const kSUZeroCornerRadius = 0.0f;
 
 @interface SUMarkView ()
 
@@ -41,6 +42,7 @@ static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0
         self.layer.cornerRadius = kSUCornerRadius;
         self.isActive = NO;
         self.selectedColorCenter = CGPointMake(kSUColorViewRect.size.width / 2, kSUColorViewRect.size.height / 2);
+        self.cornerType = SUMarkViewCornerTypeRound;
         
         self.tapGesture = [[UITapGestureRecognizer alloc] init];
         [self addGestureRecognizer:self.tapGesture];
@@ -135,14 +137,23 @@ static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0
     _isActive = isActive;
 }
 
-- (CGFloat)cornerRadius
+- (void)setCornerType:(SUMarkViewCornerType)cornerType
 {
-    return self.layer.cornerRadius;
-}
+    _cornerType = cornerType;
+    
+    switch (cornerType) {
+        case SUMarkViewCornerTypeNone:
+        case SUMarkViewCornerTypeCorner:
+            self.layer.cornerRadius = kSUZeroCornerRadius;
+            break;
 
-- (void)setCornerRadius:(CGFloat)cornerRadius
-{
-    self.layer.cornerRadius = cornerRadius;
+        case SUMarkViewCornerTypeRound:
+            self.layer.cornerRadius = kSUCornerRadius;
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

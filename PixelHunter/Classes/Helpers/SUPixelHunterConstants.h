@@ -28,9 +28,6 @@ static CGFloat const kSUMarkViewToolbarColorViewWidth = 42.0f;
 static CGFloat const kSUMarkViewToolbarButtonHeight = 105.0f;
 static CGFloat const kSUMarkViewToolbarSeparatorHeight = 105.0f;
 
-static CGFloat const kSUCornerRadius = 10.0f;
-static CGFloat const kSUZeroCornerRadius = 0.0f;
-
 static CGRect const kSUColorViewRect = {0.0f, 0.0f, 36.0f, 36.0f};
 
 static CGFloat const kSUStandardAnimationTime = 0.25f;

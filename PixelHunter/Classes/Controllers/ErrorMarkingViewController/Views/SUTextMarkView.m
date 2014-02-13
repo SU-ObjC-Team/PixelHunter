@@ -26,6 +26,7 @@
     self = [super initWithView:view];
     if (self) {
         self.autoresizesSubviews = YES;
+        self.cornerType = SUMarkViewCornerTypeRound;
         
         self.commentTextView = [[UITextView alloc] init];
         self.placeholderText = NSLocalizedStringFromTable(@"TYPE_YOUR_TEXT_HERE",
@@ -34,7 +35,7 @@
         self.commentTextView.textColor = [UIColor colorWithWhite:0.7f alpha:1.0f];
         self.commentTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
         UIViewAutoresizingFlexibleHeight;
-        self.commentTextView.layer.cornerRadius = kSUCornerRadius;
+        self.commentTextView.layer.cornerRadius = self.layer.cornerRadius;
         [self.commentTextView setReturnKeyType: UIReturnKeyDone];
         self.commentTextView.delegate = self;
         self.commentTextView.userInteractionEnabled = NO;
@@ -94,11 +95,23 @@
     }
 }
 
-- (void)setCornerRadius:(CGFloat)cornerRadius
+- (void)setCornerType:(SUMarkViewCornerType)cornerType
 {
-    [super setCornerRadius:cornerRadius];
+    [super setCornerType:cornerType];
     
-    self.commentTextView.layer.cornerRadius = cornerRadius;
+    switch (cornerType) {
+        case SUMarkViewCornerTypeNone:
+        case SUMarkViewCornerTypeCorner:
+            self.commentTextView.layer.cornerRadius = self.layer.cornerRadius;
+            break;
+            
+        case SUMarkViewCornerTypeRound:
+            self.commentTextView.layer.cornerRadius = self.layer.cornerRadius;
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

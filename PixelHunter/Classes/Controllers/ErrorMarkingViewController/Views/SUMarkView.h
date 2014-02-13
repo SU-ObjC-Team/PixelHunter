@@ -36,9 +36,8 @@ typedef enum {
 @property (nonatomic, assign) BOOL isActive;
 @property (nonatomic, assign) CGPoint selectedColorCenter;
 @property (nonatomic, assign) id <SUMarkViewDelegate> delegate;
-@property (nonatomic, assign) SUMarkViewCornerType *conterType;
+@property (nonatomic, assign) SUMarkViewCornerType cornerType;
 @property (nonatomic, assign) BOOL isDeletingAnimationOn;
 @property (nonatomic, strong) UIButton *removeButton;
-@property (nonatomic, assign) CGFloat cornerRadius;
 
 @end

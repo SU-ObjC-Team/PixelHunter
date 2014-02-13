@@ -250,18 +250,21 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
                 self.rootView.markViewToolbar.cornerTypeButton;
     cornerButton.state = cornerButton.state == SUCompositeButtonStateActivated ?
         SUCompositeButtonStateNormal : SUCompositeButtonStateActivated;
-
-    CGFloat cornerRadius = self.activeMarkView.cornerRadius;
-    cornerRadius = cornerRadius == kSUCornerRadius ? kSUZeroCornerRadius : kSUCornerRadius;
-    self.activeMarkView.cornerRadius = cornerRadius;
+    self.activeMarkView.cornerType = cornerButton.state == SUCompositeButtonStateActivated ?
+    SUMarkViewCornerTypeCorner : SUMarkViewCornerTypeRound;
 }
 
-- (void)switchMarkViewCornerTypeOnView:(UIView *)view
+- (void)switchMarkViewCornerTypeOnView:(SUMarkView *)markView
 {
-    if (view.layer.cornerRadius != kSUCornerRadius) {
-        self.rootView.markViewToolbar.cornerTypeButton.state = SUCompositeButtonStateActivated;
-    } else {
-        self.rootView.markViewToolbar.cornerTypeButton.state = SUCompositeButtonStateNormal;
+    SUMarkViewToolbarCompositeButton *cornerButton =
+                self.rootView.markViewToolbar.cornerTypeButton;
+    
+    if (markView.cornerType == SUMarkViewCornerTypeCorner) {
+        cornerButton.state = SUCompositeButtonStateActivated;
+    }
+    
+    if (markView.cornerType == SUMarkViewCornerTypeRound) {
+        cornerButton.state = SUCompositeButtonStateNormal;
     }
 }
 
