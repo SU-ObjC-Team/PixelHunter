@@ -17,6 +17,23 @@ static CGFloat const kSUSliderHeight = 48.0f;
 static CGFloat const kSUButtonWidth = 80.0f;
 static CGFloat const kSUButtonHeight = 47.0f;
 
+static NSString * const kSUDisplayGridButtonImageNormalName = @"grid_button.png";
+static NSString * const kSUDisplayGridButtonImageActiveName = @"grid_button_active.png";
+
+static NSString * const kSUShowPickerButtonImageNormalName = @"image_button.png";
+static NSString * const kSUShowPickerButtonImageActiveName = @"image_button_active.png";
+
+static NSString * const kSUShowMarkingViewControllerButtonImageNormalName = @"next_button.png";
+static NSString * const kSUShowMarkingViewControllerButtonImageActiveName = @"next_button_active.png";
+
+static NSString * const kSUCloseButtonImageNormalName = @"close_button.png";
+static NSString * const kSUCloseButtonImageActiveName = @"close_button_active.png";
+
+static NSString * const kSUSliderTrackImageName = @"slider_line.png";
+static NSString * const kSUThumbImageName = @"slider_circle.png";
+
+static NSString * const kSUHorizontalSeparatorImageName = @"gorizontal_separator.png";
+
 @interface SUGridToolbar ()
 
 @property (nonatomic, strong) UIImageView *horizontalSeparatorImageView;
@@ -34,25 +51,25 @@ static CGFloat const kSUButtonHeight = 47.0f;
         self.userInteractionEnabled = YES;
         
         SUCompositeButtonModel *model = [SUCompositeButtonModel new];
-        model.imageNormalName = @"grid_button.png";
-        model.imagePressedName = @"grid_button_active.png";
-        model.imageActivatedName = @"grid_button_active.png";
+        model.imageNormalName = kSUDisplayGridButtonImageNormalName;
+        model.imagePressedName = kSUDisplayGridButtonImageActiveName;
+        model.imageActivatedName = kSUDisplayGridButtonImageActiveName;
 
         self.displayGridButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.displayGridButton];
         
         model = [SUCompositeButtonModel new];
-        model.imageNormalName = @"image_button.png";
-        model.imagePressedName = @"image_button_active.png";
-        model.imageActivatedName = @"image_button_active.png";
+        model.imageNormalName = kSUShowPickerButtonImageNormalName;
+        model.imagePressedName = kSUShowPickerButtonImageActiveName;
+        model.imageActivatedName = kSUShowPickerButtonImageActiveName;
 
         self.showPickerButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.showPickerButton];
 
         model = [SUCompositeButtonModel new];
-        model.imageNormalName = @"next_button.png";
-        model.imagePressedName = @"next_button_active.png";
-        model.imageActivatedName = @"next_button_active.png";
+        model.imageNormalName = kSUShowMarkingViewControllerButtonImageNormalName;
+        model.imagePressedName = kSUShowMarkingViewControllerButtonImageActiveName;
+        model.imageActivatedName = kSUShowMarkingViewControllerButtonImageActiveName;
 
         self.showMarkingViewControllerButton = [[SUCompositeButton alloc] initWithModel:model];
         self.showMarkingViewControllerButton.separatorState = SUSeparatorHidden;
@@ -63,23 +80,24 @@ static CGFloat const kSUButtonHeight = 47.0f;
         self.slider.minimumValue = kSUSliderMinimumValue;
         self.slider.value = kSUStartAlpha;
         self.slider.enabled = NO;
-        [[UISlider appearance] setMaximumTrackImage:[UIImage imageNamed:@"slider_line"]
+        [[UISlider appearance] setMaximumTrackImage:[UIImage imageNamed:kSUSliderTrackImageName]
                                            forState:UIControlStateNormal];
-        [[UISlider appearance] setMinimumTrackImage:[UIImage imageNamed:@"slider_line"]
+        [[UISlider appearance] setMinimumTrackImage:[UIImage imageNamed:kSUSliderTrackImageName]
                                            forState:UIControlStateNormal];
-        [[UISlider appearance] setThumbImage:[UIImage imageNamed:@"slider_circle"]
+        [[UISlider appearance] setThumbImage:[UIImage imageNamed:kSUThumbImageName]
                                     forState:UIControlStateNormal];
         [self addSubview:self.slider];
 
         model = [SUCompositeButtonModel new];
-        model.imageNormalName = @"close_button.png";
-        model.imagePressedName = @"close_button_active.png";
-        model.imageActivatedName = @"close_button_active.png";
+        model.imageNormalName = kSUCloseButtonImageNormalName;
+        model.imagePressedName = kSUCloseButtonImageActiveName;
+        model.imageActivatedName = kSUCloseButtonImageActiveName;
 
         self.closeButton = [[SUCompositeButton alloc] initWithModel:model];
         [self addSubview:self.closeButton];
 
-        self.horizontalSeparatorImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gorizontal_separator.png"]];
+        UIImage *separatorImage = [UIImage imageNamed:kSUHorizontalSeparatorImageName];
+        self.horizontalSeparatorImageView = [[UIImageView alloc] initWithImage:separatorImage];
         [self addSubview:self.horizontalSeparatorImageView];
     }
     
