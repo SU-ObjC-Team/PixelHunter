@@ -10,8 +10,23 @@
 #import "SUGridRulerViewHorizontal.h"
 #import "SUGridRulerViewVertical.h"
 
+
+typedef enum {
+    SUToolbarStateNone = 0,
+    SUToolbarStateHidden,
+    SUToolbarStateShown
+} SUToolBarState;
+
+
 static CGFloat const kSUToolBarHeight = 96.0f;
 static CGFloat const kSUToolBarWidth = 320.0f;
+
+@interface SUGridRootView ()
+
+@property (nonatomic, assign) SUToolBarState toolbarState;
+
+@end
+
 
 @implementation SUGridRootView
 
@@ -39,6 +54,7 @@ static CGFloat const kSUToolBarWidth = 320.0f;
         [self addSubview:self.sideRuler];
         
         self.toolbar = [[SUGridToolbar alloc] init];
+        self.toolbarState = SUToolbarStateHidden;
         SEL displayGridAction = @selector(onDisplayGridButtonTap:);
         [self.toolbar.displayGridButton addTarget:self
                                            action:displayGridAction];
@@ -58,6 +74,7 @@ static CGFloat const kSUToolBarWidth = 320.0f;
 
     [self layoutRulerViews];
     [self layoutGridUnderlayerView];
+    [self layoutToolbar];
 }
 
 - (void)layoutRulerViews
@@ -82,15 +99,22 @@ static CGFloat const kSUToolBarWidth = 320.0f;
 {
     UIScrollView *scrollView = self.gridUnderLayerView.scrollView;
     [scrollView setZoomScale:scrollView.minimumZoomScale];
-    CGSize rulerSize = self.screenBounds.size;
+    CGSize boundsSize = self.screenBounds.size;
 
-    [self swapSizeIfLandscape:&rulerSize];
+    [self swapSizeIfLandscape:&boundsSize];
 
-    self.topRuler.frame = CGRectMake(0.0f, 0.0f, rulerSize.width, kSURulerSize);
-    self.sideRuler.frame = CGRectMake(0.0f, 0.0f, kSURulerSize, rulerSize.height);
-    self.toolbar.frame = CGRectMake((self.frame.size.width - kSUToolBarWidth) / 2.0f,
-                                    rulerSize.height,
-                                    kSUToolBarWidth, kSUToolBarHeight);
+    self.topRuler.frame = CGRectMake(0.0f, 0.0f, boundsSize.width, kSURulerSize);
+    self.sideRuler.frame = CGRectMake(0.0f, 0.0f, kSURulerSize, boundsSize.height);
+}
+
+- (void)layoutToolbar
+{
+    CGSize boundsSize = self.bounds.size;
+    CGFloat y = self.toolbarState == SUToolbarStateHidden ?
+    boundsSize.height : boundsSize.height - kSUToolBarHeight;
+    CGRect newFrame = CGRectMake((boundsSize.width - kSUToolBarWidth) / 2.0f, y,
+                                 kSUToolBarWidth, kSUToolBarHeight);
+    self.toolbar.frame = newFrame;
 }
 
 #pragma mark - Private
@@ -119,18 +143,27 @@ static CGFloat const kSUToolBarWidth = 320.0f;
 
 - (void)onViewTap
 {
-    CGSize frameSize = [self screenBounds].size;
-    [self swapSizeIfLandscape:&frameSize];
-    CGRect toolbarFrame = CGRectMake((frameSize.width - kSUToolBarWidth) / 2.0f,
-                                     frameSize.height,
-                                     kSUToolBarWidth, kSUToolBarHeight);
-    
-    if (self.toolbar.frame.origin.y >= frameSize.height) {
-        toolbarFrame.origin.y -= kSUToolBarHeight;
+    if (self.toolbarState == SUToolbarStateHidden) {
+        [self showToolbarAnimated];
+        
+    } else {
+        [self hideToolbarAnimated];
     }
-    
+}
+
+- (void)showToolbarAnimated
+{
+    self.toolbarState = SUToolbarStateShown;
     [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
-        self.toolbar.frame = toolbarFrame;
+        [self layoutToolbar];
+    }];
+}
+
+- (void)hideToolbarAnimated
+{
+    self.toolbarState = SUToolbarStateHidden;
+    [UIView animateWithDuration:kSUStandardAnimationTime animations:^{
+        [self layoutToolbar];
     }];
 }
 

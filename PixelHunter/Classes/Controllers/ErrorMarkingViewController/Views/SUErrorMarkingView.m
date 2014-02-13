@@ -15,10 +15,12 @@ typedef enum {
     SUToolbarStateShown
 } SUToolBarState;
 
+
 static CGFloat const kSUMarkViewToolbarWidth = 88.0f;
 static CGFloat const kSUMarkViewToolbarHeight = 315.0f;
 static CGFloat const kSUErrorMarkingToolbarWidth = 320.0f;
 static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
+
 
 @interface SUErrorMarkingView ()
 
@@ -58,7 +60,7 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 {
     self.tapGesture = [[UITapGestureRecognizer alloc] init];
     [self addGestureRecognizer:self.tapGesture];
-    [self.tapGesture addTarget:self action:@selector(viewTapped)];
+    [self.tapGesture addTarget:self action:@selector(onViewTap)];
     
     self.pinchGesture = [[UIPinchGestureRecognizer alloc] init];
     [self addGestureRecognizer:self.pinchGesture];
@@ -180,7 +182,7 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
     SUSeparatorHidden : SUSeparatorShown;
 }
 
-- (void)viewTapped
+- (void)onViewTap
 {
     if (self.mainToolbarState == SUToolbarStateHidden) {
         [self showErrorMarkingToolbarAnimated];
