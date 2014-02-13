@@ -16,6 +16,19 @@ static CGFloat const kSUSliderStartY = 15.0f;
 static CGFloat const kSUMarkColorViewStartY = 30.0f;
 static CGFloat const kSUMarkColorViewIndent = 3.0f;
 
+static CGFloat const kSUWidthSliderMinimumValue = 1.0f;
+static CGFloat const kSUWidthSliderMaximumValue = 4.0f;
+
+static NSString * const kSUCornerTypeButtonImageNormal = @"corner2_button.png";
+static NSString * const kSUCornerTypeButtonImageActive = @"corner_button.png";
+
+static NSString * const kSUBorderWidthSliderButtonImageNormal = @"stroke_button.png";
+static NSString * const kSUBorderWidthSliderButtonImageActive = @"stroke_button_active.png";
+
+static NSString * const kSUBorderColorPickerButtonImageNormal = @"color_button.png";
+static NSString * const kSUBorderColorPickerButtonImageActive = @"color_button_active.png";
+
+
 @implementation SUMarkViewToolbar
 
 - (id)initWithFrame:(CGRect)frame
@@ -26,33 +39,33 @@ static CGFloat const kSUMarkColorViewIndent = 3.0f;
         self.userInteractionEnabled = YES;
         
         SUCompositeButtonModel *model = [SUCompositeButtonModel new];
-        model.imageNormalName = @"corner2_button.png";
-        model.imagePressedName = @"corner_button.png";
-        model.imageActivatedName = @"corner_button.png";
+        model.imageNormalName = kSUCornerTypeButtonImageNormal;
+        model.imagePressedName = kSUCornerTypeButtonImageActive;
+        model.imageActivatedName = kSUCornerTypeButtonImageActive;
         
         self.cornerTypeButton = [[SUMarkViewToolbarCompositeButton alloc] initWithModel:model];
         [self addSubview:self.cornerTypeButton];
         
         model = [SUCompositeButtonModel new];
-        model.imageNormalName = @"stroke_button.png";
-        model.imagePressedName = @"stroke_button_active.png";
-        model.imageActivatedName = @"stroke_button_active.png";
+        model.imageNormalName = kSUBorderWidthSliderButtonImageNormal;
+        model.imagePressedName = kSUBorderWidthSliderButtonImageActive;
+        model.imageActivatedName = kSUBorderWidthSliderButtonImageActive;
         
         self.borderWidthSliderButton = [[SUMarkViewToolbarCompositeButton alloc] initWithModel:model];
         [self addSubview:self.borderWidthSliderButton];
         
         self.widthSlider = [[UISlider alloc] init];
-        self.widthSlider.minimumValue = 1.0f;
-        self.widthSlider.maximumValue = 4.0f;
-        self.widthSlider.value = 1.0f;
+        self.widthSlider.minimumValue = kSUWidthSliderMinimumValue;
+        self.widthSlider.maximumValue = kSUWidthSliderMaximumValue;
+        self.widthSlider.value = kSUWidthSliderMinimumValue;
         CGAffineTransform transform = CGAffineTransformMakeRotation(M_PI * -0.5);
         self.widthSlider.transform = transform;
         [self addSubview:self.widthSlider];
         
         model = [SUCompositeButtonModel new];
-        model.imageNormalName = @"color_button.png";
-        model.imagePressedName = @"color_button_active.png";
-        model.imageActivatedName = @"color_button_active.png";
+        model.imageNormalName = kSUBorderColorPickerButtonImageNormal;
+        model.imagePressedName = kSUBorderColorPickerButtonImageActive;
+        model.imageActivatedName = kSUBorderColorPickerButtonImageActive;
         
         self.borderColorPickerButton = [[SUMarkViewToolbarCompositeButton alloc] initWithModel:model];
         [self addSubview:self.borderColorPickerButton];
