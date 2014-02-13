@@ -143,7 +143,7 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
     SUMarkView *markView = (SUMarkView *)recognizer.view;
     
     [self makeViewActive:markView];
-    [self switchMarkViewCornerTypeOnView:markView];
+    [self switchActiveMarkViewCornerType];
     
     for (SUMarkView *subview in self.markViewsArray) {
         subview.isDeletingAnimationOn = YES;
@@ -163,17 +163,18 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
     }
 
     [self makeViewActive:markView];
-    [self switchMarkViewCornerTypeOnView:markView];
+    [self switchActiveMarkViewCornerType];
 }
 
 - (void)panGestureActivatedWithView:(SUMarkView *)markView
 {
-    if (markView != self.activeMarkView && [self.activeMarkView isKindOfClass:[SUTextMarkView class]]) {
+    if (markView != self.activeMarkView
+        && [self.activeMarkView isKindOfClass:[SUTextMarkView class]]) {
         [((SUTextMarkView *)self.activeMarkView).commentTextView endEditing:YES];
     }
     
     [self makeViewActive:markView];
-    [self switchMarkViewCornerTypeOnView:markView];
+    [self switchActiveMarkViewCornerType];
 }
 
 - (void)makeViewActive:(SUMarkView *)markView
@@ -193,52 +194,50 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
 - (void)handlePinch:(UIPinchGestureRecognizer *)recognizer
 {
-    for (SUMarkView *markView in self.markViewsArray) {
-    
-        if (markView.isActive) {
-            if ([recognizer numberOfTouches] == 2) {
-                
-                CGPoint locationInView = [recognizer locationInView:markView];
-                CGPoint locationOfTouch = [recognizer locationOfTouch:1 inView:markView];
-                
-                CGFloat x = locationInView.x - locationOfTouch.x;
-                if (x < 0) {
-                    x *= -1;
-                }
+    SUMarkView *markView = self.activeMarkView;
 
-                CGFloat y = locationInView.y - locationOfTouch.y;
-                if (y < 0) {
-                    y *= -1;
-                }
-                
-                if (recognizer.state == UIGestureRecognizerStateBegan) {
-                    self.horizontalScale = markView.bounds.size.width - x * 2;
-                    self.verticalScale = markView.bounds.size.height - y * 2;
-                }
-                    
-                CGFloat width = x * 2 + self.horizontalScale;
-                if (width < kSUMinimumViewSideSize) {
-                    width = kSUMinimumViewSideSize;
-                }
-                if (width > self.view.frame.size.width) {
-                    width = self.view.frame.size.width;
-                }
-                CGFloat height = y * 2 + self.verticalScale;
-                if (height < kSUMinimumViewSideSize) {
-                    height = kSUMinimumViewSideSize;
-                }
-                if (height > self.view.frame.size.height) {
-                    height = self.view.frame.size.height;
-                }
-                markView.bounds = CGRectMake(markView.bounds.origin.x , markView.bounds.origin.y , width, height);
-                
-                if (recognizer.state == UIGestureRecognizerStateEnded) {
-                    [SUPixelHunterPositioningUtility moveViewAnimated:markView
-                                                        toVisibleRect:self.view.bounds];
-                }
-                [recognizer setScale:1.0f];
-            }
+    if ([recognizer numberOfTouches] == 2) {
+        
+        CGPoint locationInView = [recognizer locationInView:markView];
+        CGPoint locationOfTouch = [recognizer locationOfTouch:1 inView:markView];
+        
+        CGFloat x = locationInView.x - locationOfTouch.x;
+        if (x < 0) {
+            x *= -1;
         }
+
+        CGFloat y = locationInView.y - locationOfTouch.y;
+        if (y < 0) {
+            y *= -1;
+        }
+        
+        if (recognizer.state == UIGestureRecognizerStateBegan) {
+            self.horizontalScale = markView.bounds.size.width - x * 2;
+            self.verticalScale = markView.bounds.size.height - y * 2;
+        }
+            
+        CGFloat width = x * 2 + self.horizontalScale;
+        if (width < kSUMinimumViewSideSize) {
+            width = kSUMinimumViewSideSize;
+        }
+        if (width > self.view.frame.size.width) {
+            width = self.view.frame.size.width;
+        }
+        CGFloat height = y * 2 + self.verticalScale;
+        if (height < kSUMinimumViewSideSize) {
+            height = kSUMinimumViewSideSize;
+        }
+        if (height > self.view.frame.size.height) {
+            height = self.view.frame.size.height;
+        }
+        markView.bounds = CGRectMake(markView.bounds.origin.x, markView.bounds.origin.y,
+                                     width, height);
+        
+        if (recognizer.state == UIGestureRecognizerStateEnded) {
+            [SUPixelHunterPositioningUtility moveViewAnimated:markView
+                                                toVisibleRect:self.view.bounds];
+        }
+        [recognizer setScale:1.0f];
     }
 }
 
@@ -254,16 +253,16 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
     SUMarkViewCornerTypeCorner : SUMarkViewCornerTypeRound;
 }
 
-- (void)switchMarkViewCornerTypeOnView:(SUMarkView *)markView
+- (void)switchActiveMarkViewCornerType
 {
     SUMarkViewToolbarCompositeButton *cornerButton =
                 self.rootView.markViewToolbar.cornerTypeButton;
     
-    if (markView.cornerType == SUMarkViewCornerTypeCorner) {
+    if (self.activeMarkView.cornerType == SUMarkViewCornerTypeCorner) {
         cornerButton.state = SUCompositeButtonStateActivated;
     }
     
-    if (markView.cornerType == SUMarkViewCornerTypeRound) {
+    if (self.activeMarkView.cornerType == SUMarkViewCornerTypeRound) {
         cornerButton.state = SUCompositeButtonStateNormal;
     }
 }
