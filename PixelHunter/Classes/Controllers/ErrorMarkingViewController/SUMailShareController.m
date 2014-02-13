@@ -105,10 +105,10 @@ static const CGFloat kSUImageQuality = 1.0f;
     CGSize frameSize = self.viewController.view.frame.size;
     CGRect frameRect = CGRectMake(0.0f, 0.0f, frameSize.width, frameSize.height);
     UIView *view = [[UIView alloc] initWithFrame:frameRect];
+    view.backgroundColor = [UIColor whiteColor];
     
     [UIView animateWithDuration:kSUAnimationTime animations:^{
         [self.viewController.view addSubview:view];
-        view.backgroundColor = [UIColor whiteColor];
         view.alpha = 0.0f;
     } completion:^(BOOL finished) {
         [view removeFromSuperview];

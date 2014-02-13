@@ -79,7 +79,7 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
     SUCompositeButton *sendMailButton = self.rootView.errorMarkingToolbar.sendMailButton;
 
     self.shareController = [[SUMailShareController alloc] initWithSendMailButton:sendMailButton
-                                                     viewController:self];
+                                                                  viewController:self];
     self.shareController.delegate = self;
 }
 

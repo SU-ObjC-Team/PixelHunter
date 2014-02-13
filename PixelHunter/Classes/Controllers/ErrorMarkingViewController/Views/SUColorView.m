@@ -41,7 +41,7 @@ static CGFloat const kSUColorCircleRadius = 10.0f;
     CGContextBeginPath(ctx);
     
     CGContextBeginPath(ctx);
-    CGContextAddArc(ctx, center.x, center.y, kSUColorCircleRadius, 0, 2*M_PI, 0);
+    CGContextAddArc(ctx, center.x, center.y, kSUColorCircleRadius, 0, 2 * M_PI, 0);
     CGContextClosePath(ctx);
     CGContextSetFillColorWithColor(ctx, [self.color CGColor]);
     CGContextSetStrokeColorWithColor(ctx, [self.color CGColor]);
