@@ -14,7 +14,7 @@
 		11CEAC7B1886E6EB00C8BA29 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11CEAC771886E6EB00C8BA29 /* Images.xcassets */; };
 		11CEAC7C1886E6EB00C8BA29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC781886E6EB00C8BA29 /* main.m */; };
 		11CEACFF1886E73A00C8BA29 /* SUErrorMarkingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC831886E73A00C8BA29 /* SUErrorMarkingViewController.m */; };
-		11CEAD001886E73A00C8BA29 /* SUShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC851886E73A00C8BA29 /* SUShareController.m */; };
+		11CEAD001886E73A00C8BA29 /* SUMailShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC851886E73A00C8BA29 /* SUMailShareController.m */; };
 		11CEAD011886E73A00C8BA29 /* SUColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC881886E73A00C8BA29 /* SUColorView.m */; };
 		11CEAD021886E73A00C8BA29 /* SUErrorMarkingToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC8A1886E73A00C8BA29 /* SUErrorMarkingToolbar.m */; };
 		11CEAD031886E73A00C8BA29 /* SUErrorMarkingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC8C1886E73A00C8BA29 /* SUErrorMarkingView.m */; };
@@ -128,8 +128,8 @@
 		11CEAC781886E6EB00C8BA29 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		11CEAC821886E73A00C8BA29 /* SUErrorMarkingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUErrorMarkingViewController.h; sourceTree = "<group>"; };
 		11CEAC831886E73A00C8BA29 /* SUErrorMarkingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUErrorMarkingViewController.m; sourceTree = "<group>"; };
-		11CEAC841886E73A00C8BA29 /* SUShareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUShareController.h; sourceTree = "<group>"; };
-		11CEAC851886E73A00C8BA29 /* SUShareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUShareController.m; sourceTree = "<group>"; };
+		11CEAC841886E73A00C8BA29 /* SUMailShareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUMailShareController.h; sourceTree = "<group>"; };
+		11CEAC851886E73A00C8BA29 /* SUMailShareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUMailShareController.m; sourceTree = "<group>"; };
 		11CEAC871886E73A00C8BA29 /* SUColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUColorView.h; sourceTree = "<group>"; };
 		11CEAC881886E73A00C8BA29 /* SUColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUColorView.m; sourceTree = "<group>"; };
 		11CEAC891886E73A00C8BA29 /* SUErrorMarkingToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUErrorMarkingToolbar.h; sourceTree = "<group>"; };
@@ -328,8 +328,8 @@
 				11CEAC831886E73A00C8BA29 /* SUErrorMarkingViewController.m */,
 				11CC2C5018A954910067E0BF /* SUErrorMarkingViewController+MarkingViews.h */,
 				11CC2C5118A954910067E0BF /* SUErrorMarkingViewController+MarkingViews.m */,
-				11CEAC841886E73A00C8BA29 /* SUShareController.h */,
-				11CEAC851886E73A00C8BA29 /* SUShareController.m */,
+				11CEAC841886E73A00C8BA29 /* SUMailShareController.h */,
+				11CEAC851886E73A00C8BA29 /* SUMailShareController.m */,
 				11CEAC861886E73A00C8BA29 /* Views */,
 			);
 			path = ErrorMarkingViewController;
@@ -748,7 +748,7 @@
 				11CEAD091886E73A00C8BA29 /* SUGridViewController.m in Sources */,
 				11CEAD0C1886E73A00C8BA29 /* SUGridRulerView.m in Sources */,
 				11CEAD051886E73A00C8BA29 /* SUMarkView.m in Sources */,
-				11CEAD001886E73A00C8BA29 /* SUShareController.m in Sources */,
+				11CEAD001886E73A00C8BA29 /* SUMailShareController.m in Sources */,
 				113B3ED71895932D00129FF7 /* SUGridRulerViewVertical.m in Sources */,
 				CEAA503B18588D0B00187CB9 /* SUAppDelegate.m in Sources */,
 				11CEAD0D1886E73A00C8BA29 /* SUGridToolbar.m in Sources */,

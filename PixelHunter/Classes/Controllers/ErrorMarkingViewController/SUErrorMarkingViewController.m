@@ -9,7 +9,7 @@
 #import "SUErrorMarkingViewController.h"
 #import "SUErrorMarkingViewController+MarkingViews.h"
 #import "SUPixelHunterPositioningUtility.h"
-#import "SUShareController.h"
+#import "SUMailShareController.h"
 #import "SUPixelHunterConstants.h"
 
 static CGFloat const kSUMinValidScale = 0.8f;
@@ -21,7 +21,7 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
                                             SUMarkColorViewDelegate, SUShareControllerDelegate>
 
 @property (nonatomic, strong) UIImage *screenshotImage;
-@property (nonatomic, strong) SUShareController *shareController;
+@property (nonatomic, strong) SUMailShareController *shareController;
 @property (nonatomic, assign) CGFloat horizontalScale;
 @property (nonatomic, assign) CGFloat verticalScale;
 @property (nonatomic, strong) SUMarkView *activeMarkView;
@@ -76,10 +76,10 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 //TODO:Dicsuss solution on Friday
 - (void)initShareController
 {
-    SUErrorMarkingToolbar *errorToolbar = self.rootView.errorMarkingToolbar;
+    SUCompositeButton *sendMailButton = self.rootView.errorMarkingToolbar.sendMailButton;
 
-    self.shareController = [[SUShareController alloc] initWithToolbar:errorToolbar
-                                                     onViewController:self];
+    self.shareController = [[SUMailShareController alloc] initWithSendMailButton:sendMailButton
+                                                     viewController:self];
     self.shareController.delegate = self;
 }
 
@@ -275,26 +275,6 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
 #pragma mark - Keyboard notifications methods
 
-- (CGRect)screenBounds
-{
-    return [[UIScreen mainScreen] bounds];
-}
-
-
-- (void)swapSizeIfLandscape:(CGSize *)size
-{
-    if ([self isLandscape]) {
-        CGFloat temp = size->width;
-        size->width = size->height;
-        size->height = temp;
-    }
-}
-
-- (BOOL)isLandscape
-{
-    return UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation);
-}
-
 - (void)keyboardWillShow:(id)sender
 {
     CGFloat keyboardAnimationTime = [self keyboardAnimationTimeWithSender:sender];
@@ -339,15 +319,34 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     return [[userInfo objectForKey:animationDurationKey] doubleValue];
 }
 
+- (CGRect)screenBounds
+{
+    return [[UIScreen mainScreen] bounds];
+}
+
+- (BOOL)isLandscape
+{
+    return UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation);
+}
+
+- (void)swapSizeIfLandscape:(CGSize *)size
+{
+    if ([self isLandscape]) {
+        CGFloat temp = size->width;
+        size->width = size->height;
+        size->height = temp;
+    }
+}
+
 #pragma mark - SUShareControllerDelegate methods
 
-- (void)hideViews
+- (void)screenshotWillTake
 {
     self.rootView.errorMarkingToolbar.hidden = YES;
     self.rootView.markViewToolbar.hidden = YES;
 }
 
-- (void)showViews
+- (void)screenshotDidTake
 {
     self.rootView.errorMarkingToolbar.hidden = NO;
     self.rootView.markViewToolbar.hidden = NO;

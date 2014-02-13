@@ -1,12 +1,12 @@
 //
-//  SUShareController.m
+//  SUMailShareController.m
 //  PixelHunter
 //
 //  Created by Alex Saenko on 10/15/13.
 //  Copyright (c) 2013 Sigma Ukraine. All rights reserved.
 //
 
-#import "SUShareController.h"
+#import "SUMailShareController.h"
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import <AVFoundation/AVAudioPlayer.h>
@@ -20,7 +20,7 @@ static const CGFloat kSUAnimationTime = 1.0f;
 static const CGFloat kSUImageQuality = 1.0f;
 
 
-@interface SUShareController () <MFMailComposeViewControllerDelegate>
+@interface SUMailShareController () <MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) AVAudioPlayer *screenshotSound;
 @property (nonatomic, strong) UIViewController *viewController;
@@ -28,53 +28,69 @@ static const CGFloat kSUImageQuality = 1.0f;
 @end
 
 
-@implementation SUShareController
+@implementation SUMailShareController
 
-- (id)initWithToolbar:(SUErrorMarkingToolbar *)toolbar
-     onViewController:(UIViewController *)viewController
+- (id)initWithSendMailButton:(SUCompositeButton *)button
+     viewController:(UIViewController *)viewController
 {
     self = [super init];
     if (self) {
         self.viewController = viewController;
         
-        [toolbar.sendMailButton addTarget:self action:@selector(sendScreenshotViaMail:)];
+        [button addTarget:self action:@selector(sendScreenshotViaMail)];
         [self createScreenshotSound];
     }
     
     return self;
 }
 
-- (void)sendScreenshotViaMail:(id)sender
+- (void)sendScreenshotViaMail
 {
     if ([MFMailComposeViewController canSendMail]) {
-        MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
-        mailComposeViewController.mailComposeDelegate = self;
         
-        NSString *subjectString = NSLocalizedStringFromTable(@"MAIL_SUBJECT", @"PixelHunter", nil);
-        [self.delegate hideViews];
-        [mailComposeViewController setSubject:subjectString];
-
+        [self.delegate screenshotWillTake];
         [self.screenshotSound play];
+        
         [self showBlinkingViewWithCompletionBlock:^(void) {
-            UIView *viewToSend = self.viewController.view;
-            UIImage *imageToSend = [SUPixelHunterScreenshotUtil convertViewToImage:viewToSend];
-            NSData *imageData = UIImageJPEGRepresentation(imageToSend, kSUImageQuality);
             
-            [mailComposeViewController addAttachmentData:imageData
-                                                mimeType:kSUBugImageType
-                                                fileName:kSUBugImageName];
-            NSString *emailBody = NSLocalizedStringFromTable(@"MAIL_BODY", @"PixelHunter", nil);
-            [mailComposeViewController setMessageBody:emailBody isHTML:NO];
+            NSData *imageData = [self getSreenshotData];
+            [self sendEmailWithImageData:imageData];
 
-            [self.viewController presentViewController:mailComposeViewController
-                                              animated:YES
-                                            completion:nil];
-            [self.delegate showViews];
+            [self.delegate screenshotDidTake];
+            
         }];
     } else {
         [self showErrorAlertView];
     }
 }
+
+- (void)sendEmailWithImageData:(NSData *)imageData
+{
+    MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
+    mailComposeViewController.mailComposeDelegate = self;
+    
+    NSString *subjectString = NSLocalizedStringFromTable(@"MAIL_SUBJECT", @"PixelHunter", nil);
+    [mailComposeViewController setSubject:subjectString];
+    [mailComposeViewController addAttachmentData:imageData
+                                        mimeType:kSUBugImageType
+                                        fileName:kSUBugImageName];
+    NSString *emailBody = NSLocalizedStringFromTable(@"MAIL_BODY", @"PixelHunter", nil);
+    [mailComposeViewController setMessageBody:emailBody isHTML:NO];
+    
+    [self.viewController presentViewController:mailComposeViewController
+                                      animated:YES
+                                    completion:nil];
+
+}
+
+- (NSData *)getSreenshotData
+{
+    UIView *viewToSend = self.viewController.view;
+    UIImage *imageToSend = [SUPixelHunterScreenshotUtil convertViewToImage:viewToSend];
+    
+    return UIImageJPEGRepresentation(imageToSend, kSUImageQuality);
+}
+
 
 - (void)createScreenshotSound
 {
@@ -120,13 +136,8 @@ static const CGFloat kSUImageQuality = 1.0f;
           didFinishWithResult:(MFMailComposeResult)result
                         error:(NSError *)error
 {
-    switch(result)
-    {
-        case MFMailComposeResultFailed:
-            [self showErrorAlertView];
-            break;
-        default:
-            break;
+    if (result == MFMailComposeResultFailed) {
+        [self showErrorAlertView];
     }
     
     [controller dismissViewControllerAnimated:YES completion:nil];

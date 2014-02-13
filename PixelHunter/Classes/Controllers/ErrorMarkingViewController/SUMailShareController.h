@@ -1,5 +1,5 @@
 //
-//  SUShareController.h
+//  SUMailShareController.h
 //  PixelHunter
 //
 //  Created by Alex Saenko on 10/15/13.
@@ -11,16 +11,16 @@
 
 @protocol SUShareControllerDelegate <NSObject>
 
-- (void)hideViews;
-- (void)showViews;
+- (void)screenshotWillTake;
+- (void)screenshotDidTake;
 
 @end
 
 
-@interface SUShareController : NSObject
+@interface SUMailShareController : NSObject
 
-- (id)initWithToolbar:(SUErrorMarkingToolbar *)toolbar
-     onViewController:(UIViewController *)viewController;
+- (id)initWithSendMailButton:(SUCompositeButton *)button
+            viewController:(UIViewController *)viewController;
 
 @property (nonatomic, assign) id <SUShareControllerDelegate>delegate;
 
