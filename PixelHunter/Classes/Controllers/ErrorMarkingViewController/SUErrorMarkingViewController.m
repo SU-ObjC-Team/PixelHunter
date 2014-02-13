@@ -18,7 +18,7 @@ static CGFloat const kSUScaleRestraintStartValue = 1.5f;
 static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
 @interface SUErrorMarkingViewController () <UIGestureRecognizerDelegate,
-                                            SUMarkColorViewDelegate>
+                                            SUMarkColorViewDelegate, SUShareControllerDelegate>
 
 @property (nonatomic, strong) UIImage *screenshotImage;
 @property (nonatomic, strong) SUShareController *shareController;
@@ -77,12 +77,10 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 - (void)initShareController
 {
     SUErrorMarkingToolbar *errorToolbar = self.rootView.errorMarkingToolbar;
-    NSArray *menuViewsArray = @[errorToolbar,
-                                self.rootView.markViewToolbar];
 
     self.shareController = [[SUShareController alloc] initWithToolbar:errorToolbar
-                                                   withMenuViewsArray:menuViewsArray
                                                      onViewController:self];
+    self.shareController.delegate = self;
 }
 
 - (void)initErrorMarkingToolbarActions
@@ -339,6 +337,20 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     id animationDurationKey = UIKeyboardAnimationDurationUserInfoKey;
     
     return [[userInfo objectForKey:animationDurationKey] doubleValue];
+}
+
+#pragma mark - SUShareControllerDelegate methods
+
+- (void)hideViews
+{
+    self.rootView.errorMarkingToolbar.hidden = YES;
+    self.rootView.markViewToolbar.hidden = YES;
+}
+
+- (void)showViews
+{
+    self.rootView.errorMarkingToolbar.hidden = NO;
+    self.rootView.markViewToolbar.hidden = NO;
 }
 
 @end

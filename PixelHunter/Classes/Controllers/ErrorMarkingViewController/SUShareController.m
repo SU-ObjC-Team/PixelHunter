@@ -23,9 +23,7 @@ static const CGFloat kSUImageQuality = 1.0f;
 @interface SUShareController () <MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) AVAudioPlayer *screenshotSound;
-@property (nonatomic, strong) SUErrorMarkingToolbar *toolbar;
 @property (nonatomic, strong) UIViewController *viewController;
-@property (nonatomic, strong) NSArray *menuViewsArray;
 
 @end
 
@@ -33,16 +31,13 @@ static const CGFloat kSUImageQuality = 1.0f;
 @implementation SUShareController
 
 - (id)initWithToolbar:(SUErrorMarkingToolbar *)toolbar
-   withMenuViewsArray:(NSArray *)menuViewsArray
      onViewController:(UIViewController *)viewController
 {
     self = [super init];
     if (self) {
-        self.toolbar = toolbar;
-        self.menuViewsArray = menuViewsArray;
         self.viewController = viewController;
         
-        [self.toolbar.sendMailButton addTarget:self action:@selector(sendScreenshotViaMail:)];
+        [toolbar.sendMailButton addTarget:self action:@selector(sendScreenshotViaMail:)];
         [self createScreenshotSound];
     }
     
@@ -56,13 +51,9 @@ static const CGFloat kSUImageQuality = 1.0f;
         mailComposeViewController.mailComposeDelegate = self;
         
         NSString *subjectString = NSLocalizedStringFromTable(@"MAIL_SUBJECT", @"PixelHunter", nil);
-
+        [self.delegate hideViews];
         [mailComposeViewController setSubject:subjectString];
-        for (UIView *view in self.menuViewsArray) {
-            if (view.hidden == NO) {
-                [view setHidden:YES];
-            }
-        }
+
         [self.screenshotSound play];
         [self showBlinkingViewWithCompletionBlock:^(void) {
             UIView *viewToSend = self.viewController.view;
@@ -78,6 +69,7 @@ static const CGFloat kSUImageQuality = 1.0f;
             [self.viewController presentViewController:mailComposeViewController
                                               animated:YES
                                             completion:nil];
+            [self.delegate showViews];
         }];
     } else {
         [self showErrorAlertView];

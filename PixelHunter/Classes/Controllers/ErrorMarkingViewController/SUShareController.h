@@ -9,11 +9,19 @@
 #import <Foundation/Foundation.h>
 #import "SUErrorMarkingToolbar.h"
 
+@protocol SUShareControllerDelegate <NSObject>
+
+- (void)hideViews;
+- (void)showViews;
+
+@end
+
 
 @interface SUShareController : NSObject
 
 - (id)initWithToolbar:(SUErrorMarkingToolbar *)toolbar
-   withMenuViewsArray:(NSArray *)menuViewsArray
      onViewController:(UIViewController *)viewController;
+
+@property (nonatomic, assign) id <SUShareControllerDelegate>delegate;
 
 @end
