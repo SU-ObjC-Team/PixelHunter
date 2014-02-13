@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SUTextMarkView.h"
-#import "SUErrorMarkingView.h"
+#import "SUErrorMarkingRootView.h"
 
 @interface SUErrorMarkingViewController : UIViewController <SUMarkViewDelegate>
 
@@ -18,6 +18,6 @@
 - (void)makeViewActive:(SUMarkView *)markView;
 
 @property (nonatomic, strong) NSMutableArray *markViewsArray;
-@property (nonatomic, strong) SUErrorMarkingView *rootView;
+@property (nonatomic, strong) SUErrorMarkingRootView *rootView;
 
 @end

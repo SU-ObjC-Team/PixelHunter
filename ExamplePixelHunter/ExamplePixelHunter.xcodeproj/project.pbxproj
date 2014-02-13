@@ -17,7 +17,7 @@
 		11CEAD001886E73A00C8BA29 /* SUMailShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC851886E73A00C8BA29 /* SUMailShareController.m */; };
 		11CEAD011886E73A00C8BA29 /* SUColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC881886E73A00C8BA29 /* SUColorView.m */; };
 		11CEAD021886E73A00C8BA29 /* SUErrorMarkingToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC8A1886E73A00C8BA29 /* SUErrorMarkingToolbar.m */; };
-		11CEAD031886E73A00C8BA29 /* SUErrorMarkingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC8C1886E73A00C8BA29 /* SUErrorMarkingView.m */; };
+		11CEAD031886E73A00C8BA29 /* SUErrorMarkingRootView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC8C1886E73A00C8BA29 /* SUErrorMarkingRootView.m */; };
 		11CEAD041886E73A00C8BA29 /* SUMarkColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC8E1886E73A00C8BA29 /* SUMarkColorView.m */; };
 		11CEAD051886E73A00C8BA29 /* SUMarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC901886E73A00C8BA29 /* SUMarkView.m */; };
 		11CEAD061886E73A00C8BA29 /* SUMarkViewToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CEAC921886E73A00C8BA29 /* SUMarkViewToolbar.m */; };
@@ -134,8 +134,8 @@
 		11CEAC881886E73A00C8BA29 /* SUColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUColorView.m; sourceTree = "<group>"; };
 		11CEAC891886E73A00C8BA29 /* SUErrorMarkingToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUErrorMarkingToolbar.h; sourceTree = "<group>"; };
 		11CEAC8A1886E73A00C8BA29 /* SUErrorMarkingToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUErrorMarkingToolbar.m; sourceTree = "<group>"; };
-		11CEAC8B1886E73A00C8BA29 /* SUErrorMarkingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUErrorMarkingView.h; sourceTree = "<group>"; };
-		11CEAC8C1886E73A00C8BA29 /* SUErrorMarkingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUErrorMarkingView.m; sourceTree = "<group>"; };
+		11CEAC8B1886E73A00C8BA29 /* SUErrorMarkingRootView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUErrorMarkingRootView.h; sourceTree = "<group>"; };
+		11CEAC8C1886E73A00C8BA29 /* SUErrorMarkingRootView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUErrorMarkingRootView.m; sourceTree = "<group>"; };
 		11CEAC8D1886E73A00C8BA29 /* SUMarkColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUMarkColorView.h; sourceTree = "<group>"; };
 		11CEAC8E1886E73A00C8BA29 /* SUMarkColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUMarkColorView.m; sourceTree = "<group>"; };
 		11CEAC8F1886E73A00C8BA29 /* SUMarkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUMarkView.h; sourceTree = "<group>"; };
@@ -342,8 +342,8 @@
 				11CEAC881886E73A00C8BA29 /* SUColorView.m */,
 				11CEAC891886E73A00C8BA29 /* SUErrorMarkingToolbar.h */,
 				11CEAC8A1886E73A00C8BA29 /* SUErrorMarkingToolbar.m */,
-				11CEAC8B1886E73A00C8BA29 /* SUErrorMarkingView.h */,
-				11CEAC8C1886E73A00C8BA29 /* SUErrorMarkingView.m */,
+				11CEAC8B1886E73A00C8BA29 /* SUErrorMarkingRootView.h */,
+				11CEAC8C1886E73A00C8BA29 /* SUErrorMarkingRootView.m */,
 				11CEAC8D1886E73A00C8BA29 /* SUMarkColorView.h */,
 				11CEAC8E1886E73A00C8BA29 /* SUMarkColorView.m */,
 				11CEAC8F1886E73A00C8BA29 /* SUMarkView.h */,
@@ -766,7 +766,7 @@
 				11CEAD0F1886E73A00C8BA29 /* SUGridView.m in Sources */,
 				11CEAD141886E73A00C8BA29 /* SUZGestureRecognizer.m in Sources */,
 				11CEAD101886E73A00C8BA29 /* SUPixelHunterColorProvider.m in Sources */,
-				11CEAD031886E73A00C8BA29 /* SUErrorMarkingView.m in Sources */,
+				11CEAD031886E73A00C8BA29 /* SUErrorMarkingRootView.m in Sources */,
 				11CEAD011886E73A00C8BA29 /* SUColorView.m in Sources */,
 				11CEACFF1886E73A00C8BA29 /* SUErrorMarkingViewController.m in Sources */,
 				113B3ED41895913500129FF7 /* SUGridRulerViewHorizontal.m in Sources */,

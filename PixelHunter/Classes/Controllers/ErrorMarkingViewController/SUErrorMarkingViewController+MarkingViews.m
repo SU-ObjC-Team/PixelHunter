@@ -82,7 +82,7 @@ static CGRect const kSUMarkViewFrame = {{50.0f, 50.0f}, {150.0f, 150.0f}};
 
 - (void)setupMarkView:(SUMarkView *)markView
 {
-    SUErrorMarkingView *rootView = self.rootView;
+    SUErrorMarkingRootView *rootView = self.rootView;
 
     markView.delegate = self;
     markView.frame = [self nextMarkViewFrame];

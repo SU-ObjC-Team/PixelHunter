@@ -43,7 +43,7 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
 - (void)loadView
 {
-    SUErrorMarkingView *view = [[SUErrorMarkingView alloc] initWithImage:self.screenshotImage];
+    SUErrorMarkingRootView *view = [[SUErrorMarkingRootView alloc] initWithImage:self.screenshotImage];
     self.view = view;
     self.rootView = view;
 }

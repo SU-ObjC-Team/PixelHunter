@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Sigma Ukraine. All rights reserved.
 //
 
-#import "SUErrorMarkingView.h"
+#import "SUErrorMarkingRootView.h"
 #import "SUPixelHunterConstants.h"
 
 typedef enum {
@@ -22,7 +22,7 @@ static CGFloat const kSUErrorMarkingToolbarWidth = 320.0f;
 static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 
 
-@interface SUErrorMarkingView ()
+@interface SUErrorMarkingRootView ()
 
 @property (nonatomic, strong) UIImageView *screenshotImageView;
 @property (nonatomic, assign) SUToolBarState markToolbarState;
@@ -31,7 +31,7 @@ static CGFloat const kSUErrorMarkingToolbarHeight = 44.0f;
 @end
 
 
-@implementation SUErrorMarkingView
+@implementation SUErrorMarkingRootView
 
 - (id)initWithImage:(UIImage *)screenshotImage
 {

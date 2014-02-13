@@ -11,7 +11,7 @@
 #import "SUMarkViewToolbar.h"
 
 
-@interface SUErrorMarkingView : UIView
+@interface SUErrorMarkingRootView : UIView
 
 - (id)initWithImage:(UIImage *)screenshotImage;
 
