@@ -19,6 +19,7 @@ static NSString * const kSUCloseButtonName = @"close_button.png";
 static CGRect const kSUMarkViewRemoveButtonFrame = {{10.0f, 10.0f}, {30.0f, 30.0f}};
 static CGFloat const kSUCornerRadius = 10.0f;
 static CGFloat const kSUZeroCornerRadius = 0.0f;
+static NSString * const kSUShakingAnimationKey = @"shakingAnimation";
 
 @interface SUMarkView ()
 

@@ -56,7 +56,8 @@
     self.commentTextView.frame = CGRectMake(0.0f, 0.0f, bounds.width, bounds.height);
 }
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range
+                                                replacementText:(NSString *)text
 {
     if([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];

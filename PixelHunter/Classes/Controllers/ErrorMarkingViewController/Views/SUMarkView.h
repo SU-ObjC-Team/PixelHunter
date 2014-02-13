@@ -10,8 +10,6 @@
 
 @class SUMarkView;
 
-static NSString * const kSUShakingAnimationKey = @"shakingAnimation";
-
 typedef enum {
     SUMarkViewCornerTypeNone = 0,
     SUMarkViewCornerTypeRound,
