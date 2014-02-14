@@ -73,7 +73,6 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 
 #pragma mark - Initialization methods
 
-//TODO:Dicsuss solution on Friday
 - (void)initShareController
 {
     SUCompositeButton *sendMailButton = self.rootView.errorMarkingToolbar.sendMailButton;
@@ -277,12 +276,9 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
 - (void)keyboardWillShow:(id)sender
 {
-    CGFloat keyboardAnimationTime = [self keyboardAnimationTimeWithSender:sender];
-    
     NSDictionary *userInfo = [sender userInfo];
-    CGRect keyboardRect = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    keyboardRect = [self.view convertRect:keyboardRect toView:nil];
-    CGSize keyboardSize = keyboardRect.size;
+    CGFloat keyboardAnimationTime = [self keyboardAnimationTimeWithUserInfo:userInfo];
+    CGSize keyboardSize = [self keyboardSizeWithUserInfo:userInfo];
     
     CGRect tempRect = [self screenBounds];
     [self swapSizeIfLandscape:&tempRect.size];
@@ -291,17 +287,16 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     CGFloat keyboardPosition = tempRect.size.height - keyboardSize.height;
     if (markViewPosition > keyboardPosition) {
         tempRect.origin.y += keyboardSize.height;
-        if (tempRect.origin.y == keyboardSize.height) {
-            [UIView animateWithDuration:keyboardAnimationTime animations:^{
-                self.view.bounds = tempRect;
-            }];
-        }
+        [UIView animateWithDuration:keyboardAnimationTime animations:^{
+            self.view.bounds = tempRect;
+        }];
     }
 }
 
 - (void)keyboardWillHide:(id)sender
 {
-    CGFloat keyboardAnimationTime = [self keyboardAnimationTimeWithSender:sender];
+    NSDictionary *userInfo = [sender userInfo];
+    CGFloat keyboardAnimationTime = [self keyboardAnimationTimeWithUserInfo:userInfo];
     CGRect tempRect = [self screenBounds];
     [self swapSizeIfLandscape:&tempRect.size];
     
@@ -311,12 +306,19 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     }];
 }
 
-- (CGFloat)keyboardAnimationTimeWithSender:(id)sender
+- (CGFloat)keyboardAnimationTimeWithUserInfo:(NSDictionary *)userInfo
 {
-    NSDictionary *userInfo = [sender userInfo];
     id animationDurationKey = UIKeyboardAnimationDurationUserInfoKey;
     
     return [[userInfo objectForKey:animationDurationKey] doubleValue];
+}
+
+- (CGSize)keyboardSizeWithUserInfo:(NSDictionary *)userInfo
+{
+    CGRect keyboardRect = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    keyboardRect = [self.view convertRect:keyboardRect toView:nil];
+    
+    return keyboardRect.size;
 }
 
 - (CGRect)screenBounds
