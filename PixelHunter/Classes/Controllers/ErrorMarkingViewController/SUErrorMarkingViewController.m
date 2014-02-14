@@ -212,27 +212,29 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
             self.horizontalScale = markView.bounds.size.width - x * 2;
             self.verticalScale = markView.bounds.size.height - y * 2;
         }
-            
+        
+        CGSize boundsSize = [self screenBounds].size;
+        [self swapSizeIfLandscape:&boundsSize];
+        
         CGFloat width = x * 2 + self.horizontalScale;
         if (width < kSUMinimumViewSideSize) {
             width = kSUMinimumViewSideSize;
         }
-        if (width > self.view.frame.size.width) {
-            width = self.view.frame.size.width;
+        if (width > boundsSize.width) {
+            width = boundsSize.width;
         }
         CGFloat height = y * 2 + self.verticalScale;
         if (height < kSUMinimumViewSideSize) {
             height = kSUMinimumViewSideSize;
         }
-        if (height > self.view.frame.size.height) {
-            height = self.view.frame.size.height;
+        if (height > boundsSize.height) {
+            height = boundsSize.height;
         }
         markView.bounds = CGRectMake(markView.bounds.origin.x, markView.bounds.origin.y,
                                      width, height);
         
         if (recognizer.state == UIGestureRecognizerStateEnded) {
-            [SUPixelHunterPositioningUtility moveViewAnimated:markView
-                                                toVisibleRect:self.view.bounds];
+            [SUPixelHunterPositioningUtility moveViewAnimatedToVisiblePosition:markView];
         }
         [recognizer setScale:1.0f];
     }

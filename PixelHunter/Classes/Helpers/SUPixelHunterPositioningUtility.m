@@ -12,8 +12,10 @@
 
 @implementation SUPixelHunterPositioningUtility
 
-+ (void)moveViewAnimated:(UIView *)view toVisibleRect:(CGRect)visibleRect
++ (void)moveViewAnimatedToVisiblePosition:(UIView *)view
 {
+    CGRect visibleRect = [self screenBounds];
+    
     [self swapSizeIfLandscape:&visibleRect.size];
     CGRect newFrame = view.frame;
     if (view.frame.origin.y < visibleRect.origin.y) {
@@ -45,6 +47,11 @@
 + (BOOL)isLandscape
 {
     return UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation);
+}
+
++ (CGRect)screenBounds
+{
+    return [[UIScreen mainScreen] bounds];
 }
 
 @end

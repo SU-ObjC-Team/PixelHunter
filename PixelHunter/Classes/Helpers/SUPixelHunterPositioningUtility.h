@@ -10,6 +10,6 @@
 
 @interface SUPixelHunterPositioningUtility : NSObject
 
-+ (void)moveViewAnimated:(UIView *)view toVisibleRect:(CGRect)visibleRect;
++ (void)moveViewAnimatedToVisiblePosition:(UIView *)view;
 
 @end

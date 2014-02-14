@@ -80,9 +80,8 @@ static NSString * const kSUShakingAnimationKey = @"shakingAnimation";
                                          recognizer.view.center.y);
         finalPoint.x = MIN(MAX(finalPoint.x, 0), self.gestureView.bounds.size.width);
         finalPoint.y = MIN(MAX(finalPoint.y, 0), self.gestureView.bounds.size.height);
-        
-        [SUPixelHunterPositioningUtility moveViewAnimated:recognizer.view
-                                            toVisibleRect:recognizer.view.superview.bounds];
+        [[UIScreen mainScreen] bounds];
+        [SUPixelHunterPositioningUtility moveViewAnimatedToVisiblePosition:recognizer.view];
     }
 }
 
