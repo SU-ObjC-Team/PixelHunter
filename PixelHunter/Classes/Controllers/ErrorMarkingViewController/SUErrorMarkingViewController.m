@@ -24,7 +24,6 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 @property (nonatomic, strong) SUMailShareController *shareController;
 @property (nonatomic, assign) CGFloat horizontalScale;
 @property (nonatomic, assign) CGFloat verticalScale;
-@property (nonatomic, strong) SUMarkView *activeMarkView;
 
 @end
 
@@ -193,11 +192,11 @@ static CGFloat const kSUMinimumViewSideSize = 25.0f;
 {
     SUMarkView *markView = self.activeMarkView;
 
-    if ([recognizer numberOfTouches] == 2) {
+    if ([recognizer numberOfTouches] == 2 && markView != nil) {
         
         CGPoint locationInView = [recognizer locationInView:markView];
         CGPoint locationOfTouch = [recognizer locationOfTouch:1 inView:markView];
-        
+
         CGFloat x = locationInView.x - locationOfTouch.x;
         if (x < 0) {
             x *= -1;

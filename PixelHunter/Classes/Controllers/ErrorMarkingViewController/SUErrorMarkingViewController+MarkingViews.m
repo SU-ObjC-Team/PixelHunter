@@ -48,6 +48,8 @@ static CGRect const kSUMarkViewFrame = {{50.0f, 50.0f}, {150.0f, 150.0f}};
     [markView removeFromSuperview];
     [self.markViewsArray removeObject:markView];
     
+    self.activeMarkView = [self.markViewsArray lastObject];
+    
     if ([self.markViewsArray count] == 0) {
         self.rootView.errorMarkingToolbar.showMarkingViewToolbarButton.hidden = YES;
     }

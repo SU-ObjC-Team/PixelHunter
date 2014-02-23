@@ -19,5 +19,6 @@
 
 @property (nonatomic, strong) NSMutableArray *markViewsArray;
 @property (nonatomic, strong) SUErrorMarkingRootView *rootView;
+@property (nonatomic, strong) SUMarkView *activeMarkView;
 
 @end
