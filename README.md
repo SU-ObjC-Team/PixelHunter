@@ -1,6 +1,6 @@
 PixelHunter
 ===========
-This library presents User Interface verifying tool for iOS applications which appears by specific gesture. It helps to detect differences between designers mock-ups and real application. The library could be embedded to an application during development stage and might be useful for project managers, QA engineers and software development engineers.
+This library presents a User Interface verifying tool for iOS applications which appears by a specific gesture. It helps to detect differences between designers mock-ups and the real application appearance. The library could be embedded to an application during the development stage and might be useful for project managers, QA engineers and software development engineers.
 
 
 ## Features
@@ -13,7 +13,7 @@ This library presents User Interface verifying tool for iOS applications which a
 
 
 ## How To Get Started
--  Add PixelHunter folder to project
+-  Add PixelHunter folder to a project
 -  Go to AppDelegate.m 
 -  Make an import:
 
@@ -21,7 +21,7 @@ This library presents User Interface verifying tool for iOS applications which a
 #import “SUPixelHunter.h”
 ```
 
--  In method 
+-  In the method 
 
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -35,8 +35,8 @@ write this line:
 
 -  Go to Project > Choose target > Build Phases > Link Binary With Libraries.
 -  Add “AVFoundation.framework”, “MessageUI.framework”, “CoreGraphics.framework” and “CoreMotion.framework”
--  Run application on device
--  Shake device
+-  Run the application on a device
+-  Shake the device
 -  Draw Z on screen
 -  Enjoy!
 
